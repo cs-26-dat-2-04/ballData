@@ -1,174 +1,328 @@
-# Design Architecture
+# ballData Project Setup for Local Development 😎
+
+Sådan får i projektet til at køre
 
 ---
 
-## Database (Postgres)
+## Forudsætninger
 
-### Tables
+Følgende skal være installeret før i begynder:
 
-#### `coaches`
-
-| Column        | Type    | Notes  |
-| ------------- | ------- | ------ |
-| id            | uuid    | PK     |
-| email         | varchar | unique |
-| password_hash | varchar |        |
-| name          | varchar |        |
-
-#### `teams`
-
-| Column   | Type    | Notes        |
-| -------- | ------- | ------------ |
-| id       | uuid    | PK           |
-| coach_id | uuid    | FK → coaches |
-| name     | varchar |              |
-| season   | varchar |              |
-
-#### `players`
-
-| Column     | Type    | Notes |
-| ---------- | ------- | ----- |
-| id         | uuid    | PK    |
-| first_name | varchar |       |
-| last_name  | varchar |       |
-| position   | varchar |       |
-
-#### `team_players` (join table)
-
-| Column        | Type    | Notes        |
-| ------------- | ------- | ------------ |
-| team_id       | uuid    | FK → teams   |
-| player_id     | uuid    | FK → players |
-| jersey_number | varchar | Maybe?       |
-
-#### `matches`
-
-| Column     | Type    | Notes      |
-| ---------- | ------- | ---------- |
-| id         | uuid    | PK         |
-| team_id    | uuid    | FK → teams |
-| opponent   | varchar |            |
-| match_date | date    |            |
-| location   | varchar | Maybe?     |
-| score_home | int     |            |
-| score_away | int     |            |
-
-#### `match_stats` (one row per player per match)
-
-| Column         | Type | Notes                           |
-| -------------- | ---- | ------------------------------- |
-| id             | uuid | PK                              |
-| match_id       | uuid | FK → matches                    |
-| player_id      | uuid | FK → players                    |
-| goals          | int  |                                 |
-| assists        | int  |                                 |
-| shots          | int  |                                 |
-| saves          | int  |                                 |
-| yellow_cards   | int  |                                 |
-| red_cards      | int  |                                 |
-| minutes_played | int  | Maybe find a way to track this? |
-
-#### `player_notes` (Either as a table, or as a row in players table)
-
-| Column     | Type      | Notes        |
-| ---------- | --------- | ------------ |
-| id         | uuid      | PK           |
-| coach_id   | uuid      | FK → coaches |
-| player_id  | uuid      | FK → players |
-| content    | text      |              |
-| created_at | timestamp |              |
-
-#### `invite_tokens`
-
-| Column     | Type      | Notes                                       |
-| ---------- | --------- | ------------------------------------------- |
-| id         | uuid      | PK                                          |
-| coach_id   | uuid      | FK → coaches                                |
-| match_id   | uuid      | FK → matches — token is scoped to one match |
-| token      | varchar   | signed random token                         |
-| expires_at | timestamp | probably 3-5 hours or smth                  |
-| used       | boolean   | maybe for single use logic                  |
+- [Docker Desktop](https://www.docker.com/products/docker-desktop/) (inklusiv Docker Compose)
+- [Git](https://git-scm.com/)
 
 ---
 
-## API Endpoints (Express.js)
+## 1. Clone repository
 
-### Auth
-
-| Method | Endpoint      | Auth  | Description                      |
-| ------ | ------------- | ----- | -------------------------------- |
-| POST   | /auth/login   | —     | Coach login, returns JWT         |
-| POST   | /auth/invites | [JWT] | Generate invite link for a match |
-
-### Players
-
-| Method | Endpoint     | Auth  | Description                            |
-| ------ | ------------ | ----- | -------------------------------------- |
-| GET    | /players     | [JWT] | Get all players                        |
-| GET    | /players/:id | [JWT] | Get player by ID (incl. stats history) |
-| POST   | /players     | [JWT] | Create a player                        |
-| PUT    | /players/:id | [JWT] | Update a player                        |
-| DELETE | /players/:id | [JWT] | Delete a player                        |
-
-### Teams
-
-| Method | Endpoint   | Auth  | Description    |
-| ------ | ---------- | ----- | -------------- |
-| GET    | /teams     | [JWT] | Get all teams  |
-| GET    | /teams/:id | [JWT] | Get team by ID |
-| POST   | /teams     | [JWT] | Create a team  |
-| PUT    | /teams/:id | [JWT] | Update a team  |
-| DELETE | /teams/:id | [JWT] | Delete a team  |
-
-### Matches
-
-| Method | Endpoint     | Auth  | Description     |
-| ------ | ------------ | ----- | --------------- |
-| GET    | /matches     | [JWT] | Get all matches |
-| GET    | /matches/:id | [JWT] | Get match by ID |
-| POST   | /matches     | [JWT] | Create a match  |
-| PUT    | /matches/:id | [JWT] | Update a match  |
-| DELETE | /matches/:id | [JWT] | Delete a match  |
-
-### Stats
-
-| Method | Endpoint        | Auth    | Description                    |
-| ------ | --------------- | ------- | ------------------------------ |
-| GET    | /stats/:matchId | [JWT]   | Get all stats for a match      |
-| POST   | /stats          | [TOKEN] | Submit stats (parent or coach) |
-| PUT    | /stats/:id      | [TOKEN] | Update a stat entry            |
-
-### Notes (or just add to player table as a row)
-
-| Method | Endpoint         | Auth  | Description                |
-| ------ | ---------------- | ----- | -------------------------- |
-| GET    | /notes/:playerId | [JWT] | Get all notes for a player |
-| POST   | /notes           | [JWT] | Create a note              |
-| PUT    | /notes/:id       | [JWT] | Update a note              |
-| DELETE | /notes/:id       | [JWT] | Delete a note              |
+```bash
+git clone git@github.com:cs-26-dat-2-04/ballData.git
+cd ballData
+```
 
 ---
 
-## Server (Next.js)
+## 2. Config filer (De burde være sådan i forvejen)
 
-- Next.js serves the React frontend
-- API routes can be handled by Express running alongside, or proxied via Next.js
-- Use Express as seperate service
+### `docker-compose.yml`
+
+```yaml
+services:
+  db:
+    image: postgres:16
+    restart: always
+    environment:
+      POSTGRES_USER: dev
+      POSTGRES_PASSWORD: dev
+      POSTGRES_DB: myapp
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+
+  backend:
+    build: ./backend
+    restart: always
+    depends_on:
+      - db
+    environment:
+      DATABASE_URL: postgres://dev:dev@db:5432/myapp
+      PORT: 3001
+    volumes:
+      - ./backend:/app
+      - /app/node_modules
+    ports:
+      - "3001:3001"
+
+  frontend:
+    build: ./frontend
+    restart: always
+    depends_on:
+      - backend
+    environment:
+      NEXT_PUBLIC_API_URL: http://localhost:3001
+    volumes:
+      - ./frontend:/app
+      - /app/node_modules
+    ports:
+      - "3000:3000"
+
+volumes:
+  pgdata:
+```
+
+### `backend/Dockerfile`
+
+> **Note:** `node:20-alpine` inkluderer ikke OpenSSL, som Prisma V5 skal bruge. Hvis du får en error fordi du mangler det, skal du installere det ved siden af.
+
+```dockerfile
+FROM node:20-alpine
+RUN apk add --no-cache openssl
+WORKDIR /app
+COPY package*.json ./
+COPY prisma ./prisma
+RUN npm install
+RUN npx prisma generate
+EXPOSE 3001
+CMD ["npm", "run", "dev"]
+```
+
+### `frontend/Dockerfile`
+
+```dockerfile
+FROM node:20-alpine
+WORKDIR /app
+COPY package*.json ./
+RUN npm install
+EXPOSE 3000
+CMD ["npm", "run", "dev"]
+```
+
+### `backend/package.json`
+
+```json
+{
+  "type": "module",
+  "scripts": {
+    "dev": "nodemon src/index.js",
+    "start": "node src/index.js",
+    "migrate": "prisma migrate dev",
+    "migrate:deploy": "prisma migrate deploy",
+    "generate": "prisma generate",
+    "seed": "node prisma/seed.js"
+  },
+  "dependencies": {
+    "@prisma/client": "5.22.0",
+    "express": "^4.18.0",
+    "cors": "^2.8.5",
+    "dotenv": "^16.0.0"
+  },
+  "devDependencies": {
+    "prisma": "5.22.0",
+    "nodemon": "^3.0.0"
+  }
+}
+```
+
+### `backend/prisma/schema.prisma`
+
+```prisma
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id        Int      @id @default(autoincrement())
+  email     String   @unique
+  name      String?
+  createdAt DateTime @default(now())
+}
+```
+
+### `backend/src/lib/prisma.js`
+
+```js
+import pkg from "@prisma/client";
+const { PrismaClient } = pkg;
+
+const globalForPrisma = globalThis;
+
+export const prisma =
+  globalForPrisma.prisma ?? new PrismaClient({ log: ["query"] });
+
+if (process.env.NODE_ENV !== "production") globalForPrisma.prisma = prisma;
+```
+
+### `backend/src/routes/users.js`
+
+```js
+import { Router } from "express";
+import { prisma } from "../lib/prisma.js";
+
+const router = Router();
+
+router.get("/", async (_req, res) => {
+  const users = await prisma.user.findMany();
+  res.json(users);
+});
+
+router.post("/", async (req, res) => {
+  const { email, name } = req.body;
+  const user = await prisma.user.create({ data: { email, name } });
+  res.status(201).json(user);
+});
+
+export default router;
+```
+
+### `backend/src/index.js`
+
+```js
+import express from "express";
+import cors from "cors";
+import dotenv from "dotenv";
+import userRoutes from "./routes/users.js";
+
+dotenv.config();
+
+const app = express();
+const PORT = process.env.PORT ?? 3001;
+
+app.use(cors({ origin: "http://localhost:3000" }));
+app.use(express.json());
+
+app.use("/users", userRoutes);
+
+app.get("/health", (_req, res) => res.json({ status: "ok" }));
+
+app.listen(PORT, () => {
+  console.log(`Backend running on http://localhost:${PORT}`);
+});
+```
 
 ---
 
-## Client (React / Next.js)
+## 3. Start alle services
 
-### Coach views
+```bash
+docker compose up --build
+```
 
-- Login page
-- Team overview — aggregated stats across all players
-- Player profile — individual stats over time + personal notes
-- Match detail — full stat breakdown for one match
-- Invite link generator — create and share parent invite links
+Vent til alle er klar:
 
-### Parent view (invite-gated)
+```
+db        | database system is ready to accept connections
+backend   | Backend running on http://localhost:3001
+frontend  | ▲ Next.js ready on http://localhost:3000
+```
 
-- Single stat entry screen for the match they were invited to
-- Mobile-optimised (primary use case is live entry from a phone on the sideline)
-- No login, no navigation — just the form for that one match
+Så er de tilgængelige ved:
+
+| Service       | URL                   |
+| ------------- | --------------------- |
+| Frontend      | http://localhost:3000 |
+| Backend       | http://localhost:3001 |
+| Prisma Studio | http://localhost:5555 |
+| Database      | localhost:5432        |
+
+> **Note:** Brug `docker compose up` uden `--build`. Kun brug med `--build` hvis du ændrer en Dockerfile eller tilføjer dependencies.
+
+---
+
+## 4. Kør Database Migrations
+
+I en seperat terminal (når containerne er oppe at køre), kør:
+
+```bash
+docker compose exec backend npx prisma migrate dev --name init
+```
+
+Den burde sige:
+
+```
+✔ Generated Prisma Client
+✔ Applied migration `20240101000000_init`
+```
+
+---
+
+## 5. Tjek at det kører
+
+**Health check:**
+
+```bash
+curl http://localhost:3001/health
+# → { "status": "ok" }
+```
+
+**Opret en test bruger:**
+
+```bash
+curl -X POST http://localhost:3001/users \
+  -H "Content-Type: application/json" \
+  -d '{"email": "test@example.com", "name": "Test User"}'
+```
+
+**Fetch brugere:**
+
+```bash
+curl http://localhost:3001/users
+# → [{ "id": 1, "email": "test@example.com", ... }]
+```
+
+---
+
+## Tips og Tricks
+
+### Sluk og stop for i dag
+
+```bash
+docker compose down
+```
+
+Data bliver gemt i din Docker volume og er der når du kommer tilbage.
+
+### Fuld reset
+
+```bash
+docker compose down -v
+docker compose up --build
+docker compose exec backend npx prisma migrate dev --name init
+```
+
+### Efter installering af nye NPM packages
+
+Rebuild når der er tilføjet til `package.json`:
+
+```bash
+docker compose up --build
+```
+
+---
+
+## Prisma Migration Schema Ændringer
+
+> **KUN EN PERSON ÆNDRER SCHEMA ÆNDRINGER AD GANGEN!!** (for at undgå conflicts). ellers skylder man øl eller kage til hele gruppen :)
+
+### Personen der ændrer:
+
+1. Rediger `backend/prisma/schema.prisma`.
+2. Kør migration:
+   ```bash
+   docker compose exec backend npx prisma migrate dev --name beskriv_ændring_her
+   ```
+3. Commit dine ændringer til git.
+
+### Alle andre (efter git pull)
+
+```bash
+git pull
+docker compose exec backend npx prisma migrate deploy
+```
+
+---
