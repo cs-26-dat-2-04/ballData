@@ -12,20 +12,29 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+enum Location {
+  HOME
+  AWAY
+}
+
 model Coach {
   id            String  @id @default(uuid()) @db.Uuid
   email         String  @unique   
   password_hash String
   name          String
   team          Team?
+
+  playerNotes PlayerNote[]
+  inviteTokens InviteToken[]
 }
 
 model Team {
   id            String  @id @default(uuid()) @db.Uuid
   coach_id      String  @unique @db.Uuid
-  coach         Coach   @relation(fields: [coach_id], references: [id])
+  coach         Coach   @relation(fields: [coach_id], references: [id], onDelete: Cascade)
   name          String
   players       Player[]
+  matches       Match[]
 }
 
 model Player {
@@ -36,7 +45,60 @@ model Player {
   last_name     String
   jersey_number Int?
 
+  matchStats MatchStats[]
+  playerNotes PlayerNote[]
   @@unique([team_id, jersey_number]) // ingen kan have samme jersey number på same hold
 }
 
 
+model Match {
+  id            String   @id @default(uuid()) @db.Uuid
+  team_id       String   @db.Uuid
+  team          Team     @relation(fields: [team_id], references: [id], onDelete: Cascade)
+  opponent      String
+  match_date    DateTime @default(now())
+  location      Location @default(HOME)
+  score_home    Int
+  score_away    Int
+
+  matchStats    MatchStats[]
+
+  inviteTokens  InviteToken[]
+}
+
+model MatchStats {
+  id             String  @id @default(uuid()) @db.Uuid
+  match_id       String  @db.Uuid
+  match          Match   @relation(fields: [match_id], references: [id], onDelete: Cascade)
+  player_id      String  @db.Uuid
+  player         Player  @relation(fields: [player_id], references: [id], onDelete: Cascade)
+  goals          Int     @default(0)
+  assists        Int     @default(0)
+  shots          Int     @default(0)
+  saves          Int     @default(0)
+  yellow_cards   Int     @default(0)
+  red_cards      Int     @default(0)
+  minutes_played Int     @default(0)
+
+  @@unique([match_id, player_id])
+}
+
+model PlayerNote {
+  id            String   @id @default(uuid()) @db.Uuid
+  coach_id      String   @db.Uuid
+  coach         Coach    @relation(fields: [coach_id], references: [id], onDelete: Cascade)
+  player_id     String   @db.Uuid
+  player        Player   @relation(fields: [player_id], references: [id], onDelete: Cascade)
+  content       String
+  created_at    DateTime @default(now())
+}
+
+model InviteToken {
+  id            String   @id @default(uuid()) @db.Uuid
+  coach_id      String   @db.Uuid
+  coach         Coach    @relation(fields: [coach_id], references: [id], onDelete: Cascade)
+  match_id      String   @db.Uuid
+  match         Match    @relation(fields: [match_id], references: [id], onDelete: Cascade)
+  token         String
+  expires_at    DateTime
+}
