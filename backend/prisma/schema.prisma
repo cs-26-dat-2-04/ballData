@@ -17,4 +17,12 @@ model Coach {
   email         String  @unique   
   password_hash String
   name          String
+  team          Team?
+}
+
+model Team {
+  id            String  @id @default(uuid()) @db.Uuid
+  coach_id      String  @unique @db.Uuid
+  coach         Coach   @relation(fields: [coach_id], references: [id])
+  name          String
 }
