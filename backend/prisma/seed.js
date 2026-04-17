@@ -1,4 +1,4 @@
-import { PrismaClient } from "@prisma/client";
+import { PrismaClient, Location } from "@prisma/client";
 
 const prisma = new PrismaClient();
 
@@ -43,6 +43,18 @@ async function main() {
     },
   });
 
+  const match = await prisma.match.create({
+    data: {
+      opponent: "De seje rejer",
+      location: Location.AWAY,
+      score_home: 67,
+      score_away: 69,
+      team: {
+        connect: { id: team.id },
+      },
+    },
+  });
+
   [
     {
       name: "COACH",
@@ -55,6 +67,10 @@ async function main() {
     {
       name: "PLAYER",
       content: player,
+    },
+    {
+      name: "MATCH",
+      content: match,
     },
   ].forEach((seed) => {
     console.log(

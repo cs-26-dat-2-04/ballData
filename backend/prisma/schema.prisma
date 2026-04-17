@@ -47,6 +47,7 @@ model Player {
 
   matchStats MatchStats[]
   playerNotes PlayerNote[]
+  
   @@unique([team_id, jersey_number]) // ingen kan have samme jersey number på same hold
 }
 
