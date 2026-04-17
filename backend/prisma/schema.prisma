@@ -25,4 +25,18 @@ model Team {
   coach_id      String  @unique @db.Uuid
   coach         Coach   @relation(fields: [coach_id], references: [id])
   name          String
+  players       Player[]
 }
+
+model Player {
+  id            String  @id @default(uuid()) @db.Uuid
+  team_id       String  @db.Uuid
+  team          Team    @relation(fields: [team_id], references: [id], onDelete: Cascade)
+  first_name    String
+  last_name     String
+  jersey_number Int?
+
+  @@unique([team_id, jersey_number]) // ingen kan have samme jersey number på same hold
+}
+
+
