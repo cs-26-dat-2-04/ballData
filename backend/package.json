@@ -14,6 +14,9 @@
     "test:watch": "vitest",
     "test:coverage": "vitest run --coverage"
   },
+  "prisma": {
+    "seed": "node prisma/seed.js"
+  },
   "keywords": [],
   "author": "",
   "license": "ISC",
