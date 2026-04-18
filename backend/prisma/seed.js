@@ -7,10 +7,10 @@ async function main() {
   await prisma.coach.deleteMany();
   await prisma.team.deleteMany();
   await prisma.player.deleteMany();
-  //await prisma.match.deleteMany();
-  //await prisma.matchstats.deleteMany();
-  //await prisma.playernote.deleteMany();
-  //await prisma.invitetoken.deleteMany();
+  await prisma.match.deleteMany();
+  await prisma.matchStats.deleteMany();
+  await prisma.playerNote.deleteMany();
+  await prisma.inviteToken.deleteMany();
 
   // Create a test coach
   const coach = await prisma.coach.create({
@@ -43,6 +43,7 @@ async function main() {
     },
   });
 
+  // Create match seed
   const match = await prisma.match.create({
     data: {
       opponent: "De seje rejer",
@@ -52,6 +53,45 @@ async function main() {
       team: {
         connect: { id: team.id },
       },
+    },
+  });
+
+  // Create match stats seed
+  const match_stats = await prisma.matchStats.create({
+    data: {
+      match: {
+        connect: { id: match.id },
+      },
+      player: {
+        connect: { id: player.id },
+      },
+    },
+  });
+
+  // Create player note seed
+  const player_note = await prisma.playerNote.create({
+    data: {
+      coach: {
+        connect: { id: coach.id },
+      },
+      player: {
+        connect: { id: player.id },
+      },
+      content: "Ham her er en lille lømmel",
+    },
+  });
+
+  // Create a invite token seed
+  const invite_token = await prisma.inviteToken.create({
+    data: {
+      coach: {
+        connect: { id: coach.id },
+      },
+      match: {
+        connect: { id: match.id },
+      },
+      token: "1234tokenhejjegerentoken69420",
+      expires_at: new Date(Date.now() + 2 * 60 * 60 * 1000), // expires om 2 timer
     },
   });
 
@@ -71,6 +111,18 @@ async function main() {
     {
       name: "MATCH",
       content: match,
+    },
+    {
+      name: "MATCH STATS",
+      content: match_stats,
+    },
+    {
+      name: "PLAYER NOTE",
+      content: player_note,
+    },
+    {
+      name: "INVITE TOKEN",
+      content: invite_token,
     },
   ].forEach((seed) => {
     console.log(
