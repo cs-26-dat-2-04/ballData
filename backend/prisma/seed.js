@@ -1,4 +1,5 @@
 import { PrismaClient, Location } from "@prisma/client";
+import bcrypt from "bcrypt";
 
 const prisma = new PrismaClient();
 
@@ -13,10 +14,11 @@ async function main() {
   await prisma.inviteToken.deleteMany();
 
   // Create a test coach
+  const hash = await bcrypt.hash("123passwordhash321", 10);
   const coach = await prisma.coach.create({
     data: {
       email: "coachmail@mail.com",
-      password_hash: "123passwordhash321",
+      password_hash: hash,
       name: "coolcoach123",
     },
   });
