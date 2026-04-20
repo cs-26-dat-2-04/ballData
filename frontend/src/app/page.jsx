@@ -1,11 +1,15 @@
-import Image from "next/image";
-import Card from "../components/KPI-Card.jsx";
+import StatCard from "../components/StatCard.jsx";
 
 export default function Home() {
-  return <Card 
-            title={"Seirsrate"} 
-            data={"64.3%"} 
-            extra_info={"18V - 7T - 3U"}
-            icon={"./icon1.jpg"}
-            />
+  return (
+    <>
+      <StatCard
+        title={"Sejrsrate"}
+        body={"64.3%"}
+        footer={"18V - 7T - 3U"}
+        icon={"/icon1.jpg"}
+        iconAlt={"Win rate icon"}
+      />
+    </>
+  );
 }

@@ -1,12 +1,15 @@
-import styles from '../components/styles.module.css';
+import styles from "../components/styles.module.css";
+import Image from "next/image";
 
-export default function StatCard({title, data, extra_info, icon}){ // The backend will insert the values into the parameters.
-return ( // We are currently using placeholders until we link frontend to backend
+export default function StatCard({ title, body, footer, icon, iconAlt = "" }) {
+  // The backend will insert the values into the parameters.
+  return (
+    // We are currently using placeholders until we link frontend to backend
     <article className={styles.card}>
-        <h1>{title}</h1>
-        <h2>{data}</h2>
-        <p>{extra_info}</p>
-        <img src={icon} alt="icon"/>
-    </article>   
-    );
+      <span className={styles.cardTitle}>{title}</span>
+      <p className={styles.cardBody}>{body ?? "-"}</p>
+      <span className={styles.cardFooter}>{footer ?? ""}</span>
+      {icon && <Image src={icon} width={64} height={64} alt={iconAlt} />}
+    </article>
+  );
 }
