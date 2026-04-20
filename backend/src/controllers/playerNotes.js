@@ -25,7 +25,7 @@ export const createNote = async (req, res) => {
       req.coach.id,
       content,
     );
-    res.status(201).json(notes);
+    res.status(201).json(note);
   } catch (err) {
     res.status(err.status ?? 500).json({ error: err.message });
   }
