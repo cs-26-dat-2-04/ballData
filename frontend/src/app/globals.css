@@ -1,26 +1,30 @@
-@import "tailwindcss";
+ @import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500&family=Space+Grotesk:wght@400;500;600;700&display=swap");
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
-
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
-}
-
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
-}
+    :root {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    }
+    :root {
+    /*colors defined in report*/
+    --navy: #1d3a6e;
+    --midfield: #3a6bbd;
+    --ice: #eaf1fb;
+    --flame: #e8430c;
+    --performance: #1d9e75;
+    --caution: #ef9f27;
+    --surface: #f4f6fa;
+    
+    /*colors beyond those defined in report*/
+    --flame-light: #fdeae4;
+    --performance-light: #d0f0e6;
+    --caution-light: #fef3da;
+    --red: #e24b4a;
+    --red-light: #fcebeb;
+    --ink: #1a1a2e;
+    --muted: #5a6170;
+    --hint: #9aa0ad;
+    --rule: rgba(29, 58, 110, 0.1);
+    --sg: "Space Grotesk", sans-serif;
+    --sans: "Inter", sans-serif;
+    }

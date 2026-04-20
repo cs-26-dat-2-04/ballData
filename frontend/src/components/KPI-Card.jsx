@@ -1,13 +1,12 @@
 import styles from '../components/styles.module.css';
-import Image from 'next/image'
 
-export default function Card({title, data, extra_info, icon}){
-return (
+export default function StatCard({title, data, extra_info, icon}){ // The backend will insert the values into the parameters.
+return ( // We are currently using placeholders until we link frontend to backend
     <article className={styles.card}>
-        <h1>Sejrsrate</h1>
-        <h2>64.3%</h2>
-        <p>18V - 7T - 3U</p>
-        <img src="/icon1.jpg" alt="icon"/>
+        <h1>{title}</h1>
+        <h2>{data}</h2>
+        <p>{extra_info}</p>
+        <img src={icon} alt="icon"/>
     </article>   
     );
 }
