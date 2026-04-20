@@ -1,0 +1,42 @@
+ @import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500&family=Space+Grotesk:wght@400;500;600;700&display=swap");
+
+.card {
+  width: min(260px, 90vw);
+  height: min(175px, 75vh);
+  margin: 0 auto;
+  padding: 24px 28px;
+  border: 3px solid #e1e4e9;
+  border-radius: 10px;
+  background: white;
+  box-shadow: 0 14px 28px rgba(15, 23, 42, 0.08);
+  position: relative;
+}
+
+.card h1 {
+  margin: 0 0 0px;
+  color: #7d838f;
+  font-family: 'Inter';
+  font-size: 16px;
+}
+
+.card h2 {
+  margin: 0 0 12px;
+  color: #1c1c30;
+  font-family: 'Space Grotesk';
+  font-size: 35px;
+}
+
+.card p {
+  margin: 0 0 0px;
+  color:#bec2ca;
+  font-family: 'Inter';
+  font-size: 12px;
+}
+
+.card img {
+  width: 57px;
+  height: 57px;
+  position: absolute;
+  top: 36px;
+  right: 18px;
+}
