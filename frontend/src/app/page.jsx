@@ -1,5 +1,15 @@
-import Image from "next/image";
+import StatCard from "../components/StatCard.jsx";
 
 export default function Home() {
-  return <p style={{ color: "var(--navy)" }}>hello world</p>;
+  return (
+    <>
+      <StatCard
+        title={"Sejrsrate"}
+        body={"64.3%"}
+        footer={"18V - 7T - 3U"}
+        icon={"/icon1.jpg"}
+        iconAlt={"Win rate icon"}
+      />
+    </>
+  );
 }
