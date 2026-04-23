@@ -1,0 +1,95 @@
+import pkg from "@prisma/client";
+const { PrismaClient } = pkg;
+import { prisma } from "../lib/prisma.js";
+
+export const getStatsByMatch = async (matchId, coachId) => {
+  const match = await prisma.match.findUnique({
+    where: { id: matchId },
+    include: { team: true },
+  });
+
+  if (!match) {
+    const error = new Error("Match ikke fundet");
+    error.status = 404;
+    throw error;
+  }
+
+  if (match.team.coach_id !== coachId) {
+    const error = new Error("Du har ikke adgang til dette match");
+    error.status = 403;
+    throw error;
+  }
+
+  const matchStats = await prisma.matchStats.findMany({
+    where: { match_id: matchId },
+    include: {
+      player: {
+        select: {
+          id: true,
+          first_name: true,
+          last_name: true,
+          jersey_number: true,
+        },
+      },
+    },
+    orderBy: { player: { jersey_number: "asc" } },
+  });
+
+  return matchStats;
+};
+
+export const upsertStats = async (matchId, coachId, playerId, data) => {
+  const match = await prisma.match.findUnique({
+    where: { id: matchId },
+    include: { team: true },
+  });
+
+  if (!match) {
+    const error = new Error("Du har ikke adgang til denne kamp");
+    error.status = 403;
+    throw error;
+  }
+
+  const player = await prisma.player.findUnique({
+    where: { id: playerId },
+  });
+
+  if (!player) {
+    const error = new Error("Spiller ikke fundet");
+    error.status = 404;
+    throw error;
+  }
+
+  if (player.team_id !== match.team_id) {
+    const error = new Error("Spilleren er ikke på dette hold");
+    error.status = 400;
+    throw error;
+  }
+
+  const stats = await prisma.matchStats.upsert({
+    where: {
+      match_id_player_id: {
+        match_id: matchId,
+        player_id: playerId,
+      },
+    },
+    update: data,
+    create: {
+      match_id: matchId,
+      player_id: playerId,
+      ...data,
+    },
+    include: {
+      player: {
+        select: {
+          id: true,
+          first_name: true,
+          last_name: true,
+          jersey_number: true,
+        },
+      },
+    },
+  });
+
+  return stats;
+};
