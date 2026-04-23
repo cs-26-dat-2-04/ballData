@@ -34,7 +34,7 @@ async function main() {
   });
 
   // Create player seed
-  const player = await prisma.player.create({
+  const player1 = await prisma.player.create({
     data: {
       first_name: "pelle",
       last_name: "pedel",
@@ -42,6 +42,16 @@ async function main() {
         connect: { id: team.id },
       },
       jersey_number: 69,
+    },
+  });
+  const player2 = await prisma.player.create({
+    data: {
+      first_name: "søren",
+      last_name: "larsen",
+      team: {
+        connect: { id: team.id },
+      },
+      jersey_number: 67,
     },
   });
 
@@ -59,27 +69,52 @@ async function main() {
   });
 
   // Create match stats seed
-  const match_stats = await prisma.matchStats.create({
+  const match_stats1 = await prisma.matchStats.create({
     data: {
       match: {
         connect: { id: match.id },
       },
       player: {
-        connect: { id: player.id },
+        connect: { id: player1.id },
       },
+      goals: 100,
+    },
+  });
+
+  const match_stats2 = await prisma.matchStats.create({
+    data: {
+      match: {
+        connect: { id: match.id },
+      },
+      player: {
+        connect: { id: player2.id },
+      },
+      goals: 4,
     },
   });
 
   // Create player note seed
-  const player_note = await prisma.playerNote.create({
+  const player_note1 = await prisma.playerNote.create({
     data: {
       coach: {
         connect: { id: coach.id },
       },
       player: {
-        connect: { id: player.id },
+        connect: { id: player1.id },
       },
       content: "Ham her er en lille lømmel",
+    },
+  });
+
+  const player_note2 = await prisma.playerNote.create({
+    data: {
+      coach: {
+        connect: { id: coach.id },
+      },
+      player: {
+        connect: { id: player2.id },
+      },
+      content: "Godt spillet sidste kamp :)",
     },
   });
 
@@ -107,20 +142,32 @@ async function main() {
       content: team,
     },
     {
-      name: "PLAYER",
-      content: player,
+      name: "PLAYER 1",
+      content: player1,
+    },
+    {
+      name: "PLAYER ",
+      content: player2,
     },
     {
       name: "MATCH",
       content: match,
     },
     {
-      name: "MATCH STATS",
-      content: match_stats,
+      name: "MATCH STATS PLAYER 1",
+      content: match_stats1,
     },
     {
-      name: "PLAYER NOTE",
-      content: player_note,
+      name: "MATCH STATS PLAYER 2",
+      content: match_stats2,
+    },
+    {
+      name: "PLAYER NOTE 1",
+      content: player_note1,
+    },
+    {
+      name: "PLAYER NOTE 2",
+      content: player_note2,
     },
     {
       name: "INVITE TOKEN",
