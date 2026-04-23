@@ -4,6 +4,7 @@ import dotenv from "dotenv";
 import authRouter from "./routes/auth.js";
 import teamsRouter from "./routes/teams.js";
 import auth from "./middleware/auth.js";
+import playerNotesRouter, { noteRouter } from "./routes/playerNotes.js";
 
 dotenv.config();
 
@@ -25,6 +26,10 @@ app.use("/auth", authRouter);
 
 // Teams routes
 app.use("/teams", auth, teamsRouter);
+
+// Notes
+app.use("/players/:playerId/notes", auth, playerNotesRouter);
+app.use("/notes", auth, noteRouter);
 
 app.listen(PORT, () => {
   console.log(`Backend running on http://localhost:${PORT}`);
