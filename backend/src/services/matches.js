@@ -76,8 +76,7 @@ export const upsertStats = async (matchId, coachId, playerId, data) => {
     update: data,
     create: {
       match_id: matchId,
-      player_id,
-      playerId,
+      player_id: playerId,
       ...data,
     },
     include: {

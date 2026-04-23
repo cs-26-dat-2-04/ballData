@@ -33,7 +33,7 @@ app.use("/players/:playerId/notes", auth, playerNotesRouter);
 app.use("/notes", auth, noteRouter);
 
 // Matches
-app.use("/matches", matchRouter);
+app.use("/matches", auth, matchRouter);
 
 app.listen(PORT, () => {
   console.log(`Backend running on http://localhost:${PORT}`);

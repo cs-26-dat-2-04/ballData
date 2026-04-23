@@ -81,18 +81,6 @@ async function main() {
     },
   });
 
-  const match_stats2 = await prisma.matchStats.create({
-    data: {
-      match: {
-        connect: { id: match.id },
-      },
-      player: {
-        connect: { id: player2.id },
-      },
-      goals: 4,
-    },
-  });
-
   // Create player note seed
   const player_note1 = await prisma.playerNote.create({
     data: {
@@ -156,10 +144,6 @@ async function main() {
     {
       name: "MATCH STATS PLAYER 1",
       content: match_stats1,
-    },
-    {
-      name: "MATCH STATS PLAYER 2",
-      content: match_stats2,
     },
     {
       name: "PLAYER NOTE 1",

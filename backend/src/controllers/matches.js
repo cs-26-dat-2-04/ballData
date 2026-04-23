@@ -20,7 +20,7 @@ export const getMatchStats = async (req, res) => {
   try {
     const matchStats = await matchService.getStatsByMatch(
       req.params.matchId,
-      "03aa43ad-a2e8-47c4-92a6-ca154aa6b5eb",
+      req.coach.id,
     );
     res.json(matchStats);
   } catch (err) {
