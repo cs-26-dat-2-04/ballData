@@ -1,30 +1,61 @@
-@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500&family=Space+Grotesk:wght@400;500;600;700&display=swap");
+@import url('https://fonts.googleapis.com/css?family=Space+Grotesk&display=swap');
+@import url('https://fonts.googleapis.com/css?family=Inter&display=swap');
+/*Import fonts seperatly, couldn't use them when they were combined*/
 
-:root {
-  box-sizing: border-box;
-  margin: 0;
-  padding: 0;
-}
-:root {
-  /*colors defined in report*/
-  --navy: #1d3a6e;
-  --midfield: #3a6bbd;
-  --ice: #eaf1fb;
-  --flame: #e8430c;
-  --performance: #1d9e75;
-  --caution: #ef9f27;
-  --surface: #f4f6fa;
 
-  /*colors beyond those defined in report*/
-  --flame-light: #fdeae4;
-  --performance-light: #d0f0e6;
-  --caution-light: #fef3da;
-  --red: #e24b4a;
-  --red-light: #fcebeb;
-  --ink: #1a1a2e;
-  --muted: #5a6170;
-  --hint: #9aa0ad;
-  --rule: rgba(29, 58, 110, 0.1);
-  --sg: "Space Grotesk", sans-serif;
-  --sans: "Inter", sans-serif;
-}
+ body {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    background-color: var(--surface);
+    }
+    :root {
+    /*colors defined in report*/
+    --navy: #1d3a6e;
+    --midfield: #3a6bbd;
+    --ice: #eaf1fb;
+    --flame: #e8430c;
+    --performance: #1d9e75;
+    --caution: #ef9f27;
+    --surface: #f4f6fa;
+    
+    /*colors beyond those defined in report*/
+    --flame-light: #fdeae4;
+    --performance-light: #d0f0e6;
+    --caution-light: #fef3da;
+    --red: #e24b4a;
+    --red-light: #fcebeb;
+    --ink: #1a1a2e;
+    --muted: #5a6170;
+    --hint: #9aa0ad;
+    --rule: rgba(29, 58, 110, 0.1);
+
+    /*fonts*/
+    --sg: "Space Grotesk", sans-serif;
+    --sans: "Inter", sans-serif;
+    }
+
+    .ballData-header{
+      background-color: white;
+      display: flex;
+      border-bottom: 1px solid var(--rule);
+      padding: 16px 32px 16px 32px;
+
+      font-family: "Inter";
+      font-weight: 400;
+      font-size: 14px;
+      line-height: 20px;
+    }
+
+    .ballData-header h3{
+      font-family: "Space Grotesk";
+      font-weight: 500;
+      font-size: 24px;
+      line-height: 36px;
+      color: var(--ink);
+      margin: 0;
+    }
+
+    .dashboard-container{
+      padding: 32px;
+    }
