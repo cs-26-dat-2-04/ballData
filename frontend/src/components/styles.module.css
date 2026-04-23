@@ -49,3 +49,27 @@
   color: var(--hint);
   margin: 0;
 }
+
+.graphCard {
+  display: flex;
+  flex-direction: column;
+  width: 300px;
+  height: 250px;
+  background: white;
+  border-radius: 14px;
+  border: 1.5px solid var(--rule);
+  padding: 18px 20px 22px;
+  position: relative;
+}
+
+.graphTitle {
+  font-family: var(--sans);
+  font-size: 20px;
+  font-weight: 700;
+  text-align: left;
+  color: var(--ink);
+  line-height: 1;
+  letter-spacing: -1px;
+  padding-bottom: 16px;
+  border-bottom: 1px solid var(--rule);
+}
