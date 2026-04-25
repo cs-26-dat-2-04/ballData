@@ -10,10 +10,72 @@ const ALLOWED_STAT_FIELDS = [
   "minutes_played",
 ];
 
+const MATCH_REQUIRED_FIELDS = [
+  "opponent",
+  "match_date",
+  "location",
+  "score_home",
+  "score_away",
+];
+
 const extractStatFields = (body) => {
   return Object.fromEntries(
     Object.entries(body).filter(([key]) => ALLOWED_STAT_FIELDS.includes(key)),
   );
+};
+
+export const getMatches = async (req, res) => {
+  try {
+    const matches = await matchService.getMatchesByTeam(
+      req.params.teamId,
+      req.coach.id,
+    );
+    res.json(matches);
+  } catch (err) {
+    res.status(err.status ?? 500).json({ error: err.message });
+  }
+};
+
+export const createMatch = async (req, res) => {
+  const { opponent, match_date, location, score_home, score_away } = req.body;
+
+  const missing = MATCH_REQUIRED_FIELDS.filter(
+    (field) => req.body[field] === undefined,
+  );
+  if (missing.length > 0) {
+    return res
+      .status(400)
+      .json({ error: `Følgende felter mangler: ${missing.join(", ")}` });
+  }
+
+  try {
+    const match = await matchService.createMatch(
+      req.params.teamId,
+      req.coach.id,
+      {
+        opponent,
+        match_date: new Date(match_date),
+        location,
+        score_home: parseInt(score_home),
+        score_away: parseInt(score_away),
+      },
+    );
+    res.status(201).json(match);
+  } catch (err) {
+    res.status(err.status ?? 500).json({ error: err.message });
+  }
+};
+
+export const getMatch = async (req, res) => {
+  try {
+    const match = await matchService.getMatchById(
+      req.params.matchId,
+      req.coach.id,
+    );
+    res.json(match);
+  } catch (err) {
+    res.status(err.status ?? 500).json({ error: err.message });
+  }
 };
 
 export const getMatchStats = async (req, res) => {
