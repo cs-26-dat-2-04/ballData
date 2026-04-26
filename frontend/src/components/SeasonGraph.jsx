@@ -56,7 +56,19 @@ export default function SeasonGraph({labels, data, bgcolor, bdcolor, title}) {
         <>
         <article className={styles.graphCard}>
                 <p className={styles.graphTitle}>{title ?? "-"}</p>
-                <Bar className={styles.graph} data={chartData} options={chartOptions}/>
+                <div style={{height:"60%", display:"flex", justifyContent:"center"}}>
+                    <Bar style={{float:"center"}} data={chartData} width={100} height={100} options={chartOptions}/>
+                </div>
+                <div className={styles.graphNumbersContainer}>
+                    <a style={{color:"#1D9E75"}}>{data[0]}</a>
+                    <a style={{color:"#E24B4A"}}>{data[1]}</a>
+                    <a style={{color:"#9AA0AD"}}>{data[2]}</a>
+                </div>
+                <div className={styles.graphDescriptorsContainer}>
+                    <a>Sejre</a>
+                    <a>Nederlag</a>
+                    <a>Uafgjort</a>
+                </div>
         </article>
         </>
     )

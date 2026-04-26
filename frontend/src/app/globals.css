@@ -63,16 +63,13 @@
     .statCards{
       align-content: center;
       display: grid;
-      grid-template-columns: auto auto auto auto;
+      grid-template-columns: 1fr 1fr 1fr 1fr;
+      column-gap: 25px;
       margin-bottom: 42px;
-    }
-
-    .statCards > *{
-      margin-left: auto;
-      margin-right: auto;
     }
 
     .matchCollection-statistics{
       display: grid;
-      grid-template-columns: auto auto;
+      grid-template-columns: 2fr 1fr;
+      column-gap: 60px;
     }

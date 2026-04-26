@@ -9,7 +9,7 @@ export default function MatchRow({data}) {
         <article className={styles.collCard}>
         <div style={{marginBottom: "-15px"}}className={styles.container}>
             <div>
-                <Image style={{padding: "25px 25px 25px", marginRight: "-15px"}} src={"/calendar.jpg"} alt={"calendarIcon"} width={30} height={30 }/>
+                <Image style={{padding: "25px 25px 25px", marginRight: "-15px"}} src={"/calender.svg"} alt={"calendarIcon"} width={30} height={30}/>
             </div>
             <div>    
                 <p style={{color: "black", fontSize: "24px", fontFamily: "var(--sans)", fontWeight: "500"}}>Seneste Kampe</p>
