@@ -102,24 +102,18 @@ export const updatePlayer = async(coachId, playerId, firstName, lastName, jersey
     throw error;
 }
 
-if(jerseyNumber){
-
+if(jerseyNumber !== undefined){
 const PlayerWithJersey = await prisma.player.findFirst({
     where: {team_id: existingPlayer.team_id,
         jersey_number: jerseyNumber
     }
 });
 
-if(PlayerWithJersey){
+if(PlayerWithJersey.id !== playerId){
     const error = new Error("Der findes allerede en spiller med dette trøjenummer")
     error.status = 409;
     throw error
 }
-}
-
-if(!firstName||!lastName){
-    const error = new Error("Navn er påkrævet")
-    throw error;
 }
 
 if(!Number.isInteger(jerseyNumber)||jerseyNumber<0){
@@ -127,12 +121,31 @@ if(!Number.isInteger(jerseyNumber)||jerseyNumber<0){
     throw error;
 }
 
+const data = {};
+
+if (firstName !== undefined) {
+    data.first_name = firstName;
+} else {
+    data.first_name = existingPlayer.first_name;
+}
+if (lastName !== undefined){
+    data.last_name = lastName;
+} else {
+data.last_name =existingPlayer.last_name;
+}
+if (jerseyNumber !== undefined){
+      data.jersey_number = jerseyNumber;
+} else {
+    data.jersey_number = existingPlayer.jersey_number;
+}
+
+
 const player = await prisma.player.update({
     where: {id: playerId},
     data: {
-        first_name: firstName,
-        last_name: lastName,
-        jersey_number: jerseyNumber
+        first_name: data.first_name,
+        last_name: data.last_name,
+        jersey_number: data.jersey_number
     }
 });
 
