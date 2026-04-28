@@ -2,6 +2,94 @@ import pkg from "@prisma/client";
 const { PrismaClient } = pkg;
 import { prisma } from "../lib/prisma.js";
 
+export const getMatchesByTeam = async (teamId, coachId) => {
+  const team = await prisma.team.findUnique({
+    where: { id: teamId },
+  });
+
+  if (!team) {
+    const error = new Error("Hold ikke fundet");
+    error.status = 404;
+    throw error;
+  }
+
+  if (team.coach_id !== coachId) {
+    const error = new Error("Du har ikke adgang til dette hold");
+    error.status = 403;
+    throw error;
+  }
+
+  const matches = await prisma.match.findMany({
+    where: { team_id: teamId },
+    orderBy: { match_date: "desc" },
+  });
+
+  return matches;
+};
+
+export const createMatch = async (teamId, coachId, data) => {
+  const team = await prisma.team.findUnique({
+    where: { id: teamId },
+  });
+
+  if (!team) {
+    const error = new Error("Hold ikke fundet");
+    error.status = 404;
+    throw error;
+  }
+
+  if (team.coach_id !== coachId) {
+    const error = new Error("Du har ikke adgang til dette hold");
+    error.status = 403;
+    throw error;
+  }
+
+  const match = await prisma.match.create({
+    data: {
+      team_id: teamId,
+      ...data,
+    },
+  });
+
+  return match;
+};
+
+export const getMatchById = async (matchId, coachId) => {
+  const match = await prisma.match.findUnique({
+    where: { id: matchId },
+    include: {
+      team: true,
+      matchStats: {
+        include: {
+          player: {
+            select: {
+              id: true,
+              first_name: true,
+              last_name: true,
+              jersey_number: true,
+            },
+          },
+        },
+        orderBy: { player: { jersey_number: "asc" } },
+      },
+    },
+  });
+
+  if (!match) {
+    const error = new Error("Kamp ikke fundet");
+    error.status = 404;
+    throw error;
+  }
+
+  if (match.team.coach_id !== coachId) {
+    const error = new Error("Du har ikke adgang til denne kamp");
+    error.status = 403;
+    throw error;
+  }
+
+  return match;
+};
+
 export const getStatsByMatch = async (matchId, coachId) => {
   const match = await prisma.match.findUnique({
     where: { id: matchId },
