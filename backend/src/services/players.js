@@ -30,7 +30,8 @@ if(!firstName||!lastName){
     throw error;
 }
 
-if(!Number.isInteger(jerseyNumber)||jerseyNumber<0){
+if(jerseyNumber){
+    if(!Number.isInteger(jerseyNumber)||jerseyNumber<0){
     const error = new Error("Trøjenummer skal være et positivt tal")
     throw error;
 }
@@ -45,6 +46,7 @@ if(existingPlayer){
     const error = new Error("Der findes allerede en spiller med dette trøjenummer")
     error.status = 409;
     throw error
+}
 }
 
 
@@ -100,16 +102,19 @@ export const updatePlayer = async(coachId, playerId, firstName, lastName, jersey
     throw error;
 }
 
-const jersey = await prisma.player.findFirst({
+if(jerseyNumber){
+
+const PlayerWithJersey = await prisma.player.findFirst({
     where: {team_id: existingPlayer.team_id,
         jersey_number: jerseyNumber
     }
 });
 
-if(jersey){
+if(PlayerWithJersey){
     const error = new Error("Der findes allerede en spiller med dette trøjenummer")
     error.status = 409;
     throw error
+}
 }
 
 if(!firstName||!lastName){
