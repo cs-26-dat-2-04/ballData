@@ -43,6 +43,7 @@ const existingPlayer = await prisma.player.findFirst({
 
 if(existingPlayer){
     const error = new Error("Der findes allerede en spiller med dette trøjenummer")
+    error.status = 409;
     throw error
 }
 
@@ -97,6 +98,18 @@ export const updatePlayer = async(coachId, playerId, firstName, lastName, jersey
     const error = new Error("Du har ikke adgang til dette hold");
     error.status = 403;
     throw error;
+}
+
+const jersey = await prisma.player.findFirst({
+    where: {team_id: existingPlayer.team_id,
+        jersey_number: jerseyNumber
+    }
+});
+
+if(jersey){
+    const error = new Error("Der findes allerede en spiller med dette trøjenummer")
+    error.status = 409;
+    throw error
 }
 
 if(!firstName||!lastName){
