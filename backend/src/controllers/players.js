@@ -12,9 +12,9 @@ export const getPlayers = async (req, res) => {
 export const createPlayer = async (req, res) => {
 const {firstName, lastName, jerseyNumber} = req.body
 
-if(!firstName||!lastName||!jerseyNumber){
-    return res.status(400).json({ error: "Både navn og trøjenummer skal angives" });
-}
+//if(!firstName||!lastName||!jerseyNumber){
+  //  return res.status(400).json({ error: "Både navn og trøjenummer skal angives" });
+//}
 
 try{
     const player = await playersService.createPlayer(
@@ -39,4 +39,22 @@ export const deletePlayer = async (req, res) => {
         res.status(err.status ?? 500).json({ error: err.message });
     }
     
+}
+
+
+export const updatePlayer = async (req, res) =>{
+
+    try{
+        const {firstName, lastName, jerseyNumber} = req.body
+ const player = await playersService.updatePlayer(
+    req.coach.id, 
+    req.params.playerId, 
+    firstName, 
+    lastName, 
+    jerseyNumber
+);
+res.status(201).json(player);
+    } catch(err){
+        res.status(err.status ?? 500).json({error: err.message});
+    }
 }

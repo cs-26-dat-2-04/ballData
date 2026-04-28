@@ -84,3 +84,39 @@ const error = new Error("Du må kun slette dine egne spillere");
 
 await prisma.player.delete({where:{id: playerId}});
 }
+
+export const updatePlayer = async(coachId, playerId, firstName, lastName, jerseyNumber) =>{
+
+    const existingPlayer = await prisma.player.findFirst({
+    where: {id: playerId},
+    include:{ team: true }
+
+});
+
+    if(existingPlayer.team.coach_id !== coachId){
+    const error = new Error("Du har ikke adgang til dette hold");
+    error.status = 403;
+    throw error;
+}
+
+if(!firstName||!lastName){
+    const error = new Error("Navn er påkrævet")
+    throw error;
+}
+
+if(!Number.isInteger(jerseyNumber)||jerseyNumber<0){
+    const error = new Error("Trøjenummer skal være et positivt tal")
+    throw error;
+}
+
+const player = await prisma.player.update({
+    where: {id: playerId},
+    data: {
+        first_name: firstName,
+        last_name: lastName,
+        jersey_number: jerseyNumber
+    }
+});
+
+return player
+}
