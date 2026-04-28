@@ -6,6 +6,7 @@ import teamsRouter from "./routes/teams.js";
 import auth from "./middleware/auth.js";
 import playerNotesRouter, { noteRouter } from "./routes/playerNotes.js";
 import matchRouter from "./routes/matches.js";
+import { inviteRouter, publicInviteRouter } from "./routes/inviteTokens.js";
 
 dotenv.config();
 
@@ -34,6 +35,10 @@ app.use("/notes", auth, noteRouter);
 
 // Matches
 app.use("/matches", auth, matchRouter);
+
+// Invite tokens - Der er auth under route filen
+app.use("/matches/:matchId/invite", inviteRouter);
+app.use("/invite", publicInviteRouter);
 
 app.listen(PORT, () => {
   console.log(`Backend running on http://localhost:${PORT}`);
