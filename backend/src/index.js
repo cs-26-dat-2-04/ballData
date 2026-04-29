@@ -5,6 +5,9 @@ import authRouter from "./routes/auth.js";
 import teamsRouter from "./routes/teams.js";
 import playerRouter from "./routes/players.js"
 import auth from "./middleware/auth.js";
+import playerNotesRouter, { noteRouter } from "./routes/playerNotes.js";
+import matchRouter from "./routes/matches.js";
+import { inviteRouter, publicInviteRouter } from "./routes/inviteTokens.js";
 
 dotenv.config();
 
@@ -34,6 +37,16 @@ app.use("/teams", auth, teamsRouter);
 app.use("/teams/:teamId/players", auth, playerRouter)
 app.use("/players", auth, playerRouter) // er ikke nødvendig men er nemmere at bruge til deletePlayer
 
+// Notes
+app.use("/players/:playerId/notes", auth, playerNotesRouter);
+app.use("/notes", auth, noteRouter);
+
+// Matches
+app.use("/matches", auth, matchRouter);
+
+// Invite tokens - Der er auth under route filen
+app.use("/matches/:matchId/invite", inviteRouter);
+app.use("/invite", publicInviteRouter);
 
 app.listen(PORT, () => {
   console.log(`Backend running on http://localhost:${PORT}`);
