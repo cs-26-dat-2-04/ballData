@@ -12,7 +12,7 @@ import { inviteRouter, publicInviteRouter } from "./routes/inviteTokens.js";
 dotenv.config();
 
 export const app = express();
-const PORT = process.env.PORT ?? 3001;
+export const PORT = process.env.PORT ?? 3001;
 
 // Cors setup - tillader kun requests fra localhost:3000 (vores frontend)
 app.use(cors({ origin: "http://localhost:3000" }));
