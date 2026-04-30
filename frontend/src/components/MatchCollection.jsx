@@ -2,7 +2,7 @@ import styles from "../components/styles.module.css";
 import Image from "next/image";
 import Row from "../components/MatchRow.jsx";
 
-export default function MatchRow({ data }) {
+export default function MatchCollection({ data }) {
   return (
     <article className={styles.collCard}>
       <div style={{ marginBottom: "-15px" }} className={styles.container}>

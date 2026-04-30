@@ -1,0 +1,33 @@
+.card {
+  width: 20px;
+  height: fit-content;
+  background: var(--surface);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  flex: 0.1;
+  position: relative;
+  margin-top: 10px;  /* reduced from 40px */
+  margin-bottom: 10px;
+}
+
+.identifier {
+  font-family: var(--sg);
+  font-size: 18px;
+  font-weight: 400;
+  color: var(--ink);
+  line-height: 1;
+  letter-spacing: -1px;
+  margin: 0;  /* removed margin-bottom */
+}
+
+.score {
+  font-family: var(--sg);
+  font-size: 60px;
+  font-weight: 400;
+  color: var(--navy);
+  line-height: 1;
+  letter-spacing: -1px;
+  margin: 0;
+}
