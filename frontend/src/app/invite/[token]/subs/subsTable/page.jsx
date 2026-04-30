@@ -1,5 +1,8 @@
-import PlayerColl from '../../playerCollection/PlayerColl.jsx'
-import Back from '../../../../../components/BackButton/BackButton.jsx'
+"use client";
+
+import PlayerColl from '../../playerCollection/PlayerColl.jsx';
+import Back from '../../../../../components/BackButton/BackButton.jsx';
+import { useSearchParams, useParams } from "next/navigation";
 import styles from "../../page.module.css";
 
 let players = [
@@ -106,6 +109,10 @@ let players = [
 ];
 
 export default function PlayerIn() {
+  const searchParams = useSearchParams();
+  const { token } = useParams();
+  let scoreUs = searchParams.get("scoreUs");
+  let scoreOpp = searchParams.get("scoreOpp");
 
   return (
       <>
@@ -114,7 +121,7 @@ export default function PlayerIn() {
         </div>
         <div className={styles.containerColumn}>
             <h1 className={styles.pageHeader}>Udskiftninger-Ind</h1>
-            <PlayerColl route={"/invite/token"} data={players}/>
+            <PlayerColl route={`/invite/${token}`} data={players} scores={[scoreUs, scoreOpp]}/>
         </div>
       </>
     )

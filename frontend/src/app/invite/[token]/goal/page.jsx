@@ -5,11 +5,12 @@ import TimerCard from '../../../../components/TimerCard/TimerCard.jsx';
 import Back from '../../../../components/BackButton/BackButton.jsx';
 import Score from '../../../../components/Score/Score.jsx';
 import Clock from '../../../../components/Clock/Clock.jsx';
-import { useSearchParams } from "next/navigation";
+import { useSearchParams, useParams } from "next/navigation";
 import styles from "../page.module.css";
 
 export default function Goal() {
   const searchParams = useSearchParams();
+  const { token } = useParams();
   let scoreUs = searchParams.get("scoreUs");
   let scoreOpp = searchParams.get("scoreOpp");
 
@@ -47,7 +48,7 @@ export default function Goal() {
                     body={"Os"}
                     bdColor={"rgb(29, 158, 177)"}
                     scores={[scoreUs, scoreOpp]}
-                    route={"/invite/token/goal/goalTable"}
+                    route={`/invite/${token}/goal/goalTable`}
                 />
                 <AppCard 
                     icon={"/usersApp.svg"}
@@ -55,7 +56,7 @@ export default function Goal() {
                     bdColor={"rgb(232, 67, 12)"}
                     body={"Modstandere"}
                     scores={[scoreUs, parseInt(scoreOpp)+1]}
-                    route={"/invite/token"}
+                    route={`/invite/${token}`}
                 />
             </div>
         </>

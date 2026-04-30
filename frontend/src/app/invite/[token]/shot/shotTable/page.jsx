@@ -2,9 +2,8 @@
 
 import PlayerColl from '../../playerCollection/PlayerColl.jsx';
 import Back from '../../../../../components/BackButton/BackButton.jsx';
-import { useSearchParams } from "next/navigation";
+import { useSearchParams, useParams } from "next/navigation";
 import styles from "../../page.module.css";
-
 
 let players = [
   {
@@ -108,8 +107,9 @@ let players = [
     jerseyNum: "2"
   },
 ];
-export default function GoalTable() {
+export default function ShotTable() {
   const searchParams = useSearchParams();
+  const { token } = useParams();
   let scoreUs = searchParams.get("scoreUs");
   let scoreOpp = searchParams.get("scoreOpp");
 
@@ -119,8 +119,8 @@ export default function GoalTable() {
             <Back/>
         </div>
         <div className={styles.containerColumn}>
-            <h1 className={styles.pageHeader}>Mål</h1>
-            <PlayerColl route={"/invite/token"} data={players} scores={[parseInt(scoreUs)+1, scoreOpp]}/>
+            <h1 className={styles.pageHeader}>Skud</h1>
+            <PlayerColl route={`/invite/${token}`} data={players} scores={[scoreUs, scoreOpp]}/>
         </div>
       </>
     )

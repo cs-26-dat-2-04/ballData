@@ -7,6 +7,7 @@ export default function AppCard({
   body,
   bdColor,
   foulType,
+  scores,
   route
 }) {
   // The backend will insert the values into the parameters.
@@ -18,7 +19,7 @@ export default function AppCard({
             (foulType[0] === "Straffekast" && foulType[1] === "Frikast")) {
                 alert("Du kan ikke vælge straffekast og frikast på samme tid")
             } else {
-                router.push(route);
+                    router.push(`${route}?scoreUs=${scores[0]}&scoreOpp=${scores[1]}`);
             }
     } else {
         if (foulType.length === 0) {

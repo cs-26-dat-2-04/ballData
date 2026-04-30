@@ -57,6 +57,7 @@ export default function HomePage({ token }) {
                     iconAlt={"Shot icon"}
                     bdColor={"rgb(209, 209, 209)"}
                     body={"Skud"}
+                    scores={[scoreUs, scoreOpp]}
                     route={`/invite/${token}/shot`}
                 />
             </div>
@@ -66,6 +67,7 @@ export default function HomePage({ token }) {
                     iconAlt={"Foul icon"}
                     bdColor={"rgb(209, 209, 209)"}
                     body={"Forseelse"}
+                    scores={[scoreUs, scoreOpp]}
                     route={`/invite/${token}/foul`}
                 />
                 <AppCard 
@@ -73,6 +75,7 @@ export default function HomePage({ token }) {
                     iconAlt={"Save icon"}
                     bdColor={"rgb(209, 209, 209)"}
                     body={"Redning"}
+                    scores={[scoreUs, scoreOpp]}
                     route={`/invite/${token}/`}
                 />
             </div>
@@ -82,6 +85,7 @@ export default function HomePage({ token }) {
                     iconAlt={"Substitution icon"}
                     bdColor={"rgb(209, 209, 209)"}
                     body={"Udskiftninger"}
+                    scores={[scoreUs, scoreOpp]}
                     route={`/invite/${token}/subs`}
                 />
             </div>

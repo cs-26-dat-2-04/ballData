@@ -1,15 +1,20 @@
+"use client";
+
 import AppCard from '../../../../components/AppCard/AppCard.jsx'
 import TimerCard from '../../../../components/TimerCard/TimerCard.jsx'
 import Submit from '../../../../components/SubmitButton/SubmitButton.jsx'
 import Back from '../../../../components/BackButton/BackButton.jsx'
 import Score from '../../../../components/Score/Score.jsx'
 import Clock from '../../../../components/Clock/Clock.jsx'
+import { useSearchParams, useParams } from "next/navigation";
 import styles from "../page.module.css";
 
 export default function Foul() {
-  let scoreUs = 14;
-  let scoreOpp = 3;
-  const foulType =[];
+  const foulType=[];
+  const searchParams = useSearchParams();
+  const { token } = useParams();
+  let scoreUs = searchParams.get("scoreUs");
+  let scoreOpp = searchParams.get("scoreOpp");
 
   return (
         <>
@@ -74,7 +79,8 @@ export default function Foul() {
                     body={"Submit"}
                     bdColor={"rgb(29, 158, 117)"}
                     foulType={foulType}
-                    route={"/invite/token/foul/foulTable"}
+                    scores={[scoreUs, scoreOpp]}
+                    route={`/invite/${token}/foul/foulTable`}
                 />
             </div>
         </>

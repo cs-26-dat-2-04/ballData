@@ -21,7 +21,10 @@ export default function AppCard({
 
   const router = useRouter()
   const handleClick = () => {
-    router.push(`${route}?scoreUs=${scores[0]}&scoreOpp=${scores[1]}`);
+    if (scores) {
+      router.push(`${route}?scoreUs=${scores[0]}&scoreOpp=${scores[1]}`);
+    }
+      
   }
   const [clicked, setClick] = useState(true);
 

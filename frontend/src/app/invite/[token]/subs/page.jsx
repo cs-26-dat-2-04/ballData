@@ -1,6 +1,9 @@
-import PlayerColl from '../../playerCollection/PlayerColl.jsx'
-import Back from '../../../../../components/BackButton/BackButton.jsx'
-import styles from "../../page.module.css";
+"use client";
+
+import PlayerColl from '../playerCollection/PlayerColl.jsx';
+import Back from '../../../../components/BackButton/BackButton.jsx';
+import { useSearchParams, useParams } from "next/navigation";
+import styles from "../page.module.css";
 
 let players = [
   {
@@ -104,7 +107,11 @@ let players = [
     jerseyNum: "2"
   },
 ];
-export default function FoulTable() {
+export default function PlayerOut() {
+  const searchParams = useSearchParams();
+  const { token } = useParams();
+  let scoreUs = searchParams.get("scoreUs");
+  let scoreOpp = searchParams.get("scoreOpp");
 
   return (
       <>
@@ -112,8 +119,8 @@ export default function FoulTable() {
             <Back/>
         </div>
         <div className={styles.containerColumn}>
-            <h1 className={styles.pageHeader}>Forseelse</h1>
-            <PlayerColl route={"/invite/token"} data={players}/>
+            <h1 className={styles.pageHeader}>Udskiftninger-Ud</h1>
+            <PlayerColl route={`/invite/${token}/subs/subsTable`} data={players} scores={[scoreUs, scoreOpp]}/>
         </div>
       </>
     )
