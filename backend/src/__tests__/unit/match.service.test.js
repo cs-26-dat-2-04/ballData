@@ -7,7 +7,7 @@ import { Location } from "@prisma/client";
 const mockMatch = {
   id: "match-uuid-1",
   team_id: "team-uuid-1",
-  opponent: "Rival FC",
+  opponent: "Rival Club",
   match_date: new Date("2024-05-01"),
   location: Location.HOME,
   score_home: 2,
