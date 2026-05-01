@@ -1,3 +1,7 @@
-export default function Player() {
-  return <p>Hej med dig</p>;
+export default async function Players({ params })
+{
+    const { id } = await params
+    return (
+        <p>{id}</p>
+    );
 }

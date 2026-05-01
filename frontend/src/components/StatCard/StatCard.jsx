@@ -1,4 +1,5 @@
-import styles from "../components/styles.module.css";
+import styles from "../styles.module.css";
+import statCardStyles from "../StatCard/statCard.module.css";
 import Image from "next/image";
 
 export default function StatCard({
@@ -12,11 +13,11 @@ export default function StatCard({
   // The backend will insert the values into the parameters.
   return (
     // We are currently using placeholders until we link frontend to backend
-    <article className={styles.card}>
+    <article className={statCardStyles.card}>
       <div style={{ display: "flex" }}>
         <div>
-          <span className={styles.cardTitle}>{title}</span>
-          <p className={styles.cardBody}>{body ?? "-"}</p>
+          <span className={statCardStyles.cardTitle}>{title}</span>
+          <p className={statCardStyles.cardBody}>{body ?? "-"}</p>
         </div>
         <div
           style={{
@@ -26,7 +27,7 @@ export default function StatCard({
           }}
         >
           <div
-            className={styles.iconContainer}
+            className={statCardStyles.iconContainer}
             style={{ backgroundColor: iconColor }}
           >
             {icon && <Image src={icon} width={64} height={64} alt={iconAlt} />}
