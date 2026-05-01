@@ -70,7 +70,7 @@ export default function CoachLogin() {
       </form>
 
       <p>
-        Har du allerede en Account? <a href="/signup">Opret Bruger</a>
+        Har du allerede en bruger? <a href="/signup">Opret Bruger</a>
       </p>
     </div>
   );

@@ -1,29 +1,3 @@
-@import url("https://fonts.googleapis.com/css?family=Space+Grotesk&display=swap");
-@import url("https://fonts.googleapis.com/css?family=Inter&display=swap");
-
-:root {
-  --navy: #1d3a6e;
-  --midfield: #3a6bbd;
-  --ice: #eaf1fb;
-  --flame: #e8430c;
-  --performance: #1d9e75;
-  --caution: #ef9f27;
-  --surface: #f4f6fa;
-
-  --flame-light: #fdeae4;
-  --performance-light: #d0f0e6;
-  --caution-light: #fef3da;
-  --red: #e24b4a;
-  --red-light: #fcebeb;
-  --ink: #1a1a2e;
-  --muted: #5a6170;
-  --hint: #9aa0ad;
-  --rule: rgba(29, 58, 110, 0.1);
-
-  --sg: "Space Grotesk", sans-serif;
-  --sans: "Inter", sans-serif;
-}
-
 /* Page background */
 body {
   margin: 0;
