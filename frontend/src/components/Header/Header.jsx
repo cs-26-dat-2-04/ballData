@@ -1,27 +1,28 @@
 import styles from "../Header/header.module.css";
-
+import Link from "next/link";
 
 export default function Header() {
   return (
     <>
-    <header className={styles.ballDataHeader}>
-          <div>
+      <header className={styles.ballDataHeader}>
+        <div>
+          <Link href={"/"} style={{ textDecoration: "none" }}>
             <h3>ballData</h3>
-            <a style={{ color: "var(--muted)" }}>
-              Sæson {currentSeasonString()}
-            </a>
-          </div>
-          <div style={{ marginLeft: "auto", alignSelf: "center" }}>
-            <a style={{ color: "var(--hint)" }}>
-              Sidst opdateret: {updateTime(new Date())}
-            </a>{" "}
-            {/*new date() so far, but needs to be changed when data actually gets updated*/}
-          </div>
-        </header>
+          </Link>
+          <a style={{ color: "var(--muted)" }}>Sæson {currentSeasonString()}</a>
+        </div>
+        <div style={{ marginLeft: "auto", alignSelf: "center" }}>
+          <a style={{ color: "var(--hint)" }}>
+            Sidst opdateret: {updateTime(new Date())}
+          </a>{" "}
+          {/*new date() so far, but needs to be changed when data actually gets updated*/}
+        </div>
+      </header>
     </>
-  )}
+  );
+}
 
-  function currentSeasonString() {
+function currentSeasonString() {
   let currentDate = new Date();
 
   //new season starts in september as far as I could find
