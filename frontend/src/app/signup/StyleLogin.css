@@ -1,0 +1,138 @@
+@import url("https://fonts.googleapis.com/css?family=Space+Grotesk&display=swap");
+@import url("https://fonts.googleapis.com/css?family=Inter&display=swap");
+
+:root {
+  --navy: #1d3a6e;
+  --midfield: #3a6bbd;
+  --ice: #eaf1fb;
+  --flame: #e8430c;
+  --performance: #1d9e75;
+  --caution: #ef9f27;
+  --surface: #f4f6fa;
+
+  --flame-light: #fdeae4;
+  --performance-light: #d0f0e6;
+  --caution-light: #fef3da;
+  --red: #e24b4a;
+  --red-light: #fcebeb;
+  --ink: #1a1a2e;
+  --muted: #5a6170;
+  --hint: #9aa0ad;
+  --rule: rgba(29, 58, 110, 0.1);
+
+  --sg: "Space Grotesk", sans-serif;
+  --sans: "Inter", sans-serif;
+}
+
+/* Page background */
+body {
+  margin: 0;
+  padding: 0;
+  background-color: var(--surface);
+  font-family: var(--sans);
+
+  align-items: center;
+  margin-top: 120px;
+}
+
+/* Wrapper card */
+.wrapper {
+  transform: translateY(40px);
+  max-width: 400px;
+  margin: 80px auto;
+  padding: 32px;
+  background: white;
+  border-radius: 16px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.05);
+}
+
+/* Title */
+.wrapper h1 {
+  font-family: var(--sg);
+  font-size: 28px;
+  color: var(--ink);
+  margin-bottom: 24px;
+  text-align: center;
+}
+
+/* Form layout */
+form {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+/* Input group */
+form div {
+  display: flex;
+  align-items: center;
+  border: 1px solid var(--rule);
+  border-radius: 10px;
+  padding: 10px 12px;
+  background: var(--surface);
+  transition: border 0.2s ease;
+}
+
+form div:focus-within {
+  border-color: var(--midfield);
+  background: white;
+}
+
+/* Icons / labels */
+label {
+  display: flex;
+  align-items: center;
+  margin-right: 8px;
+  color: var(--hint);
+}
+
+/* Inputs */
+input {
+  border: none;
+  outline: none;
+  background: transparent;
+  flex: 1;
+  font-size: 14px;
+  font-family: var(--sans);
+  color: var(--ink);
+}
+
+input::placeholder {
+  color: var(--hint);
+}
+
+/* Button */
+button {
+  margin-top: 12px;
+  padding: 12px;
+  border: none;
+  border-radius: 10px;
+  background-color: var(--navy);
+  color: white;
+  font-family: var(--sg);
+  font-size: 16px;
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+
+button:hover {
+  background-color: var(--midfield);
+}
+
+/* Bottom text */
+.wrapper p {
+  margin-top: 16px;
+  text-align: center;
+  font-size: 14px;
+  color: var(--muted);
+}
+
+.wrapper a {
+  color: var(--midfield);
+  text-decoration: none;
+  font-weight: 500;
+}
+
+.wrapper a:hover {
+  text-decoration: underline;
+}
