@@ -132,18 +132,18 @@ export const updatePlayer = async (
   }
 
   if (jerseyNumber !== undefined) {
-    const PlayerWithJersey = await prisma.player.findFirst({
+    const playerWithJersey = await prisma.player.findFirst({
       where: { team_id: existingPlayer.team_id, jersey_number: jerseyNumber },
     });
 
-    if (PlayerWithJersey && PlayerWithJersey.id !== playerId) {
+    if (playerWithJersey && PlayerWithJersey.id !== playerId) {
       const error = new Error(
         "Der findes allerede en spiller med dette trøjenummer",
       );
       error.status = 409;
       throw error;
     }
-    
+
     if (!Number.isInteger(jerseyNumber) || jerseyNumber < 0) {
     const error = new Error("Trøjenummer skal være et positivt tal");
     throw error;
