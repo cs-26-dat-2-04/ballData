@@ -136,7 +136,7 @@ export const updatePlayer = async (
       where: { team_id: existingPlayer.team_id, jersey_number: jerseyNumber },
     });
 
-    if (playerWithJersey && PlayerWithJersey.id !== playerId) {
+    if (playerWithJersey && playerWithJersey.id !== playerId) {
       const error = new Error(
         "Der findes allerede en spiller med dette trøjenummer",
       );
