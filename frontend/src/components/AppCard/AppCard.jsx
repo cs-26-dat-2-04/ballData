@@ -2,7 +2,6 @@
 
 import styles from "./app.module.css";
 import Image from "next/image";
-import { useRouter} from "next/navigation";
 import { useState } from "react";
 
 export default function AppCard({
@@ -14,17 +13,17 @@ export default function AppCard({
   mode,
   onSelect,
   foulType,
-  scores,
-  route
+  onClick,
+  onClose
 }) {
   // The backend will insert the values into the parameters.
 
-  const router = useRouter()
   const handleClick = () => {
-    if (scores) {
-      router.push(`${route}?scoreUs=${scores[0]}&scoreOpp=${scores[1]}`);
+    if (onClick) {
+      onClick();
+    } else if (onClose) {
+      onClose();
     }
-      
   }
   const [clicked, setClick] = useState(true);
 

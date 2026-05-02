@@ -1,12 +1,17 @@
-"use client";
-
 import styles from "./player.module.css";
-import { useRouter} from "next/navigation"
 
-export default function PlayerRow({ data, route, scores }) {
-  const router = useRouter()
+export default function PlayerRow({ data, onClick, onClose, closePrev, foulType }) {
+
   const handleClick = () => {
-    router.push(`${route}?scoreUs=${scores[0]}&scoreOpp=${scores[1]}`);
+    if (onClick){
+      onClick();
+    } 
+    if (onClose) {
+      onClose();
+    }
+    if (closePrev) {
+      closePrev();
+    }
   }
 
   return (

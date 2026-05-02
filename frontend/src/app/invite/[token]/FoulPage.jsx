@@ -1,25 +1,43 @@
 "use client";
 
-import AppCard from '../../../../components/AppCard/AppCard.jsx'
-import TimerCard from '../../../../components/TimerCard/TimerCard.jsx'
-import Submit from '../../../../components/SubmitButton/SubmitButton.jsx'
-import Back from '../../../../components/BackButton/BackButton.jsx'
-import Score from '../../../../components/Score/Score.jsx'
-import Clock from '../../../../components/Clock/Clock.jsx'
-import { useSearchParams, useParams } from "next/navigation";
-import styles from "../page.module.css";
+import AppCard from '../../../components/AppCard/AppCard.jsx'
+import TimerCard from '../../../components/TimerCard/TimerCard.jsx'
+import Submit from '../../../components/SubmitButton/SubmitButton.jsx'
+import Back from '../../../components/BackButton/BackButton.jsx'
+import Score from '../../../components/Score/Score.jsx'
+import Clock from '../../../components/Clock/Clock.jsx'
+import FoulTable from "./FoulTablePage.jsx";
+import React, { useState } from "react";
+import styles from "./page.module.css";
 
-export default function Foul() {
-  const foulType=[];
-  const searchParams = useSearchParams();
-  const { token } = useParams();
-  let scoreUs = searchParams.get("scoreUs");
-  let scoreOpp = searchParams.get("scoreOpp");
+export default function Foul({ 
+    scoreUs, 
+    scoreOpp, 
+    onClose, 
+    closePrev, 
+    foulType, 
+    playerIn,
+    time,
+    startTime,
+    stopTime,
+    mode,
+    bdColor,
+    isRunning }) {
+
+  const [activeModal, setActiveModal] = useState(null);
+
+  if (isRunning) {
+    bdColor = "black";
+    mode = "Pause";
+  } else {
+    bdColor = "rgb(209, 209, 209)"
+    mode = "Start";
+  }
 
   return (
         <>
             <div className={styles.containerBack}>
-                <Back/>
+                <Back onClose={onClose}/>
             </div>
             <div className={styles.containerRow} style={{paddingTop: "20px"}}>
                     <Score
@@ -29,7 +47,7 @@ export default function Foul() {
                     <Clock 
                         icon={"/clockApp.jpg"}
                         iconAlt={"Clock icon"}
-                        time={"17:53"}
+                        time={time}
                     />
                     <Score
                         identifier={"Modstandere"}
@@ -40,7 +58,11 @@ export default function Foul() {
                 <TimerCard style={{ borderColor: 'red' }}
                     icon={"/playApp.svg"}
                     iconAlt={"Begin timer icon"}
-                    bdColor={"rgb(209, 209, 209)"}
+                    bdColor={bdColor}
+                    mode={mode}
+                    startTime={startTime}
+                    stopTime={stopTime}
+                    isRunning={isRunning}
                 />
             </div>
             <div className={styles.containerRow}>
@@ -79,10 +101,14 @@ export default function Foul() {
                     body={"Submit"}
                     bdColor={"rgb(29, 158, 117)"}
                     foulType={foulType}
-                    scores={[scoreUs, scoreOpp]}
-                    route={`/invite/${token}/foul/foulTable`}
+                    onClick={() => { setActiveModal("foulTable")}}
                 />
             </div>
+            {activeModal === "foulTable" && (
+                <div className={styles.modal}>
+                    <FoulTable onClose={() => setActiveModal(null)} closePrev={closePrev} playerIn={playerIn}/>
+                </div>
+            )}
         </>
     )
 }

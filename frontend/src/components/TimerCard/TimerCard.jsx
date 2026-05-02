@@ -2,39 +2,32 @@
 
 import styles from "./timer.module.css";
 import Image from "next/image";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
-export default function AppCard({
+export default function TimerCard({
   icon,
   iconAlt = "",
-  bdColor
+  bdColor,
+  startTime,
+  stopTime,
+  isRunning,
+  mode
 }) {
 
-  const [clicked, setClick] = useState(true);
-
-  const beenClicked = () => {
-    clicked ? setClick(false): setClick(true);
-  }
-
-  const [color, changeColor] = useState(bdColor);
-  const [mode, changeMode] = useState("Start");
-
-  const setIsSelected = () => {
-    if (clicked === true) {
-      changeColor("black");
-      changeMode("Pause")
+  const handleClick = () => {
+    if (!isRunning) {
+      startTime();
     } else {
-      changeColor("rgb(209, 209, 209)");
-      changeMode("Start")
+      stopTime();
     }
   }
 
   return (
     // We are currently using placeholders until we link frontend to backend
         <button 
-        onClick={() => { beenClicked(); setIsSelected(); }} 
+        onClick={handleClick}
         className={styles.card}
-        style={{borderColor: color}}>
+        style={{borderColor: bdColor}}>
           <div className={styles.iconContainer}>
               {icon && <Image src={icon} width={19} height={19} alt={iconAlt} />}
           </div>

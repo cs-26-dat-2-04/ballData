@@ -25,7 +25,7 @@ export const generateInviteToken = async (matchId, coachId) => {
   });
 
   const token = crypto.randomBytes(32).toString("hex");
-  const expires_at = new Date(Date.now() + 1000 * 60 * 60 * 24); // 2 timer
+  const expires_at = new Date(Date.now() + 1000 * 60 * 60 * 2); // 2 timer
 
   const inviteToken = await prisma.inviteToken.create({
     data: {
