@@ -1,6 +1,6 @@
 "use client"; // ← must be the first line
 
-import styles from "../SeasonGraph/seasonGraph.module.css";
+import styles from "./seasonGraph.module.css";
 import { Bar } from "react-chartjs-2";
 
 import {

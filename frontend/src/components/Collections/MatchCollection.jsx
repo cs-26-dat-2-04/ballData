@@ -3,8 +3,7 @@ import collectionStyles from "../Collections/collections.module.css"
 import Row from "../Rows/MatchRow.jsx";
 import Image from "next/image";
 
-export default function MatchRow({ data }) {
-  data.sort(CompareDates);
+export default function MatchCollection({ data }) {
   return (
     <article className={collectionStyles.collCard}>
       <div style={{ marginBottom: "-15px" }} className={styles.container}>

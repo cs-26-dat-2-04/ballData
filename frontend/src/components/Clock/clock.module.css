@@ -1,0 +1,23 @@
+.card {
+  width: 96px;
+  height: 34px;
+  background: rgb(217, 217, 217);
+  border-radius: 15px;
+  display: flex;
+  flex-direction: row;
+  gap: 8px;
+  justify-content: left;
+  align-items: center;
+  position: relative;
+  margin-bottom: 10px;
+  margin-top: 20px;
+}
+
+.time {
+  font-family: var(--sg);
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--navy);
+  line-height: 1;
+  letter-spacing: -1px;
+}
