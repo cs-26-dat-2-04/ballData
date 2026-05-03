@@ -1,16 +1,16 @@
 import "./StyleLogin.css";
 import React from "react";
+import Head from 'next/head';
+
 
 export default function CoachLogin() {
   return (
-<html lang="en">
-<head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<>
     <title>Opret Bruger</title>
-</head>
-<body>
     <div className="wrapper">
+        <Head>
+            <title>Opret Bruger</title>
+        </Head>
         <h1>Opret Bruger</h1>
         <form>
             <div>
@@ -28,7 +28,6 @@ export default function CoachLogin() {
             <button type="submit">Opret Bruger</button>
         </form>
     </div>
-</body>
-</html>
+</>
   )
 };

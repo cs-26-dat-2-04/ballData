@@ -18,3 +18,13 @@
   color: var(--ink);
   margin: 0;
 }
+
+.navLink{
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+  padding: 0 20px 0;
+  margin: 10px 0 10px;
+
+  color: var(--ink);
+}

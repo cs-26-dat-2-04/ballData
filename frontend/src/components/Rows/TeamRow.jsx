@@ -1,11 +1,13 @@
 import styles from "../styles.module.css";
 import rowStyles from "../Rows/rows.module.css";
+import Link from "next/link";
+
 
 export default function TeamRow({ data }) {
   return (
     <>
       {data?.map((info) => (
-        <article className={rowStyles.rowCard} style={{padding:"30px 20px 30px"}} key={info.id}>
+        <Link className={rowStyles.rowCard} key={info.id} href={`/teams/${info.id}`}>
           <div className={styles.container}>
           </div>
           <div className={styles.container}>
@@ -22,7 +24,7 @@ export default function TeamRow({ data }) {
             <p className={rowStyles.leftSideText}>{info.team}</p>
             <p className={rowStyles.rightSideText}>{info.season}</p>
           </div>
-        </article>
+        </Link>
       ))}
     </>
   );

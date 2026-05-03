@@ -11,6 +11,12 @@ export default function Header() {
           </Link>
           <a style={{ color: "var(--muted)" }}>Sæson {currentSeasonString()}</a>
         </div>
+        
+        <Link href={"/teams"} className={styles.navLink} style={{borderRight:"2px solid var(--rule)"}}> Hold</Link>
+        
+        
+        <Link href={"/matches"} className={styles.navLink}> Kampe</Link>
+        
         <div style={{ marginLeft: "auto", alignSelf: "center" }}>
           <a style={{ color: "var(--hint)" }}>
             Sidst opdateret: {updateTime(new Date())}

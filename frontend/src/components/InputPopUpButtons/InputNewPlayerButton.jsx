@@ -1,8 +1,7 @@
 "use client";
 
-import Header from "../Header/Header.jsx";
 import Popup from "reactjs-popup";
-import styles from "./button.css";
+import styles from "./inputPopUpButtons.css";
 
 export default function PopUpInputPlayer() {
   return (
