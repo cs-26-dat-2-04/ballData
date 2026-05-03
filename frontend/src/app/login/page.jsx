@@ -30,6 +30,8 @@ export default function CoachLogin() {
 
   return (
     <div className="wrapper">
+      <title>Log Ind</title>
+      
       <h1>Log Ind</h1>
 
       <form onSubmit={handleSubmit}>

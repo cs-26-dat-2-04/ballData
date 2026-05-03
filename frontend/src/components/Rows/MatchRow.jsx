@@ -1,12 +1,13 @@
 import styles from "../styles.module.css";
 import rowStyles from "../Rows/rows.module.css";
+import Link from "next/link";
 
 
 export default function MatchRow({ data }) {
   return (
     <>
       {data?.map((info) => (
-        <article className={rowStyles.rowCard} key={info.id}>
+        <Link href={`/matches/${info.id}`} className={rowStyles.rowCard} key={info.id}>
           <div className={styles.container}>
             <div>
               {info.result && (
@@ -40,7 +41,7 @@ export default function MatchRow({ data }) {
             <p className={rowStyles.rightSideText}>{info.score}</p>
           </div>
           <p className={rowStyles.rowFooterText}>{info.date}</p>
-        </article>
+        </Link>
       ))}
     </>
   );

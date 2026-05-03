@@ -4,6 +4,7 @@ import Row from "../Rows/MatchRow.jsx";
 import Image from "next/image";
 
 export default function MatchRow({ data }) {
+  data.sort(CompareDates);
   return (
     <article className={collectionStyles.collCard}>
       <div style={{ marginBottom: "-15px" }} className={styles.container}>
@@ -40,4 +41,12 @@ export default function MatchRow({ data }) {
       <Row data={data} />
     </article>
   );
+}
+
+function CompareDates(a, b){
+  if (a.date > b.date)
+    return -1;
+  else if (a.date > b.date)
+    return 1;
+  return 0;
 }
