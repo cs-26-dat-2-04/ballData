@@ -1,6 +1,6 @@
 "use client"; // ← must be the first line
 
-import styles from "../components/styles.module.css";
+import styles from "./seasonGraph.module.css";
 import { Bar } from "react-chartjs-2";
 
 import {
@@ -46,7 +46,7 @@ export default function SeasonGraph({ labels, data, bgcolor, bdcolor, title }) {
       title: {
         display: false,
       },
-      maintainAspectRatio: false,
+      maintainAspectRatio: true,
       responsive: true,
     },
   };

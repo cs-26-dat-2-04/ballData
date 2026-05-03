@@ -1,0 +1,11 @@
+.collCard {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: auto;
+  background: white;
+  border: 1.5px solid var(--rule);
+  position: relative;
+  overflow-y: auto;
+  border-radius: 10px;
+}

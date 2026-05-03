@@ -1,16 +1,17 @@
-import styles from "../components/styles.module.css";
+import styles from "../styles.module.css";
+import collectionStyles from "../Collections/collections.module.css"
+import Row from "../Rows/PlayerRow.jsx";
 import Image from "next/image";
-import Row from "../components/MatchRow.jsx";
 
-export default function MatchCollection({ data }) {
+export default function MatchRow({ data, team }) {
   return (
-    <article className={styles.collCard}>
+    <article className={collectionStyles.collCard}>
       <div style={{ marginBottom: "-15px" }} className={styles.container}>
         <div>
           <Image
             style={{ padding: "25px 25px 25px", marginRight: "-15px" }}
-            src={"/calender.svg"}
-            alt={"calendarIcon"}
+            src={"/jersey.svg"}
+            alt={"playerIcon"}
             width={30}
             height={30}
           />
@@ -24,7 +25,7 @@ export default function MatchCollection({ data }) {
               fontWeight: "500",
             }}
           >
-            Seneste Kampe
+            Alle spillere på {team}
           </p>
         </div>
       </div>
@@ -33,7 +34,7 @@ export default function MatchCollection({ data }) {
           style={{ padding: "0px 25px 25px", fontSize: "14px" }}
           className={styles.cardFooter}
         >
-          Klik på en kamp for at se detaljer of tilføje noter
+          Klik på en spiller for at se detaljer og tilføje noter
         </p>
       </div>
       <Row data={data} />

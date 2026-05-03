@@ -1,6 +1,22 @@
 import { prisma } from "../lib/prisma.js";
 
-export const getPlayersByTeamId = async (teamId) => {
+export const getPlayersByTeamId = async (teamId, coachId) => {
+  const team = await prisma.team.findUnique({
+    where: { id: teamId },
+  });
+
+  if (!team) {
+    const error = new Error("Holdet findes ikke");
+    error.status = 404;
+    throw error;
+  }
+
+  if (team.coach_id !== coachId) {
+    const error = new Error("Du har ikke adgang til dette hold");
+    error.status = 403;
+    throw error;
+  }
+
   const players = await prisma.player.findMany({
     where: { team_id: teamId },
   });
@@ -116,22 +132,22 @@ export const updatePlayer = async (
   }
 
   if (jerseyNumber !== undefined) {
-    const PlayerWithJersey = await prisma.player.findFirst({
+    const playerWithJersey = await prisma.player.findFirst({
       where: { team_id: existingPlayer.team_id, jersey_number: jerseyNumber },
     });
 
-    if (PlayerWithJersey.id !== playerId) {
+    if (playerWithJersey && playerWithJersey.id !== playerId) {
       const error = new Error(
         "Der findes allerede en spiller med dette trøjenummer",
       );
       error.status = 409;
       throw error;
     }
-  }
 
-  if (!Number.isInteger(jerseyNumber) || jerseyNumber < 0) {
+    if (!Number.isInteger(jerseyNumber) || jerseyNumber < 0) {
     const error = new Error("Trøjenummer skal være et positivt tal");
     throw error;
+  }
   }
 
   const player = await prisma.player.update({
