@@ -1,7 +1,7 @@
 import Header from "../../../components/Header/Header.jsx";
 import TeamCollection from "../../../components/Collections/TeamCollection.jsx";
 import PlayerCollection from "../../../components/Collections/PlayerCollection.jsx";
-import InputButton from "../../../components/buttons/InputNewPlayerButton.jsx";
+import InputButton from "../../../components/InputPopUpButtons/InputNewPlayerButton.jsx";
 import { redirect } from "next/navigation";
 
 export default async function Teams({ params }) {
@@ -56,24 +56,10 @@ export default async function Teams({ params }) {
   }
 
   return (
-    <html
-      lang="en"
-      className="__variable_188709 __variable_9a8899 h-full antialiased"
-    >
-      <head>
+      <>
         <title>{title}</title>
-      </head>
-      <body className="min-h-full flex flex-col vc-init">
         <Header />
         <div className={"main-container"}>{body}</div>
-      </body>
-    </html>
+      </>
   );
-}
-
-const isClient = () => typeof window !== "undefined";
-
-if (isClient()) {
-  let thing = (document.createElement("h1").textContent = "hello");
-  document.appendChild(thing);
 }

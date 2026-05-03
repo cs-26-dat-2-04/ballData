@@ -37,6 +37,7 @@ let match_res = [
 export default function Dashboard() {
   return (
     <>
+      <title>Dashboard</title>
       <Header />
       <div className="main-container">
         <div className={DashboardStyles.statCardsContainer}>
