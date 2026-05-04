@@ -1,50 +1,49 @@
 .card {
-    background-color: #fff;
-    border: 1px solid var(--rule);
-    border-radius: 12px;
-    overflow: hidden;
-    font-family: var(--sans);
+  background-color: #fff;
+  border: 1px solid var(--rule);
+  border-radius: 12px;
+  overflow: hidden;
+  font-family: var(--sans);
 }
 
 .cardHeader {
-    padding: 14px 16px 12px;
-    border-bottom: 1px solid var(--rule);
+  padding: 14px 16px 12px;
+  border-bottom: 1px solid var(--rule);
 }
 
 .cardTitle {
-    font-size: 15px;
-    font-weight: 600;
-    font-family: var(--sg);
-    color: var(--ink);
+  font-size: 15px;
+  font-weight: 600;
+  font-family: var(--sg);
+  color: var(--ink);
 }
 
 .statList {
-    list-style: none;
-    margin: 0;
-    padding: 4px 0;
+  list-style: none;
+  margin: 0;
+  padding: 4px 0;
 }
 
 .statRow {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 9px 16px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 9px 16px;
 }
 
 .dividerAfter {
-    border-bottom: 1px solid var(--rule);
-    padding-bottom: 12px;
-    margin-bottom: 4px;
+  border-bottom: 1px solid var(--rule);
+  padding-bottom: 12px;
+  margin-bottom: 4px;
 }
 
 .statLabel {
-    font-size: 13px;
-    color: var(--muted);
+  font-size: 16px;
+  color: var(--muted);
 }
 
 .statValue {
-    font-size: 13px;
-    font-weight: 500;
-    color: var(--ink);
+  font-size: 16px;
+  font-weight: 500;
+  color: var(--ink);
 }
-
