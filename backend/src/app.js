@@ -8,11 +8,15 @@ import auth from "./middleware/auth.js";
 import playerNotesRouter, { noteRouter } from "./routes/playerNotes.js";
 import matchRouter from "./routes/matches.js";
 import { inviteRouter, publicInviteRouter } from "./routes/inviteTokens.js";
+import cookieParser from "cookie-parser";
 
 dotenv.config();
 
 export const app = express();
 export const PORT = process.env.PORT ?? 3001;
+
+// Cookie parser
+app.use(cookieParser());
 
 // Cors setup - tillader kun requests fra localhost:3000 (vores frontend)
 app.use(cors({ origin: "http://localhost:3000" }));

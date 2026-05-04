@@ -61,8 +61,14 @@ router.post("/login", async (req, res) => {
       { expiresIn: "7d" },
     );
 
+    res.cookie("token", token, {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === "production", // Secure hvis vi er i prod
+      sameSite: "lax",
+      maxAge: 7 * 24 * 60 * 60 * 1000, // 7 dage
+    });
+
     res.json({
-      token,
       coach: {
         id: coach.id,
         email: coach.email,
@@ -73,6 +79,15 @@ router.post("/login", async (req, res) => {
     console.error("Login fejl:", err);
     res.status(500).json({ error: "Intern serverfejl" });
   }
+});
+
+router.post("/logout", (req, res) => {
+  res.clearCookie("token", {
+    httpOnly: true,
+    secure: process.env.NODE_ENV === "production",
+    sameSite: "lax",
+  });
+  res.json({ message: "Logget ud" });
 });
 
 export default router;
