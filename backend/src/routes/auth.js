@@ -5,6 +5,35 @@ import { prisma } from "../lib/prisma.js";
 
 const router = Router();
 
+router.post("/signup", async (req, res) => {
+  const { name, email, password } = req.body;
+
+  if (!name || !email || !password) {
+    return res
+      .status(400)
+      .json({ error: "Navn, email og adgangskode påkrævet" });
+  }
+
+  try {
+    const existingCoach = await prisma.coach.findUnique({ where: { email } });
+    if (existingCoach) {
+      return res
+        .status(409)
+        .json({ error: "En bruger med denne email findes allerede" });
+    }
+
+    const password_hash = await bcrypt.hash(password, 12);
+    await prisma.coach.create({
+      data: { name, email, password_hash },
+    });
+
+    res.status(201).json({ message: "Coach oprettet" });
+  } catch (err) {
+    console.error("Signup fejl:", err);
+    res.status(500).json({ error: "Intern serverfejl" });
+  }
+});
+
 // POST /auth/login
 router.post("/login", async (req, res) => {
   const { email, password } = req.body;
