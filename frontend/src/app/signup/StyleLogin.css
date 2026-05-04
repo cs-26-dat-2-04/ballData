@@ -110,3 +110,77 @@ button:hover {
 .wrapper a:hover {
   text-decoration: underline;
 }
+
+/* Error message */
+.error-message {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: 0;
+  padding: 10px 14px;
+  background-color: var(--red-light);
+  color: var(--red);
+  border: 1px solid var(--red);
+  border-radius: 10px;
+  font-size: 13px;
+  font-family: var(--sans);
+}
+
+.error-message::before {
+  content: "!";
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 16px;
+  height: 16px;
+  min-width: 16px;
+  border-radius: 50%;
+  background-color: var(--red);
+  color: white;
+  font-size: 11px;
+  font-weight: 700;
+}
+
+/* Toast */
+.toast {
+  position: fixed;
+  top: 24px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 14px 20px;
+  border-radius: 12px;
+  font-size: 14px;
+  font-family: var(--sans);
+  font-weight: 500;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+  z-index: 1000;
+  opacity: 1;
+  transition: opacity 0.5s ease;
+}
+
+.toast--success {
+  background-color: var(--performance-light);
+  color: var(--performance);
+  border: 1px solid var(--performance);
+}
+
+.toast__icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 20px;
+  height: 20px;
+  min-width: 20px;
+  border-radius: 50%;
+  background-color: var(--performance);
+  color: white;
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.toast--fade {
+  opacity: 0;
+}
