@@ -1,5 +1,6 @@
 import StatCard from "../components/StatCard/StatCard.jsx";
 import BarChart from "../components/SeasonGraph/SeasonGraph.jsx";
+import StatsCollection from "../components/SeasonStats/StatsCollection.jsx";
 import Matches from "../components/Collections/MatchCollection.jsx";
 import Header from "../components/Header/Header.jsx";
 import DashboardStyles from "../app/app.module.css";
@@ -76,6 +77,7 @@ export default function Dashboard() {
         </div>
         <div className={DashboardStyles.matchCollectionStatisticsContainer}>
           <Matches data={match_res}></Matches>
+          <div style={{ display: "flex", flexDirection: "column", gap: "16px" }}>
           <BarChart
             labels={["Sejre", "Nederlag", "Uafgjort"]}
             data={[18, 7, 3]}
@@ -91,6 +93,8 @@ export default function Dashboard() {
             ]}
             title={"Sæsonresultat"}
           />
+          <StatsCollection />
+        </div>
         </div>
       </div>
     </>
