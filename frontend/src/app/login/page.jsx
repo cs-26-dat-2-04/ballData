@@ -2,10 +2,10 @@
 import "../signup/StyleLogin.css";
 import React, { useState, useEffect } from "react";
 import Head from "next/head";
-import { useRouter, useSearchParams } from "next/navigation";
+import { useSearchParams } from "next/navigation";
+import Link from "next/link";
 
 export default function CoachLogin() {
-  const router = useRouter();
   const searchParams = useSearchParams();
   const [showToast, setShowToast] = useState(false);
   const [toastFading, setToastFading] = useState(false);
@@ -123,7 +123,7 @@ export default function CoachLogin() {
         </form>
 
         <p>
-          Har du allerede en bruger? <a href="/signup">Opret Bruger</a>
+          Har du ikke en bruger? <Link href="/signup">Opret Bruger</Link>
         </p>
       </div>
     </>

@@ -3,6 +3,7 @@ import "./StyleLogin.css";
 import React, { useState } from "react";
 import Head from "next/head";
 import { useRouter } from "next/navigation";
+import Link from "next/link";
 
 export default function CoachSignup() {
   const router = useRouter();
@@ -45,7 +46,7 @@ export default function CoachSignup() {
         return setError(data.error || "Noget gik galt");
       }
 
-      router.push("/login");
+      router.push("/login?signup=success");
     } catch (err) {
       setError("Kunne ikke forbinde til serveren");
     } finally {
@@ -58,8 +59,9 @@ export default function CoachSignup() {
       <title>Opret Bruger</title>
       <div className="wrapper">
         <Head>
-          <title>Opret Bruger</title>
+          <h1>Opret Bruger</h1>
         </Head>
+
         <h1>Opret Bruger</h1>
         <form onSubmit={handleSubmit}>
           <div>
@@ -111,6 +113,9 @@ export default function CoachSignup() {
             {loading ? "Opretter..." : "Opret Bruger"}
           </button>
         </form>
+        <p>
+          Har du allerede en bruger? <Link href="/login">Log Ind</Link>
+        </p>
       </div>
     </>
   );
