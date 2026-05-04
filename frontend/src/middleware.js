@@ -25,6 +25,8 @@ export function middleware(request) {
 }
 
 export const config = {
-  // regEX magi :O
-  matcher: ["/((?!_next/static|_next/image|favicon.ico).*)"],
+  // RegEX magi :D
+  matcher: [
+    "/((?!_next/static|_next/image|favicon.ico|.*\\.svg$|.*\\.png$|.*\\.jpg$|.*\\.jpeg$|.*\\.ico$).*)",
+  ],
 };
