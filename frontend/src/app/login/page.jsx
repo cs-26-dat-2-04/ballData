@@ -2,10 +2,10 @@
 import "../signup/StyleLogin.css";
 import React, { useState, useEffect } from "react";
 import Head from "next/head";
-import { useRouter, useSearchParams } from "next/navigation";
+import { useSearchParams } from "next/navigation";
+import Link from "next/link";
 
 export default function CoachLogin() {
-  const router = useRouter();
   const searchParams = useSearchParams();
   const [showToast, setShowToast] = useState(false);
   const [toastFading, setToastFading] = useState(false);
@@ -36,15 +36,20 @@ export default function CoachLogin() {
     setLoading(true);
     try {
       // TODO: Sæt API_URL i .env fil
-      const res = await fetch(`localhost:3001/auth/login`, {
+      const res = await fetch(`http://localhost:3001/auth/login`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(formData),
+        credentials: "include",
       });
+
       const data = await res.json();
+
       if (!res.ok) return setError(data.error || "Noget gik galt");
-      localStorage.setItem("token", data.token);
-      router.push("/dashboard");
+      // Vi brugte router.push før.
+      // Af en eller anden grund skal vi gøre sådan her
+      // Ellers er der kæmpe blank space på root siden når man bliver redirected
+      window.location.href = "/";
     } catch {
       setError("Kunne ikke forbinde til serveren");
     } finally {
@@ -79,6 +84,7 @@ export default function CoachLogin() {
               required
               type="email"
               id="email-input"
+              name="email"
               placeholder="Email"
               value={formData.email}
               onChange={handleChange}
@@ -101,6 +107,7 @@ export default function CoachLogin() {
               required
               type="password"
               id="password-input"
+              name="password"
               placeholder="Password"
               value={formData.password}
               onChange={handleChange}
@@ -116,7 +123,7 @@ export default function CoachLogin() {
         </form>
 
         <p>
-          Har du allerede en bruger? <a href="/signup">Opret Bruger</a>
+          Har du ikke en bruger? <Link href="/signup">Opret Bruger</Link>
         </p>
       </div>
     </>
