@@ -9,6 +9,7 @@ import Header from "../components/Header/Header.jsx";
 import DashboardStyles from "../app/app.module.css";
 import { getMatches } from "../services/matchService";
 import { getSeasonStats } from "../services/statsService.js";
+import { getTeam } from "../services/teamService.js";
 
 const TEAM_ID = "0503a14a-a2d5-4af6-9d59-a4ceb442d09c";
 
@@ -44,6 +45,7 @@ function deriveSeasonStats(seasonData, totalMatches) {
 export default function Dashboard() {
   const [matches, setMatches] = useState([]);
   const [seasonStats, setSeasonStats] = useState([]);
+  const [teamData, setTeamData] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
 
@@ -55,6 +57,9 @@ export default function Dashboard() {
 
         const season_data = await getSeasonStats(TEAM_ID);
         setSeasonStats(season_data);
+
+        const team_data = await getTeam(TEAM_ID);
+        setTeamData(team_data);
       } catch (err) {
         setError(err.message);
       } finally {
@@ -102,8 +107,10 @@ export default function Dashboard() {
           />
           <StatCard
             title={"Aktive spillere"}
-            body={"18"}
-            footer={"2 nye denne sæson"}
+            body={loading ? "-" : `${teamData.players.length}`}
+            footer={
+              loading ? "-" : `${teamData.players.length} spillere på holdet`
+            }
             iconColor={"#F3E8FF"}
             icon={"/active-players.svg"}
             iconAlt={"Win rate icon"}
