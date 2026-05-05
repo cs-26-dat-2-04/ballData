@@ -1,7 +1,12 @@
 import { describe, it, expect, vi, beforeEach } from "vitest";
 import "../helpers/prisma-mock";
 import { prismaMock } from "../helpers/prisma-mock";
-import {getPlayersByTeamId, createPlayer, updatePlayer, deletePlayer} from "../../services/players.js";
+import {
+  getPlayersByTeamId,
+  createPlayer,
+  updatePlayer,
+  deletePlayer,
+} from "../../services/players.js";
 import { Location } from "@prisma/client";
 import { seedCoach, seedTeam, seedPlayer } from "../helpers/db-seed.js";
 import { prisma } from "../../lib/prisma.js";
@@ -9,7 +14,7 @@ import { prisma } from "../../lib/prisma.js";
 beforeEach(() => vi.clearAllMocks());
 
 describe("createPlayer", () => {
-  it("Creation of player with correct data", async () => {
+  it("Creates player with correct data", async () => {
     prismaMock.team.findUnique.mockResolvedValue({
       id: "team1",
       coach_id: "coach1",
@@ -31,7 +36,7 @@ describe("createPlayer", () => {
     });
   });
 
-  it("creation of player when duplicate jersey number", async () => {
+  it("Does not create player when duplicate jersey number", async () => {
     prismaMock.team.findUnique.mockResolvedValue({
       id: "team1",
       coach_id: "coach1",
@@ -74,7 +79,7 @@ describe("createPlayer", () => {
     });
   });
 
-  it("allow creation of multiple players with no jersey number", async () => {
+  it("allows creation of multiple players with no jersey number", async () => {
     prismaMock.team.findUnique.mockResolvedValue({
       id: "team1",
       coach_id: "coach1",
@@ -102,6 +107,25 @@ describe("createPlayer", () => {
       last_name: "not",
     });
   });
+  it.each([
+    { firstName: undefined, lastName: undefined },
+    { firstName: "testman", lastName: undefined },
+    { firstName: undefined, lastName: "testman" },
+  ])(
+    "Does not allow creation of player when not given proper first and last name",
+    async (firstName, lastName) => {
+      prismaMock.team.findUnique.mockResolvedValue({
+        id: "team1",
+        coach_id: "coach1",
+        name: "Team A",
+      });
+
+      const result = createPlayer("team1", "coach1", firstName, lastName);
+      await expect(result).rejects.toMatchObject({
+        message: "Navn er påkrævet",
+      });
+    },
+  );
 });
 
 describe("getPlayers", () => {
@@ -162,13 +186,15 @@ describe("getPlayers", () => {
 describe("updatePlayers", () => {
   it.each([
     { firstName: undefined, lastName: undefined, jersey_number: 15 },
-    { firstName: undefined,lastName: "testman the 2nd",jersey_number: undefined },
+    { firstName: undefined, lastName: "testman the 2nd", jersey_number: undefined, },
     { firstName: "test2", lastName: undefined, jersey_number: undefined },
-    { firstName: "test2", lastName: "testman the 2nd", jersey_number: undefined },
+    { firstName: "test2",lastName: "testman the 2nd",jersey_number: undefined,},
     { firstName: "test2", lastName: undefined, jersey_number: 15 },
     { firstName: undefined, lastName: "testman the 2nd", jersey_number: 15 },
     { firstName: "test2", lastName: "testman the 2nd", jersey_number: 15 },
-  ])( "udates Player with any amount of used fields", async (firstName, lastName, jerseyNumber) => {
+  ])(
+    "udates Player with any amount of used fields",
+    async (firstName, lastName, jerseyNumber) => {
       const player = {
         id: "123",
         team_id: "team1",
@@ -211,8 +237,7 @@ describe("updatePlayers", () => {
           jersey_number: jerseyNumber ?? 11,
         },
       });
-    },
-  );
+    });
 
   it("Does not update players when you are not their coach", async () => {
     const player = {
@@ -241,6 +266,7 @@ describe("updatePlayers", () => {
       message: "Du har ikke adgang til dette hold",
       status: 403,
     });
+    expect(prismaMock.player.update).not.toHaveBeenCalled();
   });
 
   it("does not let you update jerseyNumbber when someone else on the players team has the same number", async () => {
@@ -263,9 +289,9 @@ describe("updatePlayers", () => {
       message: "Der findes allerede en spiller med dette trøjenummer",
       status: 409,
     });
+    expect(prismaMock.player.update).not.toHaveBeenCalled();
   });
 });
-
 
 describe("deletePlayer", () => {
   it("Succesfully deletes player", async () => {
@@ -308,5 +334,15 @@ describe("deletePlayer", () => {
       message: "Du må kun slette dine egne spillere",
       status: 403,
     });
+    expect(prismaMock.player.delete).not.toHaveBeenCalled();
+  });
+  it("Doesnt delete anything when called with not real player", async () => {
+    prismaMock.player.findUnique.mockResolvedValue(null);
+    const result = deletePlayer("coach1", "123");
+    await expect(result).rejects.toMatchObject({
+      message: "Spiller ikke fundet",
+      status: 404,
+    });
+    expect(prismaMock.player.delete).not.toHaveBeenCalled();
   });
 });
