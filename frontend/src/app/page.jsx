@@ -10,9 +10,9 @@ import DashboardStyles from "../app/app.module.css";
 import { getMatches } from "../services/matchService";
 import { getSeasonStats } from "../services/statsService.js";
 
-const TEAM_ID = "c18c0a69-c2af-4759-9726-ea5037749a02";
+const TEAM_ID = "0503a14a-a2d5-4af6-9d59-a4ceb442d09c";
 
-function deriveStats(matches) {
+function deriveMatchStats(matches) {
   const counts = { win: 0, loss: 0, draw: 0 };
 
   for (const match of matches) {
@@ -26,6 +26,19 @@ function deriveStats(matches) {
   const winRateFooter = `${counts.win}V - ${counts.loss}T - ${counts.draw}U`;
 
   return { counts, winRate, winRateFooter };
+}
+
+function deriveSeasonStats(seasonData, totalMatches) {
+  const shotPrecision =
+    seasonData.goals > 0
+      ? ((seasonData.shotsOnGoal / seasonData.goals) * 100).toFixed(1)
+      : "0.0";
+
+  const shotPrecisionFooter = `Gns. ${totalMatches > 0 ? seasonData.goals / totalMatches : 0.0} skud på mål pr. kamp`;
+
+  const goalKeeperSavePercent = seasonData.savePercentage;
+
+  return { shotPrecision, shotPrecisionFooter, goalKeeperSavePercent };
 }
 
 export default function Dashboard() {
@@ -52,7 +65,9 @@ export default function Dashboard() {
     fetchData();
   }, []);
 
-  const { counts, winRate, winRateFooter } = deriveStats(matches);
+  const { counts, winRate, winRateFooter } = deriveMatchStats(matches);
+  const { shotPrecision, shotPrecisionFooter, goalKeeperSavePercent } =
+    deriveSeasonStats(seasonStats, matches.length);
 
   return (
     <>
@@ -71,15 +86,15 @@ export default function Dashboard() {
           />
           <StatCard
             title={"Skudpræcision"}
-            body={"75.7%"}
-            footer={"Gns. 40.5 skud på mål pr. kamp"}
+            body={loading ? "-" : `${shotPrecision}%`}
+            footer={loading ? "-" : `${shotPrecisionFooter}`}
             iconColor={"#EAF1FB"}
             icon={"/target.svg"}
             iconAlt={"Win rate icon"}
           />
           <StatCard
             title={"Målmandsrednings\u{000AD}procent"} //\u{000AD} is a soft hyphen that suggests where to hyphenate the word if it is too long for the textbox
-            body={"28.1%"}
+            body={loading ? "-" : `${goalKeeperSavePercent}%`}
             footer={"Gns. 19.0 redninger pr. kamp"}
             iconColor={"#FEF3DA"}
             icon={"/shield.svg"}
