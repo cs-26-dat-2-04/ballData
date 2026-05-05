@@ -1,6 +1,6 @@
 import styles from "../Header/header.module.css";
 import Link from "next/link";
-
+//hggh
 export default function Header() {
   return (
     <>
@@ -11,7 +11,7 @@ export default function Header() {
           </Link>
           <a style={{ color: "var(--muted)" }}>Sæson {currentSeasonString()}</a>
         </div>
-        
+
           <nav className={styles.headerNav}>
            <Link href={"/teams"} className={styles.navLink} style={{borderRight:"2px solid var(--rule)"}}> Hold</Link>
         
