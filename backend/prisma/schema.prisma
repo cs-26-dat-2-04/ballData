@@ -59,6 +59,7 @@ model Match {
   opponent      String
   match_date    DateTime @default(now())
   location      Location @default(HOME)
+  result        String
   score_home    Int
   score_away    Int
 

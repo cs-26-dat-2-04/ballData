@@ -1,51 +1,66 @@
+"use client";
+
+import { useEffect, useState } from "react";
 import StatCard from "../components/StatCard/StatCard.jsx";
 import BarChart from "../components/SeasonGraph/SeasonGraph.jsx";
 import StatsCollection from "../components/SeasonStats/StatsCollection.jsx";
 import Matches from "../components/Collections/MatchCollection.jsx";
 import Header from "../components/Header/Header.jsx";
 import DashboardStyles from "../app/app.module.css";
+import { getMatches } from "../services/matchService";
 
-let match_res = [
-  {
-    id: "5ab46e31-391c-46a7-8e45-db9ada07626d",
-    result: "win",
-    iconAlt: "test",
-    loc: "Hjemme",
-    team: "Team 1",
-    date: "2026-04-05",
-    score: "28-24",
-  },
-  {
-    id: "58aacbcd-2344-40f1-a9e9-11c70d44cbb4",
-    result: "loss",
-    iconAlt: "test",
-    loc: "Ude",
-    team: "Team 2",
-    date: "2026-04-02",
-    score: "22-25",
-  },
-  {
-    id: "58aacbcd-2344-40f1-a9e9-11c70d44cbb3",
-    result: "draw",
-    iconAlt: "test",
-    loc: "Ude",
-    team: "Team 2",
-    date: "2026-04-02",
-    score: "22-25",
-  },
-];
+const TEAM_ID = "df92dfb7-f14d-4cc5-bbf0-0c3e076374e1";
+
+function deriveStats(matches) {
+  const counts = { win: 0, loss: 0, draw: 0 };
+
+  for (const match of matches) {
+    if (match.result === "win") counts.win++;
+    else if (match.result === "loss") counts.loss++;
+    else if (match.result === "draw") counts.draw++;
+  }
+
+  const total = counts.win + counts.loss + counts.draw;
+  const winRate = total > 0 ? ((counts.win / total) * 100).toFixed(1) : "0.0";
+  const winRateFooter = `${counts.win}V - ${counts.loss}T - ${counts.draw}U`;
+
+  return { counts, winRate, winRateFooter };
+}
 
 export default function Dashboard() {
+  const [matches, setMatches] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState("");
+
+  useEffect(() => {
+    async function fetchData() {
+      try {
+        const data = await getMatches(TEAM_ID);
+        console.log(data);
+        setMatches(data);
+      } catch (err) {
+        setError(err.message);
+      } finally {
+        setLoading(false);
+      }
+    }
+
+    fetchData();
+  }, []);
+
+  const { counts, winRate, winRateFooter } = deriveStats(matches);
+
   return (
     <>
       <title>Dashboard</title>
       <Header />
       <div className="main-container">
+        {error && <p style={{ color: "red" }}>{error}</p>}
         <div className={DashboardStyles.statCardsContainer}>
           <StatCard
             title={"Sejrsrate"}
-            body={"64.3%"}
-            footer={"18V - 7T - 3U"}
+            body={loading ? "-" : `${winRate}%`}
+            footer={loading ? "-" : winRateFooter}
             iconColor={"#D0F0E6"}
             icon={"/trophy.svg"}
             iconAlt={"Win rate icon"}
@@ -76,25 +91,29 @@ export default function Dashboard() {
           />
         </div>
         <div className={DashboardStyles.matchCollectionStatisticsContainer}>
-          <Matches data={match_res}></Matches>
-          <div style={{ display: "flex", flexDirection: "column", gap: "16px" }}>
-          <BarChart
-            labels={["Sejre", "Nederlag", "Uafgjort"]}
-            data={[18, 7, 3]}
-            bdcolor={[
-              "rgb(75, 156, 120)",
-              "rgb(209, 86, 80)",
-              "rgb(155, 160, 172)",
-            ]}
-            bgcolor={[
-              "rgb(75, 156, 120, 1)",
-              "rgb(209, 86, 80, 1)",
-              "rgb(155, 160, 172, 1)",
-            ]}
-            title={"Sæsonresultat"}
-          />
-          <StatsCollection />
-        </div>
+          <Matches data={loading ? [] : matches}></Matches>
+          <div
+            style={{ display: "flex", flexDirection: "column", gap: "16px" }}
+          >
+            <BarChart
+              labels={["Sejre", "Nederlag", "Uafgjort"]}
+              data={
+                loading ? [0, 0, 0] : [counts.win, counts.loss, counts.draw]
+              }
+              bdcolor={[
+                "rgb(75, 156, 120)",
+                "rgb(209, 86, 80)",
+                "rgb(155, 160, 172)",
+              ]}
+              bgcolor={[
+                "rgb(75, 156, 120, 1)",
+                "rgb(209, 86, 80, 1)",
+                "rgb(155, 160, 172, 1)",
+              ]}
+              title={"Sæsonresultat"}
+            />
+            <StatsCollection />
+          </div>
         </div>
       </div>
     </>
