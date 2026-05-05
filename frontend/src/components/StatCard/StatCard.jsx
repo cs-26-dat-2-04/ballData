@@ -20,18 +20,10 @@ export default function StatCard({
           <p className={statCardStyles.cardBody}>{body ?? "-"}</p>
         </div>
         <div
-          style={{
-            marginLeft: "auto",
-            marginRight: "25px",
-            alignSelf: "center",
-          }}
+          className={statCardStyles.iconContainer}
+          style={{ backgroundColor: iconColor }}
         >
-          <div
-            className={statCardStyles.iconContainer}
-            style={{ backgroundColor: iconColor }}
-          >
-            {icon && <Image src={icon} width={64} height={64} alt={iconAlt} />}
-          </div>
+          {icon && <Image src={icon} width={64} height={64} alt={iconAlt} />}
         </div>
       </div>
       <span className={styles.cardFooter}>{footer ?? ""}</span>

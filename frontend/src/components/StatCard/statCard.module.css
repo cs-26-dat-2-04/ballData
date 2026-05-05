@@ -17,6 +17,9 @@
   display: flex;
   justify-content: center;
   align-items: center;
+  margin-left: auto;
+  margin-right: 25px;
+  align-self: center;
 }
 
 .iconContainer img {
