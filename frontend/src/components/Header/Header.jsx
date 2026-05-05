@@ -13,7 +13,7 @@ export default function Header() {
         </div>
 
           <nav className={styles.headerNav}>
-           <Link href={"/teams"} className={styles.navLink} style={{borderRight:"2px solid var(--rule)"}}> Hold</Link>
+           <Link href={"/teams/5ab46e31-391c-46a7-8e45-db9ada07626d"} className={styles.navLink} style={{borderRight:"2px solid var(--rule)"}}> Hold</Link>
         
         
         <Link href={"/matches"} className={styles.navLink}> Kampe</Link>
