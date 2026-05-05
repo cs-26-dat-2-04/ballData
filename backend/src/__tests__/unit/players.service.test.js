@@ -186,17 +186,9 @@ describe("getPlayers", () => {
 describe("updatePlayers", () => {
   it.each([
     { firstName: undefined, lastName: undefined, jersey_number: 15 },
-    {
-      firstName: undefined,
-      lastName: "testman the 2nd",
-      jersey_number: undefined,
-    },
+    { firstName: undefined, lastName: "testman the 2nd", jersey_number: undefined, },
     { firstName: "test2", lastName: undefined, jersey_number: undefined },
-    {
-      firstName: "test2",
-      lastName: "testman the 2nd",
-      jersey_number: undefined,
-    },
+    { firstName: "test2",lastName: "testman the 2nd",jersey_number: undefined,},
     { firstName: "test2", lastName: undefined, jersey_number: 15 },
     { firstName: undefined, lastName: "testman the 2nd", jersey_number: 15 },
     { firstName: "test2", lastName: "testman the 2nd", jersey_number: 15 },
@@ -245,8 +237,7 @@ describe("updatePlayers", () => {
           jersey_number: jerseyNumber ?? 11,
         },
       });
-    },
-  );
+    });
 
   it("Does not update players when you are not their coach", async () => {
     const player = {
@@ -275,6 +266,7 @@ describe("updatePlayers", () => {
       message: "Du har ikke adgang til dette hold",
       status: 403,
     });
+    expect(prismaMock.player.update).not.toHaveBeenCalled();
   });
 
   it("does not let you update jerseyNumbber when someone else on the players team has the same number", async () => {
@@ -297,6 +289,7 @@ describe("updatePlayers", () => {
       message: "Der findes allerede en spiller med dette trøjenummer",
       status: 409,
     });
+    expect(prismaMock.player.update).not.toHaveBeenCalled();
   });
 });
 
@@ -341,6 +334,7 @@ describe("deletePlayer", () => {
       message: "Du må kun slette dine egne spillere",
       status: 403,
     });
+    expect(prismaMock.player.delete).not.toHaveBeenCalled();
   });
   it("Doesnt delete anything when called with not real player", async () => {
     prismaMock.player.findUnique.mockResolvedValue(null);
@@ -349,5 +343,6 @@ describe("deletePlayer", () => {
       message: "Spiller ikke fundet",
       status: 404,
     });
+    expect(prismaMock.player.delete).not.toHaveBeenCalled();
   });
 });
