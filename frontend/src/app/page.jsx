@@ -8,8 +8,9 @@ import Matches from "../components/Collections/MatchCollection.jsx";
 import Header from "../components/Header/Header.jsx";
 import DashboardStyles from "../app/app.module.css";
 import { getMatches } from "../services/matchService";
+import { getSeasonStats } from "../services/statsService.js";
 
-const TEAM_ID = "df92dfb7-f14d-4cc5-bbf0-0c3e076374e1";
+const TEAM_ID = "c18c0a69-c2af-4759-9726-ea5037749a02";
 
 function deriveStats(matches) {
   const counts = { win: 0, loss: 0, draw: 0 };
@@ -29,15 +30,18 @@ function deriveStats(matches) {
 
 export default function Dashboard() {
   const [matches, setMatches] = useState([]);
+  const [seasonStats, setSeasonStats] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
 
   useEffect(() => {
     async function fetchData() {
       try {
-        const data = await getMatches(TEAM_ID);
-        console.log(data);
-        setMatches(data);
+        const match_data = await getMatches(TEAM_ID);
+        setMatches(match_data);
+
+        const season_data = await getSeasonStats(TEAM_ID);
+        setSeasonStats(season_data);
       } catch (err) {
         setError(err.message);
       } finally {
@@ -112,7 +116,7 @@ export default function Dashboard() {
               ]}
               title={"Sæsonresultat"}
             />
-            <StatsCollection />
+            <StatsCollection stats={loading ? [] : seasonStats} />
           </div>
         </div>
       </div>
