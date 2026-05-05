@@ -1,6 +1,6 @@
 import styles from "../Header/header.module.css";
 import Link from "next/link";
-//hggh
+
 export default function Header() {
   return (
     <>
