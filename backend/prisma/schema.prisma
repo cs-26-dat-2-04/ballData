@@ -59,6 +59,7 @@ model Match {
   opponent      String
   match_date    DateTime @default(now())
   location      Location @default(HOME)
+  result        String
   score_home    Int
   score_away    Int
 
@@ -75,7 +76,8 @@ model MatchStats {
   player         Player  @relation(fields: [player_id], references: [id], onDelete: Cascade)
   goals          Int     @default(0)
   assists        Int     @default(0)
-  shots          Int     @default(0)
+  shots_on_goal  Int     @default(0)
+  shots_off_goal Int     @default(0)
   saves          Int     @default(0)
   yellow_cards   Int     @default(0)
   red_cards      Int     @default(0)

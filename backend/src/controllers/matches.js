@@ -49,6 +49,14 @@ export const createMatch = async (req, res) => {
   }
 
   try {
+    const score_home = parseInt(score_home);
+    const score_away = parseInt(score_away);
+    const result =
+      score_home > score_away
+        ? "win"
+        : score_home == score_away
+          ? "draw"
+          : "loss";
     const match = await matchService.createMatch(
       req.params.teamId,
       req.coach.id,
@@ -56,8 +64,9 @@ export const createMatch = async (req, res) => {
         opponent,
         match_date: new Date(match_date),
         location,
-        score_home: parseInt(score_home),
-        score_away: parseInt(score_away),
+        score_home: score_home,
+        score_away: score_away,
+        result: result,
       },
     );
     res.status(201).json(match);

@@ -9,6 +9,7 @@ import playerNotesRouter, { noteRouter } from "./routes/playerNotes.js";
 import matchRouter from "./routes/matches.js";
 import { inviteRouter, publicInviteRouter } from "./routes/inviteTokens.js";
 import cookieParser from "cookie-parser";
+import seasonRouter from "./routes/stats.js";
 
 dotenv.config();
 
@@ -41,6 +42,9 @@ app.use("/players", auth, playerRouter); // er ikke nødvendig men er nemmere at
 // Notes
 app.use("/players/:playerId/notes", auth, playerNotesRouter);
 app.use("/notes", auth, noteRouter);
+
+// Stats
+app.use("/stats", auth, seasonRouter);
 
 // Matches
 app.use("/matches", auth, matchRouter);

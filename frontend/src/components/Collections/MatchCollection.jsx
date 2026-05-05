@@ -1,7 +1,7 @@
 import styles from "../styles.module.css";
-import collectionStyles from "../Collections/collections.module.css"
-import Row from "../Rows/MatchRow.jsx";
+import collectionStyles from "../Collections/collections.module.css";
 import Image from "next/image";
+import MatchRow from "../Rows/MatchRow.jsx";
 
 export default function MatchCollection({ data }) {
   return (
@@ -37,15 +37,7 @@ export default function MatchCollection({ data }) {
           Klik på en kamp for at se detaljer og tilføje noter
         </p>
       </div>
-      <Row data={data} />
+      <MatchRow data={data} />
     </article>
   );
-}
-
-function CompareDates(a, b){
-  if (a.date > b.date)
-    return -1;
-  else if (a.date > b.date)
-    return 1;
-  return 0;
 }

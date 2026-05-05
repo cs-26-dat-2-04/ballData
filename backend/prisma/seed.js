@@ -62,6 +62,7 @@ async function main() {
       location: Location.AWAY,
       score_home: 67,
       score_away: 69,
+      result: "loss",
       team: {
         connect: { id: team.id },
       },

@@ -1,8 +1,7 @@
 import jwt from "jsonwebtoken";
 
 const auth = (req, res, next) => {
-  const authHeader = req.headers["authorization"];
-  const token = authHeader?.startsWith("Bearer ") ? authHeader.slice(7) : null;
+  const token = req.cookies?.token;
 
   if (!token) {
     return res.status(401).json({ error: "Ingen token angivet" });
