@@ -3,7 +3,7 @@ import { NextResponse } from "next/server";
 const PUBLIC_ROUTES = ["/login", "/signup"];
 const PUBLIC_PREFIXES = ["/invite"];
 
-export function middleware(request) {
+export function proxy(request) {
   const { pathname } = request.nextUrl;
   const token = request.cookies.get("token")?.value;
 
