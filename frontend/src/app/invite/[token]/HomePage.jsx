@@ -222,6 +222,7 @@ export default function HomePage({}) {
 
     const [scoreUs, setscoreUs] = useState(0);
     const [scoreOpp, setscoreOpp] = useState(0);
+    const [saves, setSave] = useState(0);
 
     const [activeModal, setActiveModal] = useState(null);
     const [mode, setMode] = useState("Start");
@@ -323,6 +324,7 @@ export default function HomePage({}) {
                     iconAlt={"Save icon"}
                     bdColor={"rgb(209, 209, 209)"}
                     body={"Redning"}
+                    onClick={() => setSave(saves + 1)}
                 />
             </div>
             <div className={styles.containerRow}>
