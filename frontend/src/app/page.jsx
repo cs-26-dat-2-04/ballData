@@ -107,9 +107,11 @@ export default function Dashboard() {
           />
           <StatCard
             title={"Aktive spillere"}
-            body={loading ? "-" : `${teamData.players.length}`}
+            body={loading ? "-" : `${teamData.players?.length ?? 0}`}
             footer={
-              loading ? "-" : `${teamData.players.length} spillere på holdet`
+              loading
+                ? "-"
+                : `${teamData.players?.length ?? 0} spillere på holdet`
             }
             iconColor={"#F3E8FF"}
             icon={"/active-players.svg"}

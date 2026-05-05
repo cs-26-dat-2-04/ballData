@@ -1,0 +1,257 @@
+.triggerButton {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  height: 44px;
+  padding: 0 22px;
+  font-family: var(--sans);
+  font-size: 14px;
+  font-weight: 600;
+  color: white;
+  background: var(--navy);
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  letter-spacing: 0.01em;
+  transition:
+    background 0.15s ease,
+    transform 0.1s ease,
+    box-shadow 0.15s ease;
+  box-shadow: 0 2px 8px rgba(29, 58, 110, 0.25);
+}
+
+.triggerButton:hover {
+  background: var(--midfield);
+  box-shadow: 0 4px 14px rgba(58, 107, 189, 0.35);
+  transform: translateY(-1px);
+}
+
+.triggerButton:active {
+  transform: translateY(0);
+  box-shadow: 0 2px 6px rgba(29, 58, 110, 0.2);
+}
+
+.modal {
+  background: white;
+  border-radius: 14px;
+  width: 420px;
+  max-width: calc(100vw - 32px);
+  box-shadow:
+    0 8px 32px rgba(18, 30, 58, 0.16),
+    0 2px 8px rgba(18, 30, 58, 0.08);
+  overflow: hidden;
+  animation: modalIn 0.2s ease;
+}
+
+@keyframes modalIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px) scale(0.98);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+.modalHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 20px 24px;
+  border-bottom: 1.5px solid var(--rule);
+}
+
+.modalHeaderLeft {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.modalIcon {
+  width: 40px;
+  height: 40px;
+  border-radius: 10px;
+  background: var(--ice);
+  color: var(--navy);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.modalTitle {
+  font-family: var(--sg);
+  font-size: 17px;
+  font-weight: 700;
+  color: var(--navy);
+  margin: 0 0 2px;
+  line-height: 1.2;
+}
+
+.modalSubtitle {
+  font-family: var(--sans);
+  font-size: 12px;
+  color: var(--hint);
+  margin: 0;
+}
+
+.closeButton {
+  width: 32px;
+  height: 32px;
+  border-radius: 8px;
+  border: none;
+  background: transparent;
+  color: var(--hint);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition:
+    background 0.12s ease,
+    color 0.12s ease;
+  flex-shrink: 0;
+}
+
+.closeButton:hover {
+  background: var(--ice);
+  color: var(--navy);
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+}
+
+.formBody {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  padding: 24px 24px 20px;
+}
+
+.fieldGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.label {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-family: var(--sans);
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--ink);
+}
+
+.required {
+  color: var(--flame);
+  font-weight: 700;
+}
+
+.optional {
+  font-size: 11px;
+  font-weight: 400;
+  color: var(--hint);
+  background: var(--surface);
+  padding: 1px 7px;
+  border-radius: 20px;
+  margin-left: 2px;
+}
+
+.input {
+  height: 42px;
+  padding: 0 14px;
+  font-family: var(--sans);
+  font-size: 14px;
+  color: var(--ink);
+  background: white;
+  border: 1.5px solid var(--rule);
+  border-radius: 8px;
+  outline: none;
+  transition:
+    border-color 0.15s ease,
+    box-shadow 0.15s ease;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.input::placeholder {
+  color: var(--hint);
+}
+
+.input:focus {
+  border-color: var(--midfield);
+  box-shadow: 0 0 0 3px rgba(58, 107, 189, 0.12);
+}
+
+.input:invalid:not(:placeholder-shown) {
+  border-color: var(--flame);
+  box-shadow: 0 0 0 3px rgba(232, 67, 12, 0.1);
+}
+
+.formFooter {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px 24px 20px;
+  border-top: 1.5px solid var(--rule);
+  background: var(--surface);
+}
+
+.requiredNote {
+  font-family: var(--sans);
+  font-size: 12px;
+  color: var(--flame);
+  margin: 0;
+}
+
+.actions {
+  display: flex;
+  gap: 10px;
+}
+
+.cancelButton {
+  height: 38px;
+  padding: 0 16px;
+  font-family: var(--sans);
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--muted);
+  background: white;
+  border: 1.5px solid var(--rule);
+  border-radius: 8px;
+  cursor: pointer;
+  transition:
+    border-color 0.12s ease,
+    color 0.12s ease;
+}
+
+.cancelButton:hover {
+  border-color: var(--midfield);
+  color: var(--navy);
+}
+
+.submitButton {
+  height: 38px;
+  padding: 0 20px;
+  font-family: var(--sans);
+  font-size: 13px;
+  font-weight: 600;
+  color: white;
+  background: var(--navy);
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition:
+    background 0.15s ease,
+    box-shadow 0.15s ease;
+  box-shadow: 0 2px 6px rgba(29, 58, 110, 0.2);
+}
+
+.submitButton:hover {
+  background: var(--midfield);
+  box-shadow: 0 3px 10px rgba(58, 107, 189, 0.3);
+}
