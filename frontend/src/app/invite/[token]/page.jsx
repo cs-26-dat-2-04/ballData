@@ -9,5 +9,5 @@ export default async function Page({ params }) {
 
   if (!res.ok) return <p>Invalid or expired invite link</p>;
 
-  return <HomePage token={token} />;
+  return <HomePage />;
 }
