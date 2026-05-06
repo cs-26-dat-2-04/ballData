@@ -7,11 +7,10 @@ import StatsCollection from "../components/SeasonStats/StatsCollection.jsx";
 import Matches from "../components/Collections/MatchCollection.jsx";
 import Header from "../components/Header/Header.jsx";
 import DashboardStyles from "../app/app.module.css";
+import { getMe } from "../services/authService.js";
 import { getMatches } from "../services/matchService";
 import { getSeasonStats } from "../services/statsService.js";
 import { getTeam } from "../services/teamService.js";
-
-const TEAM_ID = "0503a14a-a2d5-4af6-9d59-a4ceb442d09c";
 
 function deriveMatchStats(matches) {
   const counts = { win: 0, loss: 0, draw: 0 };
@@ -45,6 +44,7 @@ function deriveSeasonStats(seasonData, totalMatches) {
 export default function Dashboard() {
   const [matches, setMatches] = useState([]);
   const [seasonStats, setSeasonStats] = useState([]);
+  const [team, setTeam] = useState(null);
   const [teamData, setTeamData] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
@@ -52,13 +52,24 @@ export default function Dashboard() {
   useEffect(() => {
     async function fetchData() {
       try {
-        const match_data = await getMatches(TEAM_ID);
+        const { coach } = await getMe();
+
+        // Alle coaches burde have et team
+        if (!coach.team) {
+          window.location.href = "/login";
+          return;
+        }
+        console.log(coach.team);
+
+        setTeam(coach.team);
+
+        const match_data = await getMatches(coach.team.id);
         setMatches(match_data);
 
-        const season_data = await getSeasonStats(TEAM_ID);
+        const season_data = await getSeasonStats(coach.team.id);
         setSeasonStats(season_data);
 
-        const team_data = await getTeam(TEAM_ID);
+        const team_data = await getTeam(coach.team.id);
         setTeamData(team_data);
       } catch (err) {
         setError(err.message);

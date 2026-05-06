@@ -1,3 +1,5 @@
+import pkg from "@prisma/client";
+const { PrismaClient } = pkg;
 import { prisma } from "../lib/prisma.js";
 import crypto from "crypto";
 
