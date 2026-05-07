@@ -5,8 +5,8 @@ const API_URL = process.env.API_URL ?? "http://backend:3001";
 // Til server side funktioner
 export async function serverApiFetch(path, options = {}) {
   const cookieStore = await cookies();
-  const token = cookieStore.get("token")?.value;
 
+  const token = cookieStore.get("token")?.value;
   let data;
   try {
     const res = await fetch(`${API_URL}${path}`, {
