@@ -1,7 +1,3 @@
-import SeasonStats from "../../components/SeasonStats/SeasonStats";
-
-export default function Test({  }) {
-    return (
-        <SeasonStats />
-    );
+export default function Test() {
+  return <p>Test page</p>;
 }
