@@ -31,12 +31,12 @@ export default function MatchRow({ data }) {
                           : "var(--navy)",
                   }}
                 >
-                  <>{info.result}</>
+                  <>{info.result === "win" ? "Sejr" : info.result === "loss" ? "Nederlag" : "Uafgjort"}</>
                 </div>
               )}
             </div>
             <div className={rowStyles.textdiv}>
-              <p className={rowStyles.locText}>{info.location}</p>
+              <p className={rowStyles.locText}>{info.location === "home" ? "Hjemme" : "Ude"}</p>
             </div>
           </div>
           <div className={styles.container}>
