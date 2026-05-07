@@ -5,15 +5,20 @@ import PlayerCollection from "../Collections/PlayerCollection.jsx";
 import InputNewPlayerButton from "../InputPopUpButtons/InputNewPlayerButton.jsx";
 import styles from "./teamPageClient.module.css";
 
-export default function TeamPageClient({ players, teamId }) {
+export default function TeamPageClient({ players: initialPlayers, teamId }) {
+  const [players, setPlayers] = useState(initialPlayers);
   const [query, setQuery] = useState("");
+
+  function handlePlayerAdded(newPlayer) {
+    setPlayers((prev) => [...prev, newPlayer]);
+  }
 
   const filtered = useMemo(() => {
     const q = query.trim().toLowerCase();
     if (!q) return players;
     return players.filter((p) => {
-      const fullName = `${p.firstName} ${p.lastName}`.toLowerCase();
-      const jersey = p.jerseyNumber?.toString() ?? "";
+      const fullName = `${p.first_name} ${p.last_name}`.toLowerCase();
+      const jersey = p.jersey_number?.toString() ?? "";
       return fullName.includes(q) || jersey.includes(q);
     });
   }, [query, players]);
@@ -22,14 +27,16 @@ export default function TeamPageClient({ players, teamId }) {
     <>
       <div className={styles.pageHeader}>
         <div className={styles.headerLeft}>
-          {/* <p className={styles.breadcrumb}>Hold</p> */}
           <h1 className={styles.teamTitle}>Hold Oversigt</h1>
           <p className={styles.playerCount}>
             {players.length} spillere på holdet
           </p>
         </div>
         <div className={styles.headerRight}>
-          <InputNewPlayerButton />
+          <InputNewPlayerButton
+            teamId={teamId}
+            onPlayerAdded={handlePlayerAdded}
+          />
         </div>
       </div>
 

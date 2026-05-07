@@ -5,7 +5,6 @@ import StatCard from "../components/StatCard/StatCard.jsx";
 import BarChart from "../components/SeasonGraph/SeasonGraph.jsx";
 import StatsCollection from "../components/SeasonStats/StatsCollection.jsx";
 import Matches from "../components/Collections/MatchCollection.jsx";
-import Header from "../components/Header/Header.jsx";
 import DashboardStyles from "../app/app.module.css";
 import { getMe } from "../services/authService.js";
 import { getMatches } from "../services/matchService";
@@ -88,7 +87,6 @@ export default function Dashboard() {
   return (
     <>
       <title>Dashboard</title>
-      <Header />
       <div className="main-container">
         {error && <p style={{ color: "red" }}>{error}</p>}
         <div className={DashboardStyles.statCardsContainer}>
