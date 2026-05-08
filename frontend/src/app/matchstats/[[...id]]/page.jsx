@@ -41,12 +41,12 @@ const MOCK_MATCHES = [
       {
         id: "n1",
         content:
-          "God struktur i angrebet. Husk hurtigere hjemad efter afslutning.",
+          "Mikkel er Fkn sej",
         createdAt: "2024-03-12",
       },
       {
         id: "n2",
-        content: "Stærk afslutning på kampen og god ro i de sidste minutter.",
+        content: "Tue er bare stadig sejere",
         createdAt: "2024-03-16",
       },
     ],
