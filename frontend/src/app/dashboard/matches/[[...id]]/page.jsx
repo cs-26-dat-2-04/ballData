@@ -1,7 +1,7 @@
-import MatchCollection from "../../../components/Collections/MatchCollection.jsx";
+import MatchCollection from "../../../../components/Collections/MatchCollection.jsx";
 import { redirect } from "next/navigation";
-import { getMe } from "../../../server-services/authService.js";
-import { getMatches } from "../../../server-services/matchService.js";
+import { getMe } from "../../../../server-services/authService.js";
+import { getMatches } from "../../../../server-services/matchService.js";
 
 export default async function Matches({ params }) {
   const { id } = await params;
