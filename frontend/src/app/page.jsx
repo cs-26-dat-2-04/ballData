@@ -37,7 +37,9 @@ function deriveSeasonStats(seasonData, totalMatches) {
 
   const goalKeeperSavePercent = seasonData.savePercentage;
 
-  return { shotPrecision, shotPrecisionFooter, goalKeeperSavePercent };
+  const goalKeeperFooter = `Gns. ${totalMatches > 0 ? seasonData.saves / totalMatches : 0.0} redninger pr. kamp`;
+
+  return { shotPrecision, shotPrecisionFooter, goalKeeperSavePercent, goalKeeperFooter };
 }
 
 export default function Dashboard() {
@@ -81,7 +83,7 @@ export default function Dashboard() {
   }, []);
 
   const { counts, winRate, winRateFooter } = deriveMatchStats(matches);
-  const { shotPrecision, shotPrecisionFooter, goalKeeperSavePercent } =
+  const { shotPrecision, shotPrecisionFooter, goalKeeperSavePercent, goalKeeperFooter } =
     deriveSeasonStats(seasonStats, matches.length);
 
   return (
@@ -109,7 +111,7 @@ export default function Dashboard() {
           <StatCard
             title={"Målmandsrednings\u{000AD}procent"} //\u{000AD} is a soft hyphen that suggests where to hyphenate the word if it is too long for the textbox
             body={loading ? "-" : `${goalKeeperSavePercent}%`}
-            footer={"Gns. 19.0 redninger pr. kamp"}
+            footer={loading ? "-" : `${goalKeeperFooter}`}
             iconColor={"#FEF3DA"}
             icon={"/shield.svg"}
             iconAlt={"Win rate icon"}

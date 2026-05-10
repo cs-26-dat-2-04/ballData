@@ -3,6 +3,7 @@ import jwt from "jsonwebtoken";
 import pkg from "@prisma/client";
 const { PrismaClient } = pkg;
 import { prisma } from "../lib/prisma.js";
+import {createTeam} from "../services/teams.js"
 
 export async function signup({ name, email, password }) {
   const existingCoach = await prisma.coach.findUnique({ where: { email } });
@@ -13,9 +14,10 @@ export async function signup({ name, email, password }) {
   }
 
   const password_hash = await bcrypt.hash(password, 12);
-  await prisma.coach.create({
+  const coach = await prisma.coach.create({
     data: { name, email, password_hash },
   });
+  await createTeam(coach.id, "");
 }
 
 export async function login({ email, password }) {
