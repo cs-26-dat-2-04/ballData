@@ -1,6 +1,6 @@
 import Header from "../../../components/Header/Header.jsx";
 import StatCard from "../../../components/StatCard/StatCard.jsx";
-import SeasonGraph from "../../../components/SeasonGraph/SeasonGraph.jsx";
+import PlayerSeasonGraph from "../../../components/PlayerSeasonGraph/PlayerSeasonGraph.jsx";
 import styles from "./player.module.css";
 
 const MOCK_PLAYERS = [
@@ -176,7 +176,6 @@ export default async function PlayerPage({ params }) {
                 ? (totalGoals / matchStats.length).toFixed(1)
                 : "0.0"
             } pr. kamp`}
-            iconColor="#D0F0E6"
             icon="/target.svg"
             iconAlt="Mål icon"
           />
@@ -189,7 +188,6 @@ export default async function PlayerPage({ params }) {
                 ? (totalAssists / matchStats.length).toFixed(1)
                 : "0.0"
             } pr. kamp`}
-            iconColor="#EAF1FB"
             icon="/active-players.svg"
             iconAlt="Assists icon"
           />
@@ -202,7 +200,6 @@ export default async function PlayerPage({ params }) {
                 ? (totalShots / matchStats.length).toFixed(1)
                 : "0.0"
             } pr. kamp`}
-            iconColor="#FEF3DA"
             icon="/target.svg"
             iconAlt="Skud icon"
           />
@@ -211,7 +208,6 @@ export default async function PlayerPage({ params }) {
             title="Skudprocent"
             body={`${shotPercent}%`}
             footer={`${totalGoals} mål på ${totalShots} skud`}
-            iconColor="#F3E8FF"
             icon="/shield.svg"
             iconAlt="Skudprocent icon"
           />
@@ -265,9 +261,10 @@ export default async function PlayerPage({ params }) {
                         <p>Coachens noter om spilleren</p>
                     </div>
 
-                    <button className={styles.editNotesButton}>
-                        Rediger
-                    </button>
+                    <div className={styles.noteActions}>
+                        <button className={styles.addNoteButton}>Tilføj</button>
+                        <button className={styles.editNotesButton}>Rediger</button>
+                    </div>
                 </div>
 
                 {notes.length === 0 ? (
@@ -286,43 +283,41 @@ export default async function PlayerPage({ params }) {
           </div>
 
           <aside className={styles.rightColumn}>
-            <SeasonGraph
-              labels={["Mål", "Skud", "Assists"]}
-              data={[totalGoals, totalShots, totalAssists]}
-              bdcolor={[
-                "rgb(75, 156, 120)",
-                "rgb(52, 105, 190)",
-                "rgb(230, 170, 45)",
-              ]}
-              bgcolor={[
-                "rgb(75, 156, 120, 1)",
-                "rgb(52, 105, 190, 1)",
-                "rgb(230, 170, 45, 1)",
-              ]}
-              title="Sæsonoversigt"
-            />
-
+            <PlayerSeasonGraph matchStats={matchStats} title="Sæsonoversigt" />
             <article className={styles.card}>
-              <div className={styles.cardHeader}>
-                <h2>Disciplin</h2>
-              </div>
-
-              <div className={styles.disciplineGrid}>
-                <div>
-                  <strong>{totalSuspension} min</strong>
-                  <span>Udvisninger</span>
+                <div className={styles.cardHeader}>
+                    <h2>Disciplin</h2>
                 </div>
 
-                <div>
-                  <strong>{totalRedCards}</strong>
-                  <span>Røde kort</span>
-                </div>
+                <div className={styles.disciplineGrid}>
+                    <div>
+                        <strong>{totalSuspension}</strong>
+                        <span>min. udvisning</span>
+                        <p className={styles.disciplineDetail}>
+                            {totalSuspension === 0
+                                ? "Ingen udvisninger"
+                                : `Udvist i alt ${totalSuspension} minutter`}
+                        </p>
+                    </div>
 
-                <div>
-                  <strong>{totalMinutes}</strong>
-                  <span>Minutter</span>
+                    <div>
+                        <strong>{totalRedCards}</strong>
+                        <span>røde kort</span>
+                        <p className={styles.disciplineDetail}>
+                            {totalRedCards === 0 ? "Ingen røde kort" : `${totalRedCards} rødt kort`}
+                        </p>
+                    </div>
+
+                    <div>
+                        <strong>{totalMinutes}</strong>
+                        <span>min. spilletid</span>
+                        <p className={styles.disciplineDetail}>
+                            Snit {matchStats.length > 0
+                                ? Math.round(totalMinutes / matchStats.length)
+                                : 0} min. pr. kamp
+                        </p>
+                    </div>
                 </div>
-              </div>
             </article>
           </aside>
         </section>

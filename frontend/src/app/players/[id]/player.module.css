@@ -213,6 +213,12 @@
   font-size: 13px;
 }
 
+.disciplineDetail {
+  color: var(--muted);
+  font-size: 12px;
+  margin: 4px 0 0 0;
+}
+
 .cardHeaderWithButton {
   padding: 24px 28px;
   border-bottom: 1px solid var(--rule);
@@ -248,4 +254,25 @@
 
 .editNotesButton:hover {
   background-color: #f7f8fb;
+}
+
+.noteActions {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+
+.addNoteButton {
+  background-color: var(--ink);
+  border: none;
+  border-radius: 8px;
+  padding: 10px 18px;
+  color: white;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+}
+
+.addNoteButton:hover {
+  opacity: 0.85;
 }
