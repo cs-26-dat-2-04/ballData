@@ -25,6 +25,7 @@ services:
       - /app/node_modules
     ports:
       - "3001:3001"
+      - "3002:3002"
 
   frontend:
     build: ./frontend

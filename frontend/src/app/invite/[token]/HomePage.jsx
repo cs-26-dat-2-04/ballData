@@ -218,7 +218,13 @@ let playerOut = [
   },
 ];
 
-export default function HomePage({}) {
+// Create websocket from url
+// Send JSONmessage with type of event, playerID and matchID
+// ws.addEventListener that has switch cases depending on what event it is
+// Each case has a function with params playerID and matchID that uses prisma.MatchStats.update to update the changes in matchstats
+// Since we have playerID and matchID we can easily differentiate between the players
+
+export default function HomePage({ playersIN, playersOUT }) {
 
     const [scoreUs, setscoreUs] = useState(0);
     const [scoreOpp, setscoreOpp] = useState(0);
@@ -351,7 +357,7 @@ export default function HomePage({}) {
                     mode={mode}
                     bdcolor={bdColor}
                     isRunning={isRunning}
-                    playerIn={playersIn}/>
+                    playerIn={playersIN}/>
                 </div>
             )}
             {activeModal === "shot" && (
@@ -367,7 +373,7 @@ export default function HomePage({}) {
                     mode={mode}
                     bdcolor={bdColor}
                     isRunning={isRunning}
-                    playerIn={playersIn}/>
+                    playerIn={playersIN}/>
                 </div>
             )}
             {activeModal === "foul" && (
@@ -384,7 +390,7 @@ export default function HomePage({}) {
                     mode={mode}
                     bdcolor={bdColor}
                     isRunning={isRunning}
-                    playerIn={playersIn}/>
+                    playerIn={playersIN}/>
                 </div>
             )}
             {activeModal === "subs" && (
@@ -392,8 +398,8 @@ export default function HomePage({}) {
                     <Subs 
                     onClose={() => setActiveModal(null)}
                     closePrev={() => setActiveModal(null)}
-                    playerIn={playersIn} 
-                    playerOut={playerOut}/>
+                    playerIn={playersIN} 
+                    playerOut={playersOUT}/>
                 </div>
             )}
         </>
