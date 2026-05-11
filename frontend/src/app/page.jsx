@@ -35,7 +35,7 @@ function deriveSeasonStats(seasonData, totalMatches) {
 
   const shotPrecisionFooter = `Gns. ${totalMatches > 0 ? seasonData.goals / totalMatches : 0.0} skud på mål pr. kamp`;
 
-  const goalKeeperSavePercent = seasonData.savePercentage;
+  const goalKeeperSavePercent = seasonData.saves > 0 ? seasonData.savePercentage : "0.0";
 
   const goalKeeperFooter = `Gns. ${totalMatches > 0 ? seasonData.saves / totalMatches : 0.0} redninger pr. kamp`;
 
