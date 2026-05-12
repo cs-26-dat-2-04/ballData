@@ -17,7 +17,7 @@ export async function signup({ name, email, password }) {
   const coach = await prisma.coach.create({
     data: { name, email, password_hash },
   });
-  const teamName = name.endsWith("s")||name.endsWith("S") ? `${name}' team` : `${name}s team`;
+  const teamName = name.endsWith("s")||name.endsWith("S") ? `${name}' hold` : `${name}s hold`;
   
   const team = await createTeam(coach.id, teamName);
 
