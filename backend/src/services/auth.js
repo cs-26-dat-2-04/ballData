@@ -17,7 +17,17 @@ export async function signup({ name, email, password }) {
   const coach = await prisma.coach.create({
     data: { name, email, password_hash },
   });
-  await createTeam(coach.id, "");
+  const teamName = name.endsWith("s")||name.endsWith("S") ? `${name}' team` : `${name}s team`;
+  
+  const team = await createTeam(coach.id, teamName);
+
+  if(!team){
+    prisma.coach.delete({where: {id: coach.id}});
+    const error = new Error("Noget gik med at oprette hold til coach");
+    throw error
+  };
+
+
 }
 
 export async function login({ email, password }) {
