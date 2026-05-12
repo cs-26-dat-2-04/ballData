@@ -1,6 +1,6 @@
-import TeamPageClient from "../../../components/TeamPageClient/TeamPageClient.jsx";
-import { getPlayers } from "../../../server-services/playerService.js";
-import { getMe } from "../../../server-services/authService.js";
+import TeamPageClient from "../../../../components/TeamPageClient/TeamPageClient.jsx";
+import { getPlayers } from "../../../../server-services/playerService.js";
+import { getMe } from "../../../../server-services/authService.js";
 import { redirect } from "next/navigation";
 
 export default async function Teams({ params }) {

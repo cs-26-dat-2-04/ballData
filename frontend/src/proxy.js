@@ -17,7 +17,10 @@ export function proxy(request) {
   }
 
   // Kan ikke gå til login eller signup hvis man har en token
-  if (token && (pathname === "/login" || pathname === "/signup")) {
+  if (
+    token &&
+    (pathname === "/login" || pathname === "/signup" || pathname === "/")
+  ) {
     return NextResponse.redirect(new URL("/dashboard", request.url));
   }
 
