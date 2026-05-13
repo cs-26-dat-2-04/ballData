@@ -49,7 +49,7 @@ export default function CoachLogin() {
       // Vi brugte router.push før.
       // Af en eller anden grund skal vi gøre sådan her
       // Ellers er der kæmpe blank space på root siden når man bliver redirected
-      window.location.href = "/";
+      window.location.href = "/dashboard";
     } catch {
       setError("Kunne ikke forbinde til serveren");
     } finally {

@@ -1,15 +1,15 @@
-"use client";
+'use client';
 
 import { useEffect, useState } from "react";
-import StatCard from "../components/StatCard/StatCard.jsx";
-import BarChart from "../components/SeasonGraph/SeasonGraph.jsx";
-import StatsCollection from "../components/SeasonStats/StatsCollection.jsx";
-import Matches from "../components/Collections/MatchCollection.jsx";
-import DashboardStyles from "../app/app.module.css";
-import { getMe } from "../services/authService.js";
-import { getMatches } from "../services/matchService";
-import { getSeasonStats } from "../services/statsService.js";
-import { getTeam } from "../services/teamService.js";
+import StatCard from "../../components/StatCard/StatCard.jsx";
+import BarChart from "../../components/SeasonGraph/SeasonGraph.jsx";
+import StatsCollection from "../../components/SeasonStats/StatsCollection.jsx";
+import Matches from "../../components/Collections/MatchCollection.jsx";
+import DashboardStyles from "./app.module.css";
+import { getMe } from "../../services/authService.js";
+import { getMatches } from "../../services/matchService.js";
+import { getSeasonStats } from "../../services/statsService.js";
+import { getTeam } from "../../services/teamService.js";
 
 function deriveMatchStats(matches) {
   const counts = { win: 0, loss: 0, draw: 0 };
