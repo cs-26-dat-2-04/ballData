@@ -1,2 +1,2 @@
 [deploy]
-startCommand = "npx prisma migrate deploy && node src/index.js"
+startCommand = "node src/index.js"
