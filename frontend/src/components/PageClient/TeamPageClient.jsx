@@ -3,7 +3,7 @@
 import { useState, useMemo } from "react";
 import PlayerCollection from "../Collections/PlayerCollection.jsx";
 import InputNewPlayerButton from "../InputPopUpButtons/InputNewPlayerButton.jsx";
-import styles from "./teamPageClient.module.css";
+import styles from "./pageClient.module.css";
 
 export default function TeamPageClient({ players: initialPlayers, teamId }) {
   const [players, setPlayers] = useState(initialPlayers);

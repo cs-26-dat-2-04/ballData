@@ -1,4 +1,4 @@
-import MatchCollection from "../../../../components/Collections/MatchCollection.jsx";
+import TeamPageClient from "../../../../components/PageClient/MatchPageClient.jsx";
 import { redirect } from "next/navigation";
 import { getMe } from "../../../../server-services/authService.js";
 import { getMatches } from "../../../../server-services/matchService.js";
@@ -9,7 +9,7 @@ export default async function Matches({ params }) {
   if (id?.[1] !== undefined) {
     redirect("/matches");
   }
-
+  
   const matchId = id?.[0];
   const isOverview = !matchId;
   const title = isOverview ? "Kampe" : "Kampdetaljer";
@@ -37,7 +37,9 @@ export default async function Matches({ params }) {
       <div className="main-container">
         {error && <p style={{ color: "red" }}>{error}</p>}
         {isOverview ? (
-          <MatchCollection data={matches} />
+          <>
+            <TeamPageClient matches={matches} teamId={id} />
+          </>
         ) : (
           // TODO: Erstat med rigtig
           <p>Kampdetaljer for ID: {matchId}</p>

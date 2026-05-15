@@ -1,7 +1,7 @@
 "use client";
 
 import Popup from "reactjs-popup";
-import styles from "./InputNewPlayerButton.module.css";
+import styles from "./inputPopUpButton.module.css";
 import { useState } from "react";
 import { createPlayer } from "../../services/playerService.js";
 
