@@ -1,11 +1,11 @@
 "use client";
 import "../signup/StyleLogin.css";
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, Suspense } from "react";
 import Head from "next/head";
 import { useSearchParams } from "next/navigation";
 import Link from "next/link";
 
-export default function CoachLogin() {
+function CoachLoginInner() {
   const searchParams = useSearchParams();
   const [showToast, setShowToast] = useState(false);
   const [toastFading, setToastFading] = useState(false);
@@ -35,10 +35,8 @@ export default function CoachLogin() {
     setError("");
     setLoading(true);
     try {
-      // TODO: Dette skal ikke være en manuel fetch
-      const API_URL =
-        process.env.NEXT_PUBLIC_API_URL ?? "http://localhost:3001";
-      const res = await fetch(`${API_URL}/auth/login`, {
+      // TODO: Sæt API_URL i .env fil
+      const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/auth/login`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(formData),
@@ -129,5 +127,13 @@ export default function CoachLogin() {
         </p>
       </div>
     </>
+  );
+}
+
+export default function CoachLogin() {
+  return (
+    <Suspense>
+      <CoachLoginInner />
+    </Suspense>
   );
 }
