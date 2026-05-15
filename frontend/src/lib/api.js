@@ -1,4 +1,4 @@
-const API_URL = "http://localhost:3001";
+const API_URL = process.env.NEXT_PUBLIC_API_URL ?? "http://localhost:3001";
 
 // Til client side funktioner
 export async function apiFetch(path, options = {}) {
