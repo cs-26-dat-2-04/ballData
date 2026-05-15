@@ -1,0 +1,13 @@
+.statCardsContainer {
+  align-content: center;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr;
+  column-gap: 25px;
+  margin-bottom: 42px;
+}
+
+.matchCollectionStatisticsContainer {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  column-gap: 60px;
+}

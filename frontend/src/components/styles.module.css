@@ -1,0 +1,12 @@
+.cardFooter { /*shared*/
+  display: block;
+  font-family: var(--sans);
+  font-size: 12px;
+  color: var(--hint);
+  margin: 0;
+}
+
+.container { /*shared*/
+  display: flex;
+  align-items: center;
+}
