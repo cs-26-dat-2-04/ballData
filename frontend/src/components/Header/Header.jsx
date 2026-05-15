@@ -7,6 +7,7 @@ export default async function Header() {
 
   try {
     const { coach } = await getMe();
+    console.log(coach);
     teamId = coach.team?.id ?? null;
   } catch {
     // ingenting
@@ -32,9 +33,11 @@ export default async function Header() {
               Hold
             </Link>
           )}
-          <Link href={"/dashboard/matches"} className={styles.navLink}>
-            Kampe
-          </Link>
+          {teamId && (
+            <Link href={"/dashboard/matches"} className={styles.navLink}>
+              Kampe
+            </Link>
+          )}
         </nav>
       </header>
     </>
