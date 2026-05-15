@@ -35,8 +35,10 @@ export default function CoachLogin() {
     setError("");
     setLoading(true);
     try {
-      // TODO: Sæt API_URL i .env fil
-      const res = await fetch(`http://localhost:3001/auth/login`, {
+      // TODO: Dette skal ikke være en manuel fetch
+      const API_URL =
+        process.env.NEXT_PUBLIC_API_URL ?? "http://localhost:3001";
+      const res = await fetch(`${API_URL}/auth/login`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(formData),

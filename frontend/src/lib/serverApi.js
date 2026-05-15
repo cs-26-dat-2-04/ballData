@@ -27,6 +27,7 @@ export async function serverApiFetch(path, options = {}) {
       throw new Error(message);
     }
   } catch (err) {
+    console.log(err);
     throw err;
   }
 
