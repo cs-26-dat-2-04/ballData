@@ -5,12 +5,12 @@ import MatchCollection from "../Collections/MatchCollection.jsx";
 import InputNewMatchButton from "../InputPopUpButtons/InputNewMatchButton.jsx";
 import styles from "./pageClient.module.css";
 
-export default function TeamPageClient({ matches: initialMatches, teamId }) {
+export default function TeamPageClient({ matches: initialMatches, players, teamId }) {
   const [matches, setMatches] = useState(initialMatches);
   const [query, setQuery] = useState("");
 
   function handleMatchAdded(newMatch) {
-    setMatches((prev) => [...prev, newMatch]);
+    setMatches((prev) => [newMatch, ...prev]);
   }
 
   const filtered = useMemo(() => {
@@ -20,7 +20,7 @@ export default function TeamPageClient({ matches: initialMatches, teamId }) {
       const opponent = m.opponent.toLowerCase();
       const date = m.match_date.toString();
       const location = m.location;
-      return opponent.includes(q) || date.includes(q) || location.includes(q);
+      return opponent.includes(q) || date.includes(q);
     });
   }, [query, matches]);
 
@@ -36,6 +36,7 @@ export default function TeamPageClient({ matches: initialMatches, teamId }) {
         <div className={styles.headerRight}>
           <InputNewMatchButton
             teamId={teamId}
+            players={players}
             onMatchAdded={handleMatchAdded}
           />
         </div>
@@ -61,7 +62,7 @@ export default function TeamPageClient({ matches: initialMatches, teamId }) {
           <input
             className={styles.searchInput}
             type="text"
-            placeholder="Søg efter navn eller trøjenummer..."
+            placeholder="Søg efter modstander eller dato..."
             value={query}
             onChange={(e) => setQuery(e.target.value)}
           />
@@ -78,8 +79,8 @@ export default function TeamPageClient({ matches: initialMatches, teamId }) {
         {query && (
           <p className={styles.resultCount}>
             {filtered.length === 0
-              ? "Ingen spillere fundet"
-              : `${filtered.length} spiller${filtered.length !== 1 ? "e" : ""} fundet`}
+              ? "Ingen kampe fundet"
+              : `${filtered.length} kamp${filtered.length !== 1 ? "e" : ""} fundet`}
           </p>
         )}
       </div>

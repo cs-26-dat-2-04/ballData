@@ -2,33 +2,26 @@
 
 import Popup from "reactjs-popup";
 import styles from "./inputPopUpButton.module.css";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { createMatch } from "../../services/matchService.js"
 
 
-export default function InputNewMatchButton({ teamId, onMatchAdded }) {
+export default function InputNewMatchButton({ teamId, players, onMatchAdded }) {
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
+
+
+  const timeFormatter = new Intl.DateTimeFormat('en-GB', {
+    hour: '2-digit',
+    minute: '2-digit',
+    hour12: false 
+  });
+  
   const nowDate = new Date();
   
-  const timeString = (nowDate.getHours() > 9
-      ? nowDate.getHours()
-      : "0" + nowDate.getHours())
-    + ":" +
-    (nowDate.getMinutes() > 9
-      ? nowDate.getMinutes()
-      : "0" + nowDate.getMinutes())
-    
-  const dateString = nowDate.getFullYear()
-    + "-" +
-    (nowDate.getMonth() > 8
-      ? (nowDate.getMonth() + 1)
-      : "0" + (nowDate.getMonth() + 1))
-    + "-" +
-    (nowDate.getDate() > 9
-      ? nowDate.getDate()
-      : "0" + nowDate.getDate())
-  
+  const dateString = nowDate.toISOString().split("T")[0];
+  const timeString = timeFormatter.format(nowDate);
+
 
   function handleRadioChange(event){
     let homeRadioButton = document.querySelector("#inp-home").parentNode.parentNode;
@@ -46,6 +39,38 @@ export default function InputNewMatchButton({ teamId, onMatchAdded }) {
     }
   }
 
+  function handleSelectChange(){
+    let allSelects = document.querySelectorAll("select");
+    let allSelectValues = [];
+
+    //get all chosen values
+    for (let s of allSelects){
+      allSelectValues.push(s.value);
+    }
+    
+    let splicedPlayerStrings = [];
+    //create array with only the unchosen players
+    for (let p of players){
+      let playerString = CreatePlayerString(p);
+      
+      if (allSelectValues.indexOf(playerString) === -1) //if the player is not one of the already chosen players
+        splicedPlayerStrings.push(playerString);
+    }
+
+    //clear all options under selects and create options for unchosen players under all selects while retaining the original choice 
+    for (let s of allSelects){
+      let selectValue = s.value;
+      s.textContent = ""; //delete all options
+      for (let p of [selectValue, ...splicedPlayerStrings]){
+        let option = document.createElement("option");
+        option.value = p;
+        option.textContent = p;
+        s.appendChild(option);
+      }
+    }
+  }
+
+
   async function handleSubmit(formData, close) {
     setError("");
     setLoading(true);
@@ -53,24 +78,29 @@ export default function InputNewMatchButton({ teamId, onMatchAdded }) {
     const opponent = formData.get("opponent").trim();
     const date = formData.get("date");
     const time = formData.get("time");
-    const location = formData.get("home")
-      ? "home"
-      : "away";
-    const scoreHome = 1;
+    const location = formData.get("location") === "home"
+      ? "HOME"
+      : "AWAY";
+    const inPlayers = [
+      formData.get("inPlayer1"),
+      formData.get("inPlayer2"),
+      formData.get("inPlayer3"),
+      formData.get("inPlayer4"),
+      formData.get("inPlayer5"),
+      formData.get("inPlayer6"),
+      formData.get("inPlayer7")
+    ]
+    const scoreHome = 0;
     const scoreAway = 0;
-    console.log(opponent);
-    console.log(date);
-    console.log(time);
-    console.log(location);
-
 
     try {
       const newMatch = await createMatch(teamId, {
         opponent: opponent, 
-        match_date: date,
+        match_date: `${date} ${time}`,
         location: location,
+        in_players: inPlayers,
         score_home: scoreHome,
-        score_away: scoreHome,
+        score_away: scoreAway,
       });
       onMatchAdded(newMatch);
       close();
@@ -109,7 +139,10 @@ export default function InputNewMatchButton({ teamId, onMatchAdded }) {
         background: "rgba(18, 30, 58, 0.45)",
         backdropFilter: "blur(3px)",
       }}
-      onOpen={() => setError("")}
+      onOpen={() => {
+        setError("")
+        handleSelectChange();
+      }}
     >
       {(close) => (
         <div className={styles.modal}>
@@ -240,6 +273,21 @@ export default function InputNewMatchButton({ teamId, onMatchAdded }) {
                     </label>
                 </div>
               </div>
+              <div className={styles.fieldGroup}>
+                <label className={styles.label}>
+                  Spillere der starter inde <span className={styles.required}>*</span>
+                </label>
+                <div className={styles.twoFields}>
+                  {[1,2,3,4,5,6,7].map((number, index) => {
+                    return <select key={number} className={styles.input} id={`inp-inPlayer${number}`} name={`inPlayer${number}`} onChange={handleSelectChange}>
+                      {players.map((player, innerIndex) => {
+                        if (index <= innerIndex)
+                        return <option key={`${index}-${innerIndex}`} value={CreatePlayerString(player)}>
+                                </option>
+                      })}
+                    </select>})}
+                </div>
+              </div>
             </div>
 
             {error && (
@@ -269,7 +317,7 @@ export default function InputNewMatchButton({ teamId, onMatchAdded }) {
                   className={styles.submitButton}
                   disabled={loading}
                 >
-                  {loading ? "Tilføjer..." : "Tilføj Spiller"}
+                  {loading ? "Tilføjer..." : "Tilføj Kamp"}
                 </button>
               </div>
             </div>
@@ -278,4 +326,10 @@ export default function InputNewMatchButton({ teamId, onMatchAdded }) {
       )}
     </Popup>
   );
+}
+
+function CreatePlayerString(player){
+  return player.jersey_number !== null 
+          ? `${player.first_name} ${player.last_name} - #${player.jersey_number}`
+          : `${player.first_name} ${player.last_name}`
 }

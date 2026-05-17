@@ -32,7 +32,7 @@ export default async function Header() {
               Hold
             </Link>
           )}
-          <Link href={"/dashboard/matches"} className={styles.navLink}>
+          <Link href={`/dashboard/matches`} className={styles.navLink}>
             Kampe
           </Link>
         </nav>
