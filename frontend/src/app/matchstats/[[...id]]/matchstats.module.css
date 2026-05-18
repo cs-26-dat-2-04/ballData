@@ -45,7 +45,7 @@
 }
 
 .teamLabel {
-  font-size: 13px;
+  font-size: 16px;
   color: #71717a;
   margin-bottom: 8px;
 }
@@ -69,10 +69,10 @@
 .resultBadge {
   display: inline-block;
   margin-top: 12px;
-  padding: 8px 16px;
-  background: #eef2ff;
+  padding: 12px 22px;
+  background: #90e786;
   border-radius: 999px;
-  font-size: 14px;
+  font-size: 24px;
 }
 
 .metaRow {
@@ -112,6 +112,32 @@
 .statCardFooter {
   font-size: 13px;
   color: #71717a;
+}
+
+.statCardTop {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.statCardIcon {
+  width: 72px;
+  height: 72px;
+  border-radius: 16px;
+  background: #eef2ff;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  flex-shrink: 0;
+}
+
+.statCardIcon svg {
+  width: 36px;
+  height: 36px;
+  fill: #2563eb;
 }
 
 .contentGrid {
@@ -276,6 +302,7 @@
 .inviteActions {
   display: flex;
   align-items: center;
+  justify-content: flex-end;
   gap: 12px;
   flex-wrap: wrap;
   margin-top: 16px;
@@ -422,4 +449,73 @@
   font-size: 14px;
   font-family: inherit;
   min-height: 110px;
+}
+.timelineList {
+  max-height: 320px;
+  overflow-y: auto;
+  padding-right: 8px;
+}
+
+.timelineList::-webkit-scrollbar {
+  width: 8px;
+}
+
+.timelineList::-webkit-scrollbar-track {
+  background: #f4f4f5;
+  border-radius: 999px;
+}
+
+.timelineList::-webkit-scrollbar-thumb {
+  background: #c4c4c7;
+  border-radius: 999px;
+}
+
+.timelineList::-webkit-scrollbar-thumb:hover {
+  background: #a1a1aa;
+}
+
+.substitutionItem {
+  display: grid;
+  grid-template-columns: 70px 1fr;
+  gap: 16px;
+  align-items: center;
+}
+
+.substitutionTime {
+  color: #71717a;
+  font-size: 14px;
+  min-width: 70px;
+}
+
+.substitutionPlayers {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 24px;
+  width: 100%;
+}
+
+.substitutionOut,
+.substitutionIn {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.substitutionIn {
+  padding-left: 24px;
+  border-left: 1px solid #e4e4e7;
+}
+
+.substitutionLabel {
+  font-size: 12px;
+  font-weight: 700;
+  color: #71717a;
+  letter-spacing: 0.04em;
+}
+
+.substitutionOut strong,
+.substitutionIn strong {
+  font-size: 15px;
+  color: #18181b;
+  font-weight: 600;
 }
