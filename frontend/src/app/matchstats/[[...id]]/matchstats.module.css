@@ -1,8 +1,12 @@
+@import url("https://fonts.googleapis.com/css?family=Space+Grotesk&display=swap");
+@import url("https://fonts.googleapis.com/css?family=Inter&display=swap");
+
 .page {
   display: flex;
   flex-direction: column;
   gap: 24px;
   padding-bottom: 40px;
+  font-family: var(--sans);
 }
 
 .topBar {
