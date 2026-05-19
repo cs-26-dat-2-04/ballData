@@ -4,17 +4,19 @@ import Back from './../../../components/BackButton/BackButton.jsx';
 import Score from './../../../components/Score/Score.jsx';
 import Clock from './../../../components/Clock/Clock.jsx';
 import GoalTable from "./GoalTablePage.jsx";
+import GoalOppTable from "./GoalOppTablePage.jsx";
 import React, { useState } from "react";
 import styles from "./page.module.css";
 
-export default function Goal({ 
+export default function GoalPage({ 
     onClose, 
     closePrev, 
     scoreUs, 
     scoreOpp,
     setscoreUs,
     setscoreOpp,
-    playerIn, 
+    playersIn,
+    matchID, 
     time, 
     startTime, 
     stopTime,
@@ -23,7 +25,6 @@ export default function Goal({
     isRunning }) {
 
   const [activeModal, setActiveModal] = useState(null);
-  
   if (isRunning) {
     bdColor = "black";
     mode = "Pause";
@@ -31,7 +32,7 @@ export default function Goal({
     bdColor = "rgb(209, 209, 209)"
     mode = "Start";
   }
-
+  
   return (
         <>
             <div className={styles.containerBack}>
@@ -76,10 +77,7 @@ export default function Goal({
                     iconAlt={"Opponent icon"}
                     bdColor={"rgb(232, 67, 12)"}
                     body={"Modstandere"}
-                    onClose={() => {
-                        setscoreOpp(scoreOpp + 1);
-                        onClose();
-                    }} 
+                    onClick={() => setActiveModal("goalOppTable")} 
                 />
             </div>
             {activeModal === "goalTable" && (
@@ -87,9 +85,22 @@ export default function Goal({
                     <GoalTable 
                     onClose={() => setActiveModal(null)} 
                     closePrev={closePrev} 
-                    playersIn={playerIn}
+                    playersIn={playersIn}
+                    matchID={matchID}
                     setscoreUs={setscoreUs}
-                    scoreUs={scoreUs}/>
+                    scoreUs={scoreUs}
+                    scoreOpp={scoreOpp}/>
+                </div>
+            )}
+            {activeModal === "goalOppTable" && (
+                <div className={styles.modal}>
+                    <GoalOppTable 
+                    onClose={() => setActiveModal(null)} 
+                    closePrev={closePrev} 
+                    matchID={matchID}
+                    setscoreOpp={setscoreOpp}
+                    scoreUs={scoreUs}
+                    scoreOpp={scoreOpp}/>
                 </div>
             )}
         </>

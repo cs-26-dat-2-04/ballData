@@ -9,10 +9,11 @@ import ShotTable from "./ShotTablePage.jsx";
 import React, { useState } from "react";
 import styles from "./page.module.css";
 
-export default function Shot({ 
+export default function ShotPage({ 
     onClose, 
     closePrev, 
-    playerIn, 
+    playersIn,
+    matchID, 
     scoreUs, 
     scoreOpp, 
     time, 
@@ -23,6 +24,7 @@ export default function Shot({
     isRunning }) {
 
   const [activeModal, setActiveModal] = useState(null);
+  const [typeMessage, setTypeMessage] = useState("");
 
   if (isRunning) {
     bdColor = "black";
@@ -69,20 +71,25 @@ export default function Shot({
                     icon={"/checkApp.svg"}
                     iconColor={"rgb(29, 158, 117)"}
                     iconAlt={"Skud på mål icon"}
-                    onClick={() => setActiveModal("shotTable")}
+                    onClick={() => {setActiveModal("shotTable"); setTypeMessage("playerShotOn"); }}
                     body={"På mål"}
                 />
                 <AppCard 
                     icon={"/xApp.svg"}
                     iconColor={"rgb(232, 67, 12)"}
                     iconAlt={"Skud uden for mål icon"}
-                    onClick={() => setActiveModal("shotTable")}
+                    onClick={() => {setActiveModal("shotTable"); setTypeMessage("playerShotOff"); }}
                     body={"Uden for mål"}
                 />
             </div>
             {activeModal === "shotTable" && (
                 <div className={styles.modal}>
-                    <ShotTable onClose={() => setActiveModal(null)} closePrev={closePrev} playersIn={playerIn} />
+                    <ShotTable 
+                    onClose={() => setActiveModal(null)} 
+                    closePrev={closePrev} 
+                    playersIn={playersIn} 
+                    matchID={matchID}
+                    message={typeMessage}/>
                 </div>
             )}
         </>

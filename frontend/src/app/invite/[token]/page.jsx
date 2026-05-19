@@ -1,10 +1,17 @@
 import HomePage from "./HomePage";
+import { getPlayers } from "../../../server-services/playerService.js";
+import { getMe } from "../../../server-services/authService.js";
 
 export default async function Page({ params }) {
   const { token } = await params;
   const { id } = await params;
 
   const res = await fetch(`http://backend:3001/invite/${token}`);
+  const match = await res.json();
+  const matchID = match.id;
+  const scoreUS = match.score_home;
+  const scoreOPP = match.score_away;
+
   console.log("Token:", token);
   console.log("Status:", res.status);
 
@@ -19,7 +26,6 @@ export default async function Page({ params }) {
     if (!coach.team) {
       redirect("/login");
     }
-
     const teamId = id ?? coach.team.id;
 
     players = await getPlayers(teamId);
@@ -28,7 +34,10 @@ export default async function Page({ params }) {
   }
 
   return <HomePage 
-  playersIN={players}
-  playersOUT={players}
+    playersIN={players}
+    playersOUT={players}
+    matchID={matchID}
+    scoreUS={scoreUS}
+    scoreOPP={scoreOPP}
   />;
 }

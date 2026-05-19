@@ -14,6 +14,7 @@ wss.on('connection', ws => {
     ws.on('message', async (message) => {
         const data = JSON.parse(message);
         await liveMatch(data);
+        console.log('Message sent');
     });
 
     ws.on('close', () => {

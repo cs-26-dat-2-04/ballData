@@ -1,28 +1,22 @@
 "use client";
 
-import { useMemo, useState } from "react";
 import PlayerColl from '../../../components/PlayerCollection/PlayerColl.jsx';
 import Back from '../../../components/BackButton/BackButton.jsx';
 import styles from "./page.module.css";
 
 export default function GoalTablePage({ 
   onClose, 
-  playersIn, 
   matchID,
   closePrev, 
+  setscoreOpp,
   scoreUs, 
-  scoreOpp,
-  setscoreUs }) {
+  scoreOpp }) {
 
-  const [players, setPlayers] = useState(playersIn);
-
-  const filtered = useMemo(() => {
-    return players?.map((p) => ({
-      id: p.id,
-      pName: `${p.first_name} ${p.last_name}`,
-      jerseyNum: p.jersey_number?.toString() ?? "",
-    }));
-  }, [players]);
+  let opponent = [{
+    id: null,
+    pName: "Modstandere",
+    jerseyNum: 67
+  }]
 
   return (
       <>
@@ -32,16 +26,16 @@ export default function GoalTablePage({
         <div className={styles.containerColumn}>
             <h1 className={styles.pageHeader}>Mål</h1>
             <PlayerColl 
-            data={filtered}
+            data={opponent}
             matchID={matchID}
-            message={"playerGoal"}
+            message={"oppGoal"}
             onClose={() => {
-              setscoreUs(scoreUs + 1);
+              setscoreOpp(scoreOpp + 1);
               onClose
             }} 
             closePrev={closePrev}
             scoreUs={scoreUs}
-            scoreAway={scoreOpp}/>
+            scoreOpp={scoreOpp}/>
         </div>
       </>
     )

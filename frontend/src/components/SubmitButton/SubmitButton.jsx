@@ -7,27 +7,39 @@ export default function AppCard({
   body,
   bdColor,
   foulType,
-  onClick
+  onClick,
+  page
 }) {
-  // The backend will insert the values into the parameters.
 
-  const router = useRouter()
   const handleClick = () => {
-    if (foulType.length > 0 && foulType.length < 3) {
-        if ((foulType[0] === "Frikast" && foulType[1] === "Straffekast") || 
-            (foulType[0] === "Straffekast" && foulType[1] === "Frikast")) {
-                alert("Du kan ikke vælge straffekast og frikast på samme tid")
-            } else {
-                onClick();
-            }
+    const hasYellow = foulType.includes("GultK");
+    const hasRed = foulType.includes("RødtK");
+    const hasNoCard = foulType.includes("Ingenting");
+    const hasBothCards = foulType.includes("GultK") && foulType.includes("RødtK");
+    const hasPenalty = foulType.includes("Straffekast");
+    const hasFreeThrow = foulType.includes("Frikast");
+    const hasEviction = foulType.includes("Udvisning");
+    
+    if (foulType.length === 0) {
+      alert("Du skal vælge mindst en knap");
+    } else if (foulType.length >= 4) {
+      alert("Følgende kombination er ikke muligt: " + foulType.join(", "));
+    } else if (hasBothCards) {
+      alert("Du kan ikke vælge et gult kort og et rødt kort på samme tid");
+    } else if ((hasYellow || hasRed) && hasNoCard) {
+      alert("Du kan ikke vælge et gult kort og ingenting på samme tid");
+    } else if (hasYellow && hasEviction) {
+      alert("Du kan ikke vælge et gult kort og 2-min udvisning på samme tid");
+    } else if (hasFreeThrow && hasPenalty) {
+      alert("Du kan ikke vælge straffekast og frikast på samme tid");
+    } else if (hasNoCard && page && !(hasEviction || hasPenalty || hasFreeThrow)) {
+      alert("Tilføj frikast, straffekast eller udvisning, hvis der ikke gives kort");
     } else {
-        if (foulType.length === 0) {
-            alert("Du skal vælge mindst en knap");
-        } else {
-            alert("Du kan ikke vælge alle tre knapper");
-        }
+      onClick();
     }
   }
+
+  console.log(foulType.join(", "));
 
   return (
     // We are currently using placeholders until we link frontend to backend

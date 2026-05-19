@@ -3,10 +3,21 @@
 import PlayerColl from '../../../components/PlayerCollection/PlayerColl.jsx';
 import Back from '../../../components/BackButton/BackButton.jsx';
 import SubsTable from "./SubsTablePage.jsx";
-import React, { useState } from "react";
+import React, { useMemo, useState } from "react";
 import styles from "./page.module.css";
 
-export default function SubsPage({ onClose, playerIn, playerOut, closePrev }) {
+export default function SubsPage({ onClose, playersIn, playersOut, closePrev }) {
+
+  const [players, setPlayers] = useState(playersIn);
+
+  const filtered = useMemo(() => {
+    return players?.map((p) => ({
+      id: p.id,
+      pName: `${p.first_name} ${p.last_name}`,
+      jerseyNum: p.jersey_number?.toString() ?? ""
+    }));
+  }, [players]);
+
   const [activeModal, setActiveModal] = useState(null);
 
   return (
@@ -18,11 +29,11 @@ export default function SubsPage({ onClose, playerIn, playerOut, closePrev }) {
             <h1 className={styles.pageHeader}>Udskiftninger-Ud</h1>
             <PlayerColl 
             onClick={() => setActiveModal("foulTable")}
-            data={playerIn}/>
+            data={filtered}/>
         </div>
         {activeModal === "foulTable" && (
             <div className={styles.modal}>
-                <SubsTable onClose={() => setActiveModal(null)} closePrev={closePrev} playerOut={playerOut} />
+                <SubsTable onClose={() => setActiveModal(null)} closePrev={closePrev} playersOut={playersOut} />
             </div>
         )}
       </>

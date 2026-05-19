@@ -2,7 +2,7 @@ import PlayerColl from '../../../components/PlayerCollection/PlayerColl.jsx';
 import Back from '../../../components/BackButton/BackButton.jsx';
 import styles from "./page.module.css";
 
-export default function SubsPageTable({ onClose, playerOut, closePrev }) {
+export default function SubsTablePage({ onClose, playersOut, closePrev }) {
 
   return (
       <>
@@ -11,7 +11,10 @@ export default function SubsPageTable({ onClose, playerOut, closePrev }) {
         </div>
         <div className={styles.containerColumn}>
             <h1 className={styles.pageHeader}>Udskiftninger-Ind</h1>
-            <PlayerColl data={playerOut} onClose={onClose} closePrev={closePrev}/>
+            <PlayerColl 
+            data={playersOut} 
+            onClose={onClose} 
+            closePrev={closePrev}/>
         </div>
       </>
     )

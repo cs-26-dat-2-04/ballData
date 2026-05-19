@@ -10,13 +10,15 @@ import FoulTable from "./FoulTablePage.jsx";
 import React, { useState } from "react";
 import styles from "./page.module.css";
 
-export default function Foul({ 
+export default function FoulAddOnPage({ 
     scoreUs, 
     scoreOpp, 
     onClose, 
-    closePrev, 
+    closePrev,
+    setFoulType,
     foulType, 
-    playerIn,
+    matchID,
+    playersIn,
     time,
     startTime,
     stopTime,
@@ -37,7 +39,10 @@ export default function Foul({
   return (
         <>
             <div className={styles.containerBack}>
-                <Back onClose={onClose}/>
+                <Back onClose={() => {
+                    setFoulType(foulType.filter(item => !["Udvisning", "Frikast", "Straffekast"].includes(item)));
+                    onClose();
+                }}/>
             </div>
             <div className={styles.containerRow} style={{paddingTop: "20px"}}>
                     <Score
@@ -102,11 +107,18 @@ export default function Foul({
                     bdColor={"rgb(29, 158, 117)"}
                     foulType={foulType}
                     onClick={() => { setActiveModal("foulTable")}}
+                    page={true}
                 />
             </div>
             {activeModal === "foulTable" && (
                 <div className={styles.modal}>
-                    <FoulTable onClose={() => setActiveModal(null)} closePrev={closePrev} playerIn={playerIn}/>
+                    <FoulTable 
+                    onClose={() => setActiveModal(null)} 
+                    closePrev={closePrev} 
+                    playersIn={playersIn}
+                    setFoulType={setFoulType}
+                    foulType={foulType}
+                    matchID={matchID}/>
                 </div>
             )}
         </>
