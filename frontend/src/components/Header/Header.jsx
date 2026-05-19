@@ -7,6 +7,7 @@ export default async function Header() {
 
   try {
     const { coach } = await getMe();
+    console.log(coach);
     teamId = coach.team?.id ?? null;
   } catch {
     // ingenting
@@ -16,7 +17,7 @@ export default async function Header() {
     <>
       <header className={styles.ballDataHeader}>
         <div>
-          <Link href={"/"} style={{ textDecoration: "none" }}>
+          <Link href={"/dashboard"} style={{ textDecoration: "none" }}>
             <h3>ballData</h3>
           </Link>
           <a style={{ color: "var(--muted)" }}>Sæson {currentSeasonString()}</a>
@@ -25,16 +26,18 @@ export default async function Header() {
         <nav className={styles.headerNav}>
           {teamId && (
             <Link
-              href={`/teams/${teamId}`}
+              href={`/dashboard/teams/${teamId}`}
               className={styles.navLink}
               style={{ borderRight: "2px solid var(--rule)" }}
             >
               Hold
             </Link>
           )}
-          <Link href={"/matches"} className={styles.navLink}>
-            Kampe
-          </Link>
+          {teamId && (
+            <Link href={"/dashboard/matches"} className={styles.navLink}>
+              Kampe
+            </Link>
+          )}
         </nav>
       </header>
     </>

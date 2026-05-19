@@ -16,7 +16,7 @@ export const getSeasonStatsByTeamId = async ({ teamId }) => {
       },
       where: {
         match: {
-          id: teamId,
+          team_id: teamId,
         },
       },
     }),
@@ -26,7 +26,7 @@ export const getSeasonStatsByTeamId = async ({ teamId }) => {
         score_away: true,
       },
       where: {
-        id: teamId,
+        team_id: teamId,
       },
     }),
   ]);

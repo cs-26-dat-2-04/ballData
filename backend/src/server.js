@@ -2,7 +2,7 @@ import { app, PORT } from "./app.js";
 import { liveMatch } from "./services/liveMatch.js"
 import { WebSocketServer } from "ws";
 
-app.listen(PORT, () => {
+app.listen(PORT, "0.0.0.0", () => {
   console.log(`Backend running on http://localhost:${PORT}`);
 });
 

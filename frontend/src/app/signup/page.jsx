@@ -30,15 +30,18 @@ export default function CoachSignup() {
 
     setLoading(true);
     try {
-      const res = await fetch("http://localhost:3001/auth/signup", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          name: formData.name,
-          email: formData.email,
-          password: formData.password,
-        }),
-      });
+      const res = await fetch(
+        `${process.env.NEXT_PUBLIC_API_URL}/auth/signup`,
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            name: formData.name,
+            email: formData.email,
+            password: formData.password,
+          }),
+        },
+      );
 
       const data = await res.json();
 
@@ -73,7 +76,7 @@ export default function CoachSignup() {
                 width="24px"
                 fill="#e3e3e3"
               >
-                <path d="M367-527q-47-47-47-113t47-113q47-47 113-47t113 47q47 47 47 113t-47 113q-47 47-113 47t-113-47ZM160-160v-112q0-34 17.5-62.5T224-378q62-31 126-46.5T480-440q66 0 130 15.5T736-378q29 15 46.5 43.5T800-272v112H160Z"/>
+                <path d="M367-527q-47-47-47-113t47-113q47-47 113-47t113 47q47 47 47 113t-47 113q-47 47-113 47t-113-47ZM160-160v-112q0-34 17.5-62.5T224-378q62-31 126-46.5T480-440q66 0 130 15.5T736-378q29 15 46.5 43.5T800-272v112H160Z" />
               </svg>
             </label>
             <input
@@ -88,7 +91,7 @@ export default function CoachSignup() {
           </div>
           <div>
             <label htmlFor="email-input">
-                <span>@</span>
+              <span>@</span>
             </label>
             <input
               type="email"

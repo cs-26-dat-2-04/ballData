@@ -62,9 +62,9 @@ model Match {
   result        String
   score_home    Int
   score_away    Int
-
+  in_players    String[]
+  
   matchStats    MatchStats[]
-
   inviteTokens  InviteToken[]
 }
 

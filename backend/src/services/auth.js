@@ -3,6 +3,7 @@ import jwt from "jsonwebtoken";
 import pkg from "@prisma/client";
 const { PrismaClient } = pkg;
 import { prisma } from "../lib/prisma.js";
+import {createTeam} from "../services/teams.js"
 
 export async function signup({ name, email, password }) {
   const existingCoach = await prisma.coach.findUnique({ where: { email } });
@@ -13,9 +14,20 @@ export async function signup({ name, email, password }) {
   }
 
   const password_hash = await bcrypt.hash(password, 12);
-  await prisma.coach.create({
+  const coach = await prisma.coach.create({
     data: { name, email, password_hash },
   });
+  const teamName = name.endsWith("s")||name.endsWith("S") ? `${name}' hold` : `${name}s hold`;
+  
+  const team = await createTeam(coach.id, teamName);
+
+  if(!team){
+    prisma.coach.delete({where: {id: coach.id}});
+    const error = new Error("Noget gik med at oprette hold til coach");
+    throw error
+  };
+
+
 }
 
 export async function login({ email, password }) {
