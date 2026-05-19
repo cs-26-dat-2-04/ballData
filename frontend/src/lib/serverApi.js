@@ -1,6 +1,6 @@
 import { cookies } from "next/headers";
 
-const API_URL = process.env.API_URL ?? "http://backend:3001";
+const API_URL = process.env.NEXT_PUBLIC_API_URL ?? "http://backend:3001";
 
 // Til server side funktioner
 export async function serverApiFetch(path, options = {}) {
@@ -27,6 +27,7 @@ export async function serverApiFetch(path, options = {}) {
       throw new Error(message);
     }
   } catch (err) {
+    console.log(err);
     throw err;
   }
 
