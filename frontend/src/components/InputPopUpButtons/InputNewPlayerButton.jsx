@@ -1,9 +1,41 @@
 "use client";
 
 import Popup from "reactjs-popup";
-import styles from "./InputNewPlayerButton.module.css";
+import styles from "./inputPopUpButton.module.css";
+import { useState } from "react";
+import { createPlayer } from "../../services/playerService.js";
 
-export default function InputNewPlayerButton() {
+export default function InputNewPlayerButton({ teamId, onPlayerAdded }) {
+  const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false);
+
+  async function handleSubmit(formData, close) {
+    setError("");
+    setLoading(true);
+
+    const name = formData.get("name").trim();
+    const nameParts = name.split(/\s+/);
+    const firstName = nameParts[0];
+    const lastName = nameParts.slice(1).join(" ");
+    const jerseyNumber = formData.get("jerseyNumber")
+      ? parseInt(formData.get("jerseyNumber"))
+      : undefined;
+
+    try {
+      const newPlayer = await createPlayer(teamId, {
+        firstName: firstName,
+        lastName: lastName,
+        jerseyNumber: jerseyNumber,
+      });
+      onPlayerAdded(newPlayer);
+      close();
+    } catch (err) {
+      setError(err.message || "Noget gik galt");
+    } finally {
+      setLoading(false);
+    }
+  }
+
   return (
     <Popup
       trigger={
@@ -32,6 +64,7 @@ export default function InputNewPlayerButton() {
         background: "rgba(18, 30, 58, 0.45)",
         backdropFilter: "blur(3px)",
       }}
+      onOpen={() => setError("")}
     >
       {(close) => (
         <div className={styles.modal}>
@@ -82,13 +115,10 @@ export default function InputNewPlayerButton() {
             </button>
           </div>
 
-          {/* Form */}
           <form
             autoComplete="off"
             className={styles.form}
-            action={(data) => {
-              if (test(data)) close();
-            }}
+            action={(formData) => handleSubmit(formData, close)}
           >
             <div className={styles.formBody}>
               <div className={styles.fieldGroup}>
@@ -102,20 +132,6 @@ export default function InputNewPlayerButton() {
                   name="name"
                   pattern="[A-Za-zæøåÆØÅ\s]*"
                   placeholder="Fornavn Efternavn"
-                  required
-                />
-              </div>
-
-              <div className={styles.fieldGroup}>
-                <label className={styles.label} htmlFor="inp-position">
-                  Position <span className={styles.required}>*</span>
-                </label>
-                <input
-                  id="inp-position"
-                  className={styles.input}
-                  type="text"
-                  name="position"
-                  placeholder="f.eks. Målvogter"
                   required
                 />
               </div>
@@ -137,6 +153,18 @@ export default function InputNewPlayerButton() {
               </div>
             </div>
 
+            {error && (
+              <p
+                style={{
+                  color: "var(--red)",
+                  padding: "0 24px",
+                  fontSize: "14px",
+                }}
+              >
+                {error}
+              </p>
+            )}
+
             <div className={styles.formFooter}>
               <p className={styles.requiredNote}>* påkrævede felter</p>
               <div className={styles.actions}>
@@ -147,8 +175,12 @@ export default function InputNewPlayerButton() {
                 >
                   Annuller
                 </button>
-                <button type="submit" className={styles.submitButton}>
-                  Tilføj Spiller
+                <button
+                  type="submit"
+                  className={styles.submitButton}
+                  disabled={loading}
+                >
+                  {loading ? "Tilføjer..." : "Tilføj Spiller"}
                 </button>
               </div>
             </div>
@@ -157,9 +189,4 @@ export default function InputNewPlayerButton() {
       )}
     </Popup>
   );
-}
-
-function test(data) {
-  console.log(data);
-  return true;
 }

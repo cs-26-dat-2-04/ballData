@@ -23,7 +23,18 @@ export const getMatchesByTeam = async (teamId, coachId) => {
     where: { team_id: teamId },
     orderBy: { match_date: "desc" },
   });
-
+  const formatter = new Intl.DateTimeFormat('en-GB', {
+    day: '2-digit',
+    month: '2-digit',
+    year: 'numeric',
+    hour: '2-digit',
+    minute: '2-digit',
+    hour12: false 
+  });
+  
+  for (let m of matches) {
+    m.match_date = formatter.format(m.match_date);
+  }
   return matches;
 };
 
@@ -86,6 +97,18 @@ export const getMatchById = async (matchId, coachId) => {
     error.status = 403;
     throw error;
   }
+
+  const formatter = new Intl.DateTimeFormat('en-GB', {
+    day: '2-digit',
+    month: '2-digit',
+    year: 'numeric',
+    hour: '2-digit',
+    minute: '2-digit',
+    hour12: false 
+  });
+  
+
+  match.match_date = formatter.format(match.match_date);
 
   return match;
 };

@@ -1,35 +1,44 @@
 "use client";
 
 import { useState, useMemo } from "react";
-import PlayerCollection from "../Collections/PlayerCollection.jsx";
-import InputNewPlayerButton from "../InputPopUpButtons/InputNewPlayerButton.jsx";
-import styles from "./teamPageClient.module.css";
+import MatchCollection from "../Collections/MatchCollection.jsx";
+import InputNewMatchButton from "../InputPopUpButtons/InputNewMatchButton.jsx";
+import styles from "./pageClient.module.css";
 
-export default function TeamPageClient({ players, teamId }) {
+export default function TeamPageClient({ matches: initialMatches, players, teamId }) {
+  const [matches, setMatches] = useState(initialMatches);
   const [query, setQuery] = useState("");
+
+  function handleMatchAdded(newMatch) {
+    setMatches((prev) => [newMatch, ...prev]);
+  }
 
   const filtered = useMemo(() => {
     const q = query.trim().toLowerCase();
-    if (!q) return players;
-    return players.filter((p) => {
-      const fullName = `${p.firstName} ${p.lastName}`.toLowerCase();
-      const jersey = p.jerseyNumber?.toString() ?? "";
-      return fullName.includes(q) || jersey.includes(q);
+    if (!q) return matches;
+    return matches.filter((m) => {
+      const opponent = m.opponent.toLowerCase();
+      const date = m.match_date.toString();
+      const location = m.location;
+      return opponent.includes(q) || date.includes(q);
     });
-  }, [query, players]);
+  }, [query, matches]);
 
   return (
     <>
       <div className={styles.pageHeader}>
         <div className={styles.headerLeft}>
-          {/* <p className={styles.breadcrumb}>Hold</p> */}
           <h1 className={styles.teamTitle}>Hold Oversigt</h1>
           <p className={styles.playerCount}>
-            {players.length} spillere på holdet
+            {matches.length} kampe
           </p>
         </div>
         <div className={styles.headerRight}>
-          <InputNewPlayerButton />
+          <InputNewMatchButton
+            teamId={teamId}
+            players={players}
+            onMatchAdded={handleMatchAdded}
+          />
         </div>
       </div>
 
@@ -53,7 +62,7 @@ export default function TeamPageClient({ players, teamId }) {
           <input
             className={styles.searchInput}
             type="text"
-            placeholder="Søg efter navn eller trøjenummer..."
+            placeholder="Søg efter modstander eller dato..."
             value={query}
             onChange={(e) => setQuery(e.target.value)}
           />
@@ -70,13 +79,13 @@ export default function TeamPageClient({ players, teamId }) {
         {query && (
           <p className={styles.resultCount}>
             {filtered.length === 0
-              ? "Ingen spillere fundet"
-              : `${filtered.length} spiller${filtered.length !== 1 ? "e" : ""} fundet`}
+              ? "Ingen kampe fundet"
+              : `${filtered.length} kamp${filtered.length !== 1 ? "e" : ""} fundet`}
           </p>
         )}
       </div>
 
-      <PlayerCollection data={filtered} />
+      <MatchCollection data={filtered} />
     </>
   );
 }

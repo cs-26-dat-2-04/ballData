@@ -1,6 +1,6 @@
 import styles from "../styles.module.css";
 import collectionStyles from "../Collections/collections.module.css"
-import Row from "../Rows/TeamRow.jsx";
+import TeamRow from "../Rows/TeamRow.jsx";
 import Image from "next/image";
 
 export default function MatchRow({ data }) {
@@ -37,7 +37,7 @@ export default function MatchRow({ data }) {
           Klik på et hold for at se detaljer og tilføje noter
         </p>
       </div>
-      <Row data={data} />
+      <TeamRow data={data} />
     </article>
   );
 }

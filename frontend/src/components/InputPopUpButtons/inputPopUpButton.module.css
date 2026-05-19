@@ -192,6 +192,36 @@
   box-shadow: 0 0 0 3px rgba(232, 67, 12, 0.1);
 }
 
+.twoFields{
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 6px;
+  height: 100%;
+}
+
+.radioButton{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 42px;
+  width: 100%;
+  font-family: var(--sans);
+  color: var(--ink);
+  transition:
+    background 0.12s ease,
+    color 0.12s ease;
+  border: solid 1.5px var(--rule);
+  border-radius: 8px;
+}
+
+.radioButton:hover {
+  background: var(--ice);
+}
+
+.radioButton input{
+  margin: 0 5px 0 0;
+}
+
 .formFooter {
   display: flex;
   align-items: center;

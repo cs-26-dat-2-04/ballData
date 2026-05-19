@@ -1,12 +1,12 @@
 import { cookies } from "next/headers";
 
-const API_URL = process.env.API_URL ?? "http://backend:3001";
+const API_URL = process.env.NEXT_PUBLIC_API_URL ?? "http://backend:3001";
 
 // Til server side funktioner
 export async function serverApiFetch(path, options = {}) {
   const cookieStore = await cookies();
-  const token = cookieStore.get("token")?.value;
 
+  const token = cookieStore.get("token")?.value;
   let data;
   try {
     const res = await fetch(`${API_URL}${path}`, {
@@ -27,6 +27,7 @@ export async function serverApiFetch(path, options = {}) {
       throw new Error(message);
     }
   } catch (err) {
+    console.log(err);
     throw err;
   }
 

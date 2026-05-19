@@ -12,6 +12,7 @@ export default function PlayerRow({ data }) {
           href={`/players/${info.id}`}
         >
           <div className={styles.container}>
+            {/*
             <div
               className={rowStyles.coloredDiv}
               style={{
@@ -20,11 +21,11 @@ export default function PlayerRow({ data }) {
                 marginRight: "10px",
               }}
             >
-              <>{info.position}</>
-            </div>
+               <>{info.position}</> 
+            </div>*/}
             <p className={rowStyles.leftSideText}>
-              {info.firstName} {info.lastName}
-              {info.jerseyNumber && ` - #${info.jerseyNumber}`}
+              {info.first_name} {info.last_name}
+              {info.jersey_number && ` - #${info.jersey_number}`}
             </p>
             <p className={rowStyles.rightSideText}>{info.season}</p>
           </div>

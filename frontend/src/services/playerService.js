@@ -1,5 +1,6 @@
 import { apiFetch } from "../lib/api.js";
 
+<<<<<<< HEAD
 const dummyPlayers = [
   { id: "1",  team_id: "team-1", first_name: "Carl",     last_name: "Carlsen",     position: "Målvogter",    jersey_number: 1  },
   { id: "2",  team_id: "team-1", first_name: "Mikkel",   last_name: "Hansen",      position: "Højre Back",   jersey_number: 4  },
@@ -51,3 +52,24 @@ export async function getPlayerCoachNotes(playerId) {
   // return apiFetch(`/players/${playerId}/notes`);
   return dummyCoachNotes[String(playerId)] ?? [];
 }
+=======
+export async function createPlayer(teamId, playerData) {
+  return apiFetch(`/teams/${teamId}/players`, {
+    method: "POST",
+    body: JSON.stringify(playerData),
+  });
+}
+
+export async function deletePlayer(playerId) {
+  return apiFetch(`/players/${playerId}`, {
+    method: "DELETE",
+  });
+}
+
+export async function updatePlayer(playerId, playerData) {
+  return apiFetch(`/players/${playerId}`, {
+    method: "PATCH",
+    body: JSON.stringify(playerData),
+  });
+}
+>>>>>>> development

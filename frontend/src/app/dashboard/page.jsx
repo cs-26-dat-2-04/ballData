@@ -1,16 +1,15 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import StatCard from "../components/StatCard/StatCard.jsx";
-import BarChart from "../components/SeasonGraph/SeasonGraph.jsx";
-import StatsCollection from "../components/SeasonStats/StatsCollection.jsx";
-import Matches from "../components/Collections/MatchCollection.jsx";
-import Header from "../components/Header/Header.jsx";
-import DashboardStyles from "../app/app.module.css";
-import { getMe } from "../services/authService.js";
-import { getMatches } from "../services/matchService";
-import { getSeasonStats } from "../services/statsService.js";
-import { getTeam } from "../services/teamService.js";
+import StatCard from "../../components/StatCard/StatCard.jsx";
+import BarChart from "../../components/SeasonGraph/SeasonGraph.jsx";
+import StatsCollection from "../../components/SeasonStats/StatsCollection.jsx";
+import Matches from "../../components/Collections/MatchCollection.jsx";
+import DashboardStyles from "./app.module.css";
+import { getMe } from "../../services/authService.js";
+import { getMatches } from "../../services/matchService.js";
+import { getSeasonStats } from "../../services/statsService.js";
+import { getTeam } from "../../services/teamService.js";
 
 function deriveMatchStats(matches) {
   const counts = { win: 0, loss: 0, draw: 0 };
@@ -36,9 +35,17 @@ function deriveSeasonStats(seasonData, totalMatches) {
 
   const shotPrecisionFooter = `Gns. ${totalMatches > 0 ? seasonData.goals / totalMatches : 0.0} skud på mål pr. kamp`;
 
-  const goalKeeperSavePercent = seasonData.savePercentage;
+  const goalKeeperSavePercent =
+    seasonData.saves > 0 ? seasonData.savePercentage : "0.0";
 
-  return { shotPrecision, shotPrecisionFooter, goalKeeperSavePercent };
+  const goalKeeperFooter = `Gns. ${totalMatches > 0 ? seasonData.saves / totalMatches : 0.0} redninger pr. kamp`;
+
+  return {
+    shotPrecision,
+    shotPrecisionFooter,
+    goalKeeperSavePercent,
+    goalKeeperFooter,
+  };
 }
 
 export default function Dashboard() {
@@ -82,13 +89,16 @@ export default function Dashboard() {
   }, []);
 
   const { counts, winRate, winRateFooter } = deriveMatchStats(matches);
-  const { shotPrecision, shotPrecisionFooter, goalKeeperSavePercent } =
-    deriveSeasonStats(seasonStats, matches.length);
+  const {
+    shotPrecision,
+    shotPrecisionFooter,
+    goalKeeperSavePercent,
+    goalKeeperFooter,
+  } = deriveSeasonStats(seasonStats, matches.length);
 
   return (
     <>
       <title>Dashboard</title>
-      <Header />
       <div className="main-container">
         {error && <p style={{ color: "red" }}>{error}</p>}
         <div className={DashboardStyles.statCardsContainer}>
@@ -111,7 +121,7 @@ export default function Dashboard() {
           <StatCard
             title={"Målmandsrednings\u{000AD}procent"} //\u{000AD} is a soft hyphen that suggests where to hyphenate the word if it is too long for the textbox
             body={loading ? "-" : `${goalKeeperSavePercent}%`}
-            footer={"Gns. 19.0 redninger pr. kamp"}
+            footer={loading ? "-" : `${goalKeeperFooter}`}
             iconColor={"#FEF3DA"}
             icon={"/shield.svg"}
             iconAlt={"Win rate icon"}
