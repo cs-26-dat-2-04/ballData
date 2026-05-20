@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { useState } from "react";
-import styles from "./matchstats.module.css";
+import styles from "./matches.module.css";
 
 import MatchPageClient from "../../../../components/PageClient/MatchPageClient.jsx";
 import { redirect } from "next/navigation";
