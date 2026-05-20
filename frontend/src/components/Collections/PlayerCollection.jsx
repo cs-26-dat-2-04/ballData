@@ -16,7 +16,7 @@ export default function PlayerCollection({ data, team }) {
             height={30}
           />
         </div>
-        <div style={{display:"flex", flexDirection: "row"}}>
+        <div>
           <p
             style={{
               color: "black",
