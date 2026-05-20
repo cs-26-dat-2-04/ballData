@@ -1,19 +1,20 @@
 "use client";
 
 import { useMemo, useState } from "react";
-import PlayerColl from '../../../components/PlayerCollection/PlayerColl.jsx';
-import Back from '../../../components/BackButton/BackButton.jsx';
+import PlayerColl from "../../../components/PlayerCollection/PlayerColl.jsx";
+import Back from "../../../components/BackButton/BackButton.jsx";
 import styles from "./page.module.css";
 
-export default function GoalTablePage({ 
-  onClose, 
-  playersIn, 
+export default function GoalTablePage({
+  onClose,
+  playersIn,
   matchID,
-  closePrev, 
-  scoreUs, 
+  closePrev,
+  scoreUs,
   scoreOpp,
-  setscoreUs }) {
-
+  setscoreUs,
+  sendJsonMessage,
+}) {
   const [players, setPlayers] = useState(playersIn);
 
   const filtered = useMemo(() => {
@@ -25,24 +26,26 @@ export default function GoalTablePage({
   }, [players]);
 
   return (
-      <>
-        <div className={styles.containerBack}>
-            <Back onClose={onClose}/>
-        </div>
-        <div className={styles.containerColumn}>
-            <h1 className={styles.pageHeader}>Mål</h1>
-            <PlayerColl 
-            data={filtered}
-            matchID={matchID}
-            message={"playerGoal"}
-            onClose={() => {
-              setscoreUs(scoreUs + 1);
-              onClose
-            }} 
-            closePrev={closePrev}
-            scoreUs={scoreUs}
-            scoreAway={scoreOpp}/>
-        </div>
-      </>
-    )
+    <>
+      <div className={styles.containerBack}>
+        <Back onClose={onClose} />
+      </div>
+      <div className={styles.containerColumn}>
+        <h1 className={styles.pageHeader}>Mål</h1>
+        <PlayerColl
+          data={filtered}
+          matchID={matchID}
+          message={"playerGoal"}
+          onClose={() => {
+            setscoreUs(scoreUs + 1);
+            onClose;
+          }}
+          closePrev={closePrev}
+          scoreUs={scoreUs}
+          scoreAway={scoreOpp}
+          sendJsonMessage={sendJsonMessage}
+        />
+      </div>
+    </>
+  );
 }

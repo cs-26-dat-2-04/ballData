@@ -3,8 +3,7 @@
 import Popup from "reactjs-popup";
 import styles from "./inputPopUpButton.module.css";
 import { useState, useEffect } from "react";
-import { createMatch } from "../../services/matchService.js"
-
+import { createMatch, upsertMatchStats } from "../../services/matchService.js"
 
 export default function InputNewMatchButton({ teamId, players, onMatchAdded }) {
   const [error, setError] = useState("");
@@ -102,6 +101,23 @@ export default function InputNewMatchButton({ teamId, players, onMatchAdded }) {
         score_home: scoreHome,
         score_away: scoreAway,
       });
+
+    for (const player of players) {
+      await upsertMatchStats(newMatch.id, {
+        player_id: player.id,
+        goals: 0,
+        assists: 0,
+        shots_on_goal: 0,
+        shots_off_goal: 0,
+        saves: 0,
+        yellow_cards: 0,
+        two_min_susp: 0,
+        red_cards: 0,
+        free_throws: 0,
+        penalty_throws: 0,
+        minutes_played: 0
+      });
+    }
       onMatchAdded(newMatch);
       close();
     } catch (err) {
