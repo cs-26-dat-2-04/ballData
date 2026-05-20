@@ -17,7 +17,7 @@ export async function seedCoach(overrides = {}) {
 export async function seedTeam(coachId, overrides = {}) {
   return prisma.team.create({
     data: {
-      name: "Test FC",
+      name: "Test Club",
       coach: { connect: { id: coachId } },
       ...overrides,
     },
@@ -45,7 +45,7 @@ export async function seedPlayer(teamId, overrides = {}) {
 export async function seedMatch(teamId, overrides = {}) {
   return prisma.match.create({
     data: {
-      opponent: "Rival FC",
+      opponent: "Rival Club",
       location: Location.HOME,
       score_home: 2,
       score_away: 1,
