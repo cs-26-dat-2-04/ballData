@@ -24,7 +24,7 @@ export default async function Teams({ params }) {
   } catch (err) {
     error = err.message;
   }
-  console.log(team);
+  
   return (
     <>
       <title>Hold — Spillere</title>
