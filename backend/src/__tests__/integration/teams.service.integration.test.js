@@ -1,9 +1,9 @@
-import { describe, it, expect, beforeEach, afterEach } from "vitest";
+import { describe, it, expect, beforeEach, beforeAll } from "vitest";
 import { createTeam, getTeamById } from "../../services/teams.js";
 import { seedCoach, seedCoachAndTeam, cleanDb } from "../helpers/db-seed.js";
 
+beforeAll(async () => cleanDb());
 beforeEach(async () => cleanDb());
-afterEach(async () => cleanDb());
 
 describe("createTeam", () => {
   it("Successfully creates a team for a coach with no existing team", async () => {
