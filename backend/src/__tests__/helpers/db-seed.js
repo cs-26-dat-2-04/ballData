@@ -49,6 +49,7 @@ export async function seedMatch(teamId, overrides = {}) {
       location: Location.HOME,
       score_home: 2,
       score_away: 1,
+      result: "WIN",
       team: { connect: { id: teamId } },
       ...overrides,
     },
