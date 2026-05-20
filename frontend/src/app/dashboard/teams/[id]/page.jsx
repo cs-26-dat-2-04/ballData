@@ -8,6 +8,7 @@ export default async function Teams({ params }) {
 
   let players = [];
   let error = null;
+  let team;
 
   try {
     const { coach } = await getMe();
@@ -17,18 +18,19 @@ export default async function Teams({ params }) {
     }
 
     const teamId = id ?? coach.team.id;
+    team = coach.team;
 
     players = await getPlayers(teamId);
   } catch (err) {
     error = err.message;
   }
-
+  console.log(team);
   return (
     <>
       <title>Hold — Spillere</title>
       <div className="main-container">
         {error && <p style={{ color: "red" }}>{error}</p>}
-        <TeamPageClient players={players} teamId={id} />
+        <TeamPageClient players={players} team={team} />
       </div>
     </>
   );

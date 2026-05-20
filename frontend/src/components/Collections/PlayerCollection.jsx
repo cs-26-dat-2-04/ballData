@@ -16,7 +16,7 @@ export default function PlayerCollection({ data, team }) {
             height={30}
           />
         </div>
-        <div>
+        <div style={{display:"flex", flexDirection: "row"}}>
           <p
             style={{
               color: "black",
@@ -28,6 +28,10 @@ export default function PlayerCollection({ data, team }) {
             Alle spillere på dit hold
           </p>
         </div>
+        {team.division 
+          && <div className={collectionStyles.coloredDiv}>
+            {team.division}
+            </div>}
       </div>
       <div style={{ marginBottom: "5px" }} className={styles.container}>
         <p
