@@ -5,7 +5,7 @@ import PlayerCollection from "../Collections/PlayerCollection.jsx";
 import InputNewPlayerButton from "../InputPopUpButtons/InputNewPlayerButton.jsx";
 import styles from "./pageClient.module.css";
 
-export default function TeamPageClient({ players: initialPlayers, teamId }) {
+export default function TeamPageClient({ players: initialPlayers, team }) {
   const [players, setPlayers] = useState(initialPlayers);
   const [query, setQuery] = useState("");
 
@@ -34,7 +34,7 @@ export default function TeamPageClient({ players: initialPlayers, teamId }) {
         </div>
         <div className={styles.headerRight}>
           <InputNewPlayerButton
-            teamId={teamId}
+            teamId={team.id}
             onPlayerAdded={handlePlayerAdded}
           />
         </div>
@@ -83,7 +83,7 @@ export default function TeamPageClient({ players: initialPlayers, teamId }) {
         )}
       </div>
 
-      <PlayerCollection data={filtered} />
+      <PlayerCollection data={filtered} team={team} />
     </>
   );
 }

@@ -66,7 +66,7 @@ export async function getMe(coachId) {
       email: true,
       name: true,
       team: {
-        select: { id: true, name: true },
+        select: { id: true, name: true, division: true },
       },
     },
   });
