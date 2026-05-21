@@ -13,8 +13,6 @@ export default function GoalPage({
   closePrev,
   scoreUs,
   scoreOpp,
-  setscoreUs,
-  setscoreOpp,
   playersIn,
   matchID,
   time,
@@ -79,7 +77,6 @@ export default function GoalPage({
             closePrev={closePrev}
             playersIn={playersIn}
             matchID={matchID}
-            setscoreUs={setscoreUs}
             scoreUs={scoreUs}
             scoreOpp={scoreOpp}
             sendJsonMessage={sendJsonMessage}

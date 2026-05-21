@@ -28,8 +28,6 @@ export default function PlayerRow({
     }
   };
 
-  console.log(sendJsonMessage);
-
   return (
     <>
       {data?.map((info) => (

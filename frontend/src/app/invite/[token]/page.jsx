@@ -2,11 +2,13 @@ import HomePage from "./HomePage";
 import { getPlayers } from "../../../server-services/playerService.js";
 import { getMe } from "../../../server-services/authService.js";
 
+const API_BASE = process.env.API_URL ?? "http://backend:3001";
+
 export default async function Page({ params }) {
   const { token } = await params;
   const { id } = await params;
 
-  const res = await fetch(`http://backend:3001/invite/${token}`);
+  const res = await fetch(`${API_BASE}/invite/${token}`);
   const match = await res.json();
   const matchID = match.id;
   const scoreUS = match.score_home;

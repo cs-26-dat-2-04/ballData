@@ -75,17 +75,6 @@ export default function FoulCardOnPage({
           foulType={foulType}
         />
         <AppCard
-          icon={"/cardApp.svg"}
-          iconAlt={"Gult kort icon"}
-          bdColor={"rgb(239, 159, 39)"}
-          body={"Gult Kort"}
-          mode={"select"}
-          onSelect={"GultK"}
-          foulType={foulType}
-        />
-      </div>
-      <div className={styles.containerRow}>
-        <AppCard
           icon={"/xcircleApp.svg"}
           iconAlt={"Penalty throw icon"}
           bdColor={"rgb(209, 209, 209)"}

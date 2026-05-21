@@ -10,6 +10,7 @@ import AppCard from "../../../components/AppCard/AppCard.jsx";
 import TimerCard from "../../../components/TimerCard/TimerCard.jsx";
 import Score from "../../../components/Score/Score.jsx";
 import Clock from "../../../components/Clock/Clock.jsx";
+import SubmitGame from "../../../components/SubmitGameButton/SubmitGameButton.jsx";
 
 import { useRouter } from "next/navigation";
 import React, { useState, useEffect, useRef } from "react";
@@ -30,16 +31,6 @@ export default function HomePage({
     shouldReconnect: () => true,
   });
 
-  useEffect(() => {
-    if (!lastJsonMessage) return;
-
-    if (lastJsonMessage.type === "playerSubs") {
-      router.refresh();
-    }
-  }, [lastJsonMessage]);
-
-  const [scoreUs, setscoreUs] = useState(scoreUS);
-  const [scoreOpp, setscoreOpp] = useState(scoreOPP);
   const [foulType, setFoulType] = useState([]);
 
   const [activeModal, setActiveModal] = useState(null);
@@ -51,6 +42,27 @@ export default function HomePage({
 
   const IntervalIdRef = useRef(null);
   const startTimeRef = useRef(0);
+
+  useEffect(() => {
+    if (!lastJsonMessage) return;
+    switch (lastJsonMessage.event) {
+      case "playerSubs":
+        router.refresh();
+        break;
+      case "goal":
+        router.refresh();
+        break;
+      case "alert":
+        alert("Bemærk: Du har indtastet data på en spiller med rødt kort.");
+        break;
+      case "submitSuccess":
+        alert(
+          `Hvis submit af spillet var en fejl, har du ${lastJsonMessage.tries} forsøg tilbage.`,
+        );
+        break;
+      case "submitBlocked":
+    }
+  }, [lastJsonMessage]);
 
   useEffect(() => {
     if (isRunning) {
@@ -84,19 +96,16 @@ export default function HomePage({
     return `${String(minutes).padStart(2, "0")}:${String(seconds).padStart(2, "0")}`;
   }
 
-  console.log(playersIN);
-  console.log(playersOUT);
-
   return (
     <>
       <div className={styles.containerRow} style={{ paddingTop: "20px" }}>
-        <Score identifier={"Os"} score={scoreUs} />
+        <Score identifier={"Os"} score={scoreUS} />
         <Clock
           icon={"/clockApp.jpg"}
           iconAlt={"Clock icon"}
           time={formatTime()}
         />
-        <Score identifier={"Modstandere"} score={scoreOpp} />
+        <Score identifier={"Modstandere"} score={scoreOPP} />
       </div>
 
       <div className={styles.containerRow}>
@@ -154,14 +163,21 @@ export default function HomePage({
           onClick={() => setActiveModal("subs")}
         />
       </div>
+      <div className={styles.containerRow}>
+        <SubmitGame
+          body={"Submit Game"}
+          bdColor={"rgb(29, 158, 117)"}
+          matchID={matchID}
+          sendJsonMessage={sendJsonMessage}
+          timeMatch={formatTime()}
+        />
+      </div>
 
       {activeModal === "goal" && (
         <div className={styles.modal}>
           <Goal
-            scoreUs={scoreUs}
-            scoreOpp={scoreOpp}
-            setscoreUs={setscoreUs}
-            setscoreOpp={setscoreOpp}
+            scoreUs={scoreUS}
+            scoreOpp={scoreOPP}
             onClose={() => setActiveModal(null)}
             closePrev={() => setActiveModal(null)}
             time={formatTime()}
@@ -180,8 +196,8 @@ export default function HomePage({
       {activeModal === "shot" && (
         <div className={styles.modal}>
           <Shot
-            scoreUs={scoreUs}
-            scoreOpp={scoreOpp}
+            scoreUs={scoreUS}
+            scoreOpp={scoreOPP}
             onClose={() => setActiveModal(null)}
             closePrev={() => setActiveModal(null)}
             time={formatTime()}
@@ -200,8 +216,8 @@ export default function HomePage({
       {activeModal === "foul" && (
         <div className={styles.modal}>
           <FoulCard
-            scoreUs={scoreUs}
-            scoreOpp={scoreOpp}
+            scoreUs={scoreUS}
+            scoreOpp={scoreOPP}
             onClose={() => {
               setFoulType([]);
               setActiveModal(null);

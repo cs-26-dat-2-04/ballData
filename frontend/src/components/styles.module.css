@@ -1,4 +1,4 @@
-.cardFooter { /*shared*/
+.cardFooter {
   display: block;
   font-family: var(--sans);
   font-size: 12px;
@@ -6,7 +6,8 @@
   margin: 0;
 }
 
-.container { /*shared*/
+.container {
+  /*shared*/
   display: flex;
   align-items: center;
 }

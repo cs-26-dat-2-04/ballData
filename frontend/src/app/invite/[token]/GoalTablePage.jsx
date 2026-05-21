@@ -12,7 +12,6 @@ export default function GoalTablePage({
   closePrev,
   scoreUs,
   scoreOpp,
-  setscoreUs,
   sendJsonMessage,
 }) {
   const [players, setPlayers] = useState(playersIn);
@@ -37,7 +36,6 @@ export default function GoalTablePage({
           matchID={matchID}
           message={"playerGoal"}
           onClose={() => {
-            setscoreUs(scoreUs + 1);
             onClose;
           }}
           closePrev={closePrev}

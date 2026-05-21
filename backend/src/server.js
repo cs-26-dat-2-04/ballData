@@ -12,14 +12,8 @@ wss.on("connection", (ws) => {
   console.log("Client connected");
   ws.on("message", async (message) => {
     const data = JSON.parse(message);
-    await liveMatch(data);
+    await liveMatch(data, ws);
     console.log("Message sent");
-    ws.send(
-      JSON.stringify({
-        type: data.event,
-        matchID: data.matchID,
-      }),
-    );
   });
   ws.on("close", () => {
     console.log("Client disconnected");
