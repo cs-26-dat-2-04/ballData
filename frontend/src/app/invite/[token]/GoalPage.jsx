@@ -89,7 +89,6 @@ export default function GoalPage({
             onClose={() => setActiveModal(null)}
             closePrev={closePrev}
             matchID={matchID}
-            setscoreOpp={setscoreOpp}
             scoreUs={scoreUs}
             scoreOpp={scoreOpp}
             sendJsonMessage={sendJsonMessage}

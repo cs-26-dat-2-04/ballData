@@ -120,6 +120,12 @@ export const addGoalToMatchStatsOpp = async (
     },
   });
 
+  ws.send(
+    JSON.stringify({
+      event: "goal",
+    }),
+  );
+
   return matchStats;
 };
 

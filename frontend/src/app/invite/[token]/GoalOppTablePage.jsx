@@ -8,7 +8,6 @@ export default function GoalTablePage({
   onClose,
   matchID,
   closePrev,
-  setscoreOpp,
   scoreUs,
   scoreOpp,
   sendJsonMessage,
@@ -32,10 +31,6 @@ export default function GoalTablePage({
           data={opponent}
           matchID={matchID}
           message={"oppGoal"}
-          onClose={() => {
-            setscoreOpp(scoreOpp + 1);
-            onClose;
-          }}
           closePrev={closePrev}
           scoreUs={scoreUs}
           scoreOpp={scoreOpp}

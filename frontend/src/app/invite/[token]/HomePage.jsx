@@ -47,7 +47,6 @@ export default function HomePage({
 
   useEffect(() => {
     if (!lastJsonMessage) return;
-    console.log(lastJsonMessage.event);
     switch (lastJsonMessage.event) {
       case "playerSubs":
         router.refresh();
