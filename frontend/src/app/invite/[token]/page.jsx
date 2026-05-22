@@ -15,9 +15,6 @@ export default async function Page({ params }) {
   const scoreOPP = match.score_away;
   const playerIn = match.in_players;
 
-  console.log("Token:", token);
-  console.log("Status:", res.status);
-
   if (!res.ok) return <p>Invalid or expired invite link</p>;
 
   let players = [];

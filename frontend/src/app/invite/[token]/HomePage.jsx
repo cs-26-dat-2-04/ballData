@@ -5,6 +5,7 @@ import Shot from "./ShotPage.jsx";
 import FoulCard from "./FoulCardPage.jsx";
 import Subs from "./SubsPage.jsx";
 import SaveTable from "./SaveTablePage.jsx";
+import Agreement from "./AgreementPopup.jsx";
 
 import AppCard from "../../../components/AppCard/AppCard.jsx";
 import TimerCard from "../../../components/TimerCard/TimerCard.jsx";
@@ -45,6 +46,7 @@ export default function HomePage({
 
   useEffect(() => {
     if (!lastJsonMessage) return;
+    console.log(lastJsonMessage.event);
     switch (lastJsonMessage.event) {
       case "playerSubs":
         router.refresh();
@@ -56,11 +58,11 @@ export default function HomePage({
         alert("Bemærk: Du har indtastet data på en spiller med rødt kort.");
         break;
       case "submitSuccess":
-        alert(
-          `Hvis submit af spillet var en fejl, har du ${lastJsonMessage.tries} forsøg tilbage.`,
-        );
+        alert(`Kampen er afsluttet`);
         break;
       case "submitBlocked":
+        alert(`Du kan ikke indtaste mere data: Kampen er allerede afsluttet`);
+        break;
     }
   }, [lastJsonMessage]);
 
@@ -167,9 +169,7 @@ export default function HomePage({
         <SubmitGame
           body={"Submit Game"}
           bdColor={"rgb(29, 158, 117)"}
-          matchID={matchID}
-          sendJsonMessage={sendJsonMessage}
-          timeMatch={formatTime()}
+          onClick={() => setActiveModal("agreement")}
         />
       </div>
 
@@ -262,6 +262,19 @@ export default function HomePage({
             matchID={matchID}
             sendJsonMessage={sendJsonMessage}
           />
+        </div>
+      )}
+
+      {activeModal === "agreement" && (
+        <div className={styles.popupOverlay}>
+          <div className={styles.popup}>
+            <Agreement
+              onClose={() => setActiveModal(null)}
+              matchID={matchID}
+              time={formatTime()}
+              sendJsonMessage={sendJsonMessage}
+            />
+          </div>
         </div>
       )}
     </>

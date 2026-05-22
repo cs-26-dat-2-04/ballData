@@ -1,14 +1,13 @@
 "use client";
 
-import styles from "./submitGame.module.css";
+import styles from "./agreementButtons.module.css";
 
-export default function AppCard({ body, bdColor, onClick }) {
+export default function AppCard({ body, bdColor, onClose }) {
   const handleClick = () => {
-    if (onClick) {
-      onClick();
+    if (onClose) {
+      onClose();
     }
   };
-
   return (
     // We are currently using placeholders until we link frontend to backend
     <button
