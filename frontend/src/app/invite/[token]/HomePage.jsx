@@ -18,6 +18,8 @@ import React, { useState, useEffect, useRef } from "react";
 import useWebSocket from "react-use-websocket";
 import styles from "./page.module.css";
 
+const WS_URL = process.env.NEXT_PUBLIC_WS_URL || "ws://localhost:3002";
+
 export default function HomePage({
   playersIN,
   playersOUT,
@@ -26,7 +28,6 @@ export default function HomePage({
   scoreOPP,
 }) {
   const router = useRouter();
-  const WS_URL = "ws://localhost:3002";
 
   const { sendJsonMessage, lastJsonMessage } = useWebSocket(WS_URL, {
     shouldReconnect: () => true,
@@ -167,7 +168,7 @@ export default function HomePage({
       </div>
       <div className={styles.containerRow}>
         <SubmitGame
-          body={"Submit Game"}
+          body={"Afslut Kamp"}
           bdColor={"rgb(29, 158, 117)"}
           onClick={() => setActiveModal("agreement")}
         />

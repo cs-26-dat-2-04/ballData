@@ -5,13 +5,9 @@ let playerArray = [];
 
 export const liveMatch = async (data, ws) => {
   const tries = submitTriesMap.get(data.matchID) ?? 1;
+
   if (tries === 0) {
     console.log("Cannot send more data: Game submitted");
-    ws.send(
-      JSON.stringify({
-        event: "submitBlocked",
-      }),
-    );
     return;
   }
   switch (data.event) {
@@ -353,7 +349,6 @@ export const addSubMatchStats = async (jerseyNum, matchID, ws) => {
 
 export const addTimeToMatch = async (matchID, time, ws) => {
   const tries = submitTriesMap.get(matchID) ?? 1;
-
   submitTriesMap.set(matchID, tries - 1);
 
   const matchStats = await prisma.match.update({
@@ -366,7 +361,6 @@ export const addTimeToMatch = async (matchID, time, ws) => {
   ws.send(
     JSON.stringify({
       event: "submitSuccess",
-      tries: tries - 1,
     }),
   );
 

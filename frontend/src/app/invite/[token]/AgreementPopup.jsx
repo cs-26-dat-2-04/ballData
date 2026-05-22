@@ -12,6 +12,9 @@ export default function AgreementPopup({
 }) {
   return (
     <>
+      <div className={styles.containerColumn}>
+        <p className={styles.headerBody}>Vil du gerne afslutte kampen?</p>
+      </div>
       <div className={styles.containerRow}>
         <Accept
           body={"Acceptere"}
