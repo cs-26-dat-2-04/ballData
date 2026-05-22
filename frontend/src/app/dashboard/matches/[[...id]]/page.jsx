@@ -6,9 +6,9 @@ import styles from "./matches.module.css";
 
 import MatchPageClient from "../../../../components/PageClient/MatchPageClient.jsx";
 import { redirect } from "next/navigation";
-import { getMe } from "../../../../server-services/authService.js";
-import { getMatches } from "../../../../server-services/matchService.js";
-import { getPlayers } from "../../../../server-services/playerService.js";
+import { getMe } from "../../../../services/authService.js";
+import { getMatches } from "../../../../services/matchService.js";
+import { getPlayers } from "../../../../services/playerService.js";
 
 
 const MOCK_MATCHES = [
