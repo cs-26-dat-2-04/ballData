@@ -57,3 +57,15 @@ export const updatePlayer = async (req, res) => {
     res.status(err.status ?? 500).json({ error: err.message });
   }
 };
+
+export const getPlayerById = async (req, res) => {
+  try {
+    const player = await playersService.getPlayerById(
+      req.params.playerId,
+      req.coach.id,
+    );
+    res.json(player);
+  } catch (err) {
+    res.status(err.status ?? 500).json({ error: err.message });
+  }
+};

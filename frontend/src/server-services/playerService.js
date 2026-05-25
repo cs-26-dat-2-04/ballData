@@ -7,3 +7,7 @@ export async function getPlayers(teamId) {
 export async function getPlayer(playerId) {
   return serverApiFetch(`/players/${playerId}`);
 }
+
+export async function getPlayerStats(playerId) {
+  return serverApiFetch(`/players/${playerId}/stats`);
+}

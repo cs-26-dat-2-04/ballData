@@ -50,6 +50,7 @@ app.use("/notes", auth, noteRouter);
 
 // Stats
 app.use("/stats", auth, seasonRouter);
+app.use("/players/:playerId/stats", auth, seasonRouter);
 
 // Matches
 app.use("/matches", auth, matchRouter);

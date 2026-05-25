@@ -57,3 +57,42 @@ export const getSeasonStatsByTeamId = async ({ teamId }) => {
     savePercentage: Number(savePercentage.toFixed(1)),
   };
 };
+
+export const getMatchStatsByPlayerId = async (playerId, coachId) => {
+  const player = await prisma.player.findUnique({
+    where: { id: playerId },
+    include: { team: true },
+  });
+
+  if (!player) {
+    const error = new Error("Spiller ikke fundet");
+    error.status = 404;
+    throw error;
+  }
+
+  if (player.team.coach_id !== coachId) {
+    const error = new Error("Du har ikke adgang til denne spiller");
+    error.status = 403;
+    throw error;
+  }
+
+  const stats = await prisma.matchStats.findMany({
+    where: { player_id: playerId },
+    include: { match: true },
+    orderBy: { match: { match_date: "desc" } },
+  });
+
+  return stats.map((s) => ({
+    matchId:       s.match_id,
+    opponent:      s.match.opponent,
+    matchDate:     s.match.match_date,
+    scoreHome:     s.match.score_home,
+    scoreAway:     s.match.score_away,
+    goals:         s.goals,
+    assists:       s.assists,
+    shots:         s.shots_on_goal + s.shots_off_goal,
+    suspension:    s.yellow_cards * 2,
+    redCards:      s.red_cards,
+    minutesPlayed: s.minutes_played,
+  }));
+};

@@ -161,3 +161,24 @@ export const updatePlayer = async (
 
   return player;
 };
+
+export const getPlayerById = async (playerId, coachId) => {
+  const player = await prisma.player.findUnique({
+    where: { id: playerId },
+    include: { team: true },
+  });
+
+  if (!player) {
+    const error = new Error("Spiller ikke fundet");
+    error.status = 404;
+    throw error;
+  }
+
+  if (player.team.coach_id !== coachId) {
+    const error = new Error("Du har ikke adgang til denne spiller");
+    error.status = 403;
+    throw error;
+  }
+
+  return player;
+};
