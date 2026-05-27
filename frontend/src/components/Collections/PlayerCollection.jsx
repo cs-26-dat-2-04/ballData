@@ -28,6 +28,10 @@ export default function PlayerCollection({ data, team }) {
             Alle spillere på dit hold
           </p>
         </div>
+        {team.division 
+          && <div className={collectionStyles.coloredDiv}>
+            {team.division}
+            </div>}
       </div>
       <div style={{ marginBottom: "5px" }} className={styles.container}>
         <p

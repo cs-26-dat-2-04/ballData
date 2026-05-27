@@ -1,4 +1,5 @@
 import * as matchService from "../services/matches.js";
+import { Location } from "@prisma/client";
 
 const ALLOWED_STAT_FIELDS = [
   "goals",
@@ -37,7 +38,7 @@ export const getMatches = async (req, res) => {
 };
 
 export const createMatch = async (req, res) => {
-  const { opponent, match_date, location, score_home, score_away } = req.body;
+  const { opponent, match_date, location, in_players, score_home, score_away } = req.body;
 
   const missing = MATCH_REQUIRED_FIELDS.filter(
     (field) => req.body[field] === undefined,
@@ -49,12 +50,14 @@ export const createMatch = async (req, res) => {
   }
 
   try {
-    const score_home = parseInt(score_home);
-    const score_away = parseInt(score_away);
+    const matchDate = new Date(match_date);
+
+    const scoreHome = parseInt(score_home);
+    const scoreAway = parseInt(score_away);
     const result =
-      score_home > score_away
+      scoreHome > scoreAway
         ? "win"
-        : score_home == score_away
+        : scoreHome == scoreAway
           ? "draw"
           : "loss";
     const match = await matchService.createMatch(
@@ -62,11 +65,12 @@ export const createMatch = async (req, res) => {
       req.coach.id,
       {
         opponent,
-        match_date: new Date(match_date),
+        match_date: matchDate,
         location,
-        score_home: score_home,
-        score_away: score_away,
-        result: result,
+        in_players,
+        score_home: scoreHome,
+        score_away: scoreAway,
+        result,
       },
     );
     res.status(201).json(match);

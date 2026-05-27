@@ -20,6 +20,7 @@ services:
       DATABASE_URL: postgres://dev:dev@db:5432/ballData
       PORT: 3001
       CHOKIDAR_USEPOLLING: "true"
+      JWT_SECRET: U8Te7Mg4JvWX2pH5bdOzHtiFZffdrnPP6sxJybw3CxR
     volumes:
       - ./backend:/app
       - /app/node_modules

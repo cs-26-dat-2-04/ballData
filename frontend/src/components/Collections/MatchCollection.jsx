@@ -4,6 +4,7 @@ import Image from "next/image";
 import MatchRow from "../Rows/MatchRow.jsx";
 
 export default function MatchCollection({ data }) {
+  
   return (
     <article className={collectionStyles.collCard}>
       <div style={{ marginBottom: "-15px" }} className={styles.container}>

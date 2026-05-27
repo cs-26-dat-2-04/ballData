@@ -1,0 +1,13 @@
+.graphCard {
+  background-color: white;
+  border: 1px solid var(--rule);
+  border-radius: 12px;
+  padding: 24px;
+}
+
+.graphTitle {
+  font-size: 18px;
+  font-weight: 500;
+  margin: 0 0 16px 0;
+  color: var(--ink);
+}

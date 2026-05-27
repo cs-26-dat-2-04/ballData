@@ -36,7 +36,7 @@ export default function MatchRow({ data }) {
               )}
             </div>
             <div className={rowStyles.textdiv}>
-              <p className={rowStyles.locText}>{info.location === "home" ? "Hjemme" : "Ude"}</p>
+              <p className={rowStyles.locText}>{info.location === "HOME" ? "Hjemme" : "Ude"}</p>
             </div>
           </div>
           <div className={styles.container}>

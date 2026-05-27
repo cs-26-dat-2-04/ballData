@@ -2,16 +2,31 @@ import { defineConfig } from "vitest/config";
 
 export default defineConfig({
   test: {
-    globals: true,
-    environment: "node",
-    coverage: {
-      provider: "v8",
-      reporter: ["text", "lcov"],
-      exclude: ["node_modules", "dist", "prisma"],
-    },
-    // Separate pools for unit vs integration so they don't share state
-    poolOptions: {
-      threads: { singleThread: true },
-    },
+    projects: [
+      {
+        test: {
+          name: "unit",
+          include: ["src/__tests__/unit/**/*.test.js"],
+          environment: "node",
+          globals: true,
+          isolate: true,
+        },
+      },
+      {
+        test: {
+          name: "integration",
+          include: ["src/__tests__/integration/**/*.test.js"],
+          environment: "node",
+          globals: true,
+          isolate: true,
+          fileParallelism: false,
+          poolOptions: {
+            forks: {
+              singleFork: true,
+            },
+          },
+        },
+      },
+    ],
   },
 });

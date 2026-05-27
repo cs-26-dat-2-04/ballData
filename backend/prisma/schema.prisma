@@ -35,6 +35,7 @@ model Team {
   name          String
   players       Player[]
   matches       Match[]
+  division      String  @default("U13")
 }
 
 model Player {
@@ -62,9 +63,9 @@ model Match {
   result        String
   score_home    Int
   score_away    Int
-
+  in_players    String[]
+  
   matchStats    MatchStats[]
-
   inviteTokens  InviteToken[]
 }
 

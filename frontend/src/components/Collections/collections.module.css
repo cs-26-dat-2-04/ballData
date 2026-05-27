@@ -9,3 +9,19 @@
   overflow-y: auto;
   border-radius: 10px;
 }
+
+.coloredDiv {
+  min-width: 47px;
+  height: 35px;
+  padding: 0 10px 0 10px;
+  margin-left: auto;
+  margin-Right: 25px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 8px;
+  font-family: "Space Grotesk";
+  text-transform: uppercase;
+  background-color: var(--ice);
+  color: var(--navy);
+}
