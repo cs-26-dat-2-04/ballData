@@ -2,20 +2,23 @@
 
 import AppCard from "../../../components/AppCard/AppCard.jsx";
 import TimerCard from "../../../components/TimerCard/TimerCard.jsx";
+import Submit from "../../../components/SubmitButton/SubmitButton.jsx";
 import Back from "../../../components/BackButton/BackButton.jsx";
 import Score from "../../../components/Score/Score.jsx";
 import Clock from "../../../components/Clock/Clock.jsx";
-import ShotTable from "./ShotTablePage.jsx";
+import FoulTable from "./FoulTablePage.jsx";
 import React, { useState } from "react";
 import styles from "./page.module.css";
 
-export default function ShotPage({
-  onClose,
-  closePrev,
-  playersIn,
-  matchID,
+export default function FoulAddOnPage({
   scoreUs,
   scoreOpp,
+  onClose,
+  closePrev,
+  setFoulType,
+  foulType,
+  matchID,
+  playersIn,
   time,
   startTime,
   stopTime,
@@ -25,7 +28,6 @@ export default function ShotPage({
   sendJsonMessage,
 }) {
   const [activeModal, setActiveModal] = useState(null);
-  const [typeMessage, setTypeMessage] = useState("");
 
   if (isRunning) {
     bdColor = "black";
@@ -38,7 +40,17 @@ export default function ShotPage({
   return (
     <>
       <div className={styles.containerBack}>
-        <Back onClose={onClose} />
+        <Back
+          onClose={() => {
+            setFoulType(
+              foulType.filter(
+                (item) =>
+                  !["Udvisning", "Frikast", "Straffekast"].includes(item),
+              ),
+            );
+            onClose();
+          }}
+        />
       </div>
       <div className={styles.containerRow} style={{ paddingTop: "20px" }}>
         <Score identifier={"Os"} score={scoreUs} />
@@ -59,34 +71,55 @@ export default function ShotPage({
       </div>
       <div className={styles.containerRow}>
         <AppCard
-          icon={"/checkApp.svg"}
-          iconColor={"rgb(29, 158, 117)"}
-          iconAlt={"Skud på mål icon"}
-          onClick={() => {
-            setActiveModal("shotTable");
-            setTypeMessage("playerShotOn");
-          }}
-          body={"På mål"}
+          icon={"/cardApp.svg"}
+          iconAlt={"2 min suspension icon"}
+          body={"2-min udvisning"}
+          bdColor={"rgb(232, 67, 12)"}
+          mode={"select"}
+          onSelect={"Udvisning"}
+          foulType={foulType}
         />
         <AppCard
-          icon={"/xApp.svg"}
-          iconColor={"rgb(232, 67, 12)"}
-          iconAlt={"Skud uden for mål icon"}
-          onClick={() => {
-            setActiveModal("shotTable");
-            setTypeMessage("playerShotOff");
-          }}
-          body={"Uden for mål"}
+          icon={"/cardApp.svg"}
+          iconAlt={"Free throw icon"}
+          bdColor={"rgb(239, 159, 39)"}
+          body={"Frikast"}
+          mode={"select"}
+          onSelect={"Frikast"}
+          foulType={foulType}
         />
       </div>
-      {activeModal === "shotTable" && (
+      <div className={styles.containerRow}>
+        <AppCard
+          icon={"/cardApp.svg"}
+          iconAlt={"Penalty throw icon"}
+          bdColor={"rgb(232, 67, 12)"}
+          body={"Straffekast"}
+          mode={"select"}
+          onSelect={"Straffekast"}
+          foulType={foulType}
+        />
+      </div>
+      <div className={styles.containerRow}>
+        <Submit
+          body={"Submit"}
+          bdColor={"rgb(29, 158, 117)"}
+          foulType={foulType}
+          onClick={() => {
+            setActiveModal("foulTable");
+          }}
+          page={true}
+        />
+      </div>
+      {activeModal === "foulTable" && (
         <div className={styles.modal}>
-          <ShotTable
+          <FoulTable
             onClose={() => setActiveModal(null)}
             closePrev={closePrev}
             playersIn={playersIn}
+            setFoulType={setFoulType}
+            foulType={foulType}
             matchID={matchID}
-            message={typeMessage}
             sendJsonMessage={sendJsonMessage}
           />
         </div>

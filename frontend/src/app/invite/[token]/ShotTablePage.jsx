@@ -1,17 +1,42 @@
-import PlayerColl from '../../../components/PlayerCollection/PlayerColl.jsx';
-import Back from '../../../components/BackButton/BackButton.jsx';
+import { useMemo, useState } from "react";
+import PlayerColl from "../../../components/PlayerCollection/PlayerColl.jsx";
+import Back from "../../../components/BackButton/BackButton.jsx";
 import styles from "./page.module.css";
 
-export default function ShotTable({ onClose, playersIn, closePrev }) {
+export default function ShotTablePage({
+  onClose,
+  playersIn,
+  closePrev,
+  message,
+  matchID,
+  sendJsonMessage,
+}) {
+  const [players, setPlayers] = useState(playersIn);
+
+  const filtered = useMemo(() => {
+    return players?.map((p) => ({
+      id: p.id,
+      pName: `${p.first_name} ${p.last_name}`,
+      jerseyNum: p.jersey_number?.toString() ?? "",
+    }));
+  }, [players]);
+
   return (
-      <>
-        <div className={styles.containerBack}>
-            <Back onClose={onClose}/>
-        </div>
-        <div className={styles.containerColumn}>
-            <h1 className={styles.pageHeader}>Skud</h1>
-            <PlayerColl data={playersIn} onClose={onClose} closePrev={closePrev}/>
-        </div>
-      </>
-    )
+    <>
+      <div className={styles.containerBack}>
+        <Back onClose={onClose} />
+      </div>
+      <div className={styles.containerColumn}>
+        <h1 className={styles.pageHeader}>Skud</h1>
+        <PlayerColl
+          data={filtered}
+          message={message}
+          matchID={matchID}
+          onClose={onClose}
+          closePrev={closePrev}
+          sendJsonMessage={sendJsonMessage}
+        />
+      </div>
+    </>
+  );
 }

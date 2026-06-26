@@ -64,6 +64,7 @@ model Match {
   score_home    Int
   score_away    Int
   in_players    String[]
+  match_time    String   @default("00:00")
   
   matchStats    MatchStats[]
   inviteTokens  InviteToken[]
@@ -80,8 +81,10 @@ model MatchStats {
   shots_on_goal  Int     @default(0)
   shots_off_goal Int     @default(0)
   saves          Int     @default(0)
-  yellow_cards   Int     @default(0)
+  two_min_susp   Int     @default(0)
   red_cards      Int     @default(0)
+  free_throws    Int     @default(0)
+  penalty_throws Int     @default(0)
   minutes_played Int     @default(0)
 
   @@unique([match_id, player_id])

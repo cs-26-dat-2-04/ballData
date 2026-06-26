@@ -25,6 +25,7 @@ export default function AppCard({
       onClose();
     }
   }
+
   const [clicked, setClick] = useState(true);
 
   const beenClicked = () => {
@@ -39,7 +40,7 @@ export default function AppCard({
       foulType.push(onSelect);
     } else {
       changeColor(bdColor);
-      for (let i = 0; i < 3; i++){ 
+      for (let i = 0; i < 6; i++){ 
         if (onSelect === foulType[i]) {
           foulType.splice(i, 1);
         }
@@ -50,7 +51,8 @@ export default function AppCard({
   return (
     // We are currently using placeholders until we link frontend to backend
         <button 
-        onClick={mode === "select" ? () => { beenClicked(); setIsSelected(); } : handleClick}
+        onClick={mode === "select" 
+        ? () => { beenClicked(); setIsSelected(); } : handleClick}
         className={styles.card}
         style={{borderColor: color}}>
           <div className={styles.iconContainer} style={{background: iconColor}}>
