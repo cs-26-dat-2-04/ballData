@@ -3,6 +3,7 @@ import * as playersController from "../controllers/players.js";
 
 const router = Router({ mergeParams: true });
 
+router.get("/:playerId", playersController.getPlayerById);
 router.get("/", playersController.getPlayers);
 router.post("/", playersController.createPlayer);
 router.delete("/:playerId", playersController.deletePlayer);
